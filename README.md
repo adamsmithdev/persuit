@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧾 Job Tracker (WIP)
 
-## Getting Started
+A simple full-stack job application tracker built with Next.js, Tailwind CSS, Prisma, and GitHub OAuth.
 
-First, run the development server:
+You can add, edit, and manage job applications with status tracking and notes — all tied to your authenticated account.
+
+> This app is a work in progress. More features and polish are coming soon!
+
+## 🔧 Tech Stack
+
+- [Next.js (App Router)](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Prisma ORM](https://www.prisma.io/)
+- [NextAuth.js](https://next-auth.js.org/) for GitHub login
+- SQLite (local dev) or PostgreSQL (production)
+
+## 🚧 Features (in progress)
+
+- ✅ Auth via GitHub
+- ✅ Add/edit/delete job applications
+- ✅ Notes and job statuses
+- 🛠️ Filter + search
+- 🛠️ Resume/cover letter attachments
+- 🛠️ Calendar view for interviews
+
+---
+
+## 🏁 Local Dev
 
 ```bash
+git clone https://github.com/yourusername/job-tracker.git
+cd job-tracker
+
+npm install
+cp .env.local.example .env.local
+# Add your GitHub OAuth keys and database URL to .env.local
+
+npx prisma migrate dev --name init
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

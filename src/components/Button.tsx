@@ -6,7 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
   children: React.ReactNode;
   icon?: React.ReactNode;
-  className?: string;
+  color?: 'primary' | 'secondary' | 'danger' | 'warning' | 'info';
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,14 +15,17 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   children,
   icon,
-  className = '',
+  color = 'info',
 }) => {
+
+  const buttonColor = `bg-[var(--${color})] hover:bg-[var(--${color}Hover)]`;
+
   return (
     <button
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={`px-3 py-1 bg-[var(--accent)] text-white rounded flex items-center hover:bg-[var(--accentHover)] hover:cursor-pointer transition-all duration-200 ${className}`}
+      className={`px-3 py-1 ${buttonColor} text-white rounded flex items-center hover:cursor-pointer transition-all duration-200`}
     >
       {icon && <span>{icon}</span>}
       {children}

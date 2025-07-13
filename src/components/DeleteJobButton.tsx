@@ -22,7 +22,7 @@ export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
   };
 
   return (
-    <Button onClick={handleDelete}>
+    <Button color='danger' onClick={handleDelete}>
       Delete Job
     </Button>
   );

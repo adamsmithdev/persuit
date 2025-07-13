@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Button from './Button';
 
 export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
   const router = useRouter();
@@ -21,11 +22,8 @@ export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-    >
+    <Button onClick={handleDelete}>
       Delete Job
-    </button>
+    </Button>
   );
 }

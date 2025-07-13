@@ -28,8 +28,17 @@
 :root {
   --background: #212121;
   --elementBackground: #121212;
-  --accent: #bb86fc;
   --foreground: #cccccc;
+  --accent: #bb86fc;
+  --accentHover: #bb86fcdd;
+  --success: #03dac6;
+  --successHover: #03dac6dd;
+  --error: #cf6679;
+  --errorHover: #cf6679dd;
+  --warning: #f9b34b;
+  --warningHover: #f9b34bdd;
+  --info: #51aaf3;
+  --infoHover: #51aaf3dd;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'Fira Code', monospace;
 }

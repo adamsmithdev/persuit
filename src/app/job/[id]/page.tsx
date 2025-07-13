@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { DeleteJobButton } from '@/components/DeleteJobButton';
+import Button from '@/components/Button';
 
 interface JobDetailPageProps {
   params: {
@@ -56,9 +57,8 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
       <div className="flex gap-4 mt-6">
         <Link
           href={`/job/${job.id}/edit`}
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
         >
-          Edit Job
+          <Button>Edit Job</Button>
         </Link>
         <DeleteJobButton jobId={job.id} />
       </div>

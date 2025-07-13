@@ -2,6 +2,7 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
+import Button from '@/components/Button';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -23,11 +24,8 @@ export default async function HomePage() {
     <div className="max-w-3xl mx-auto mt-8 space-y-4">
       <h2 className="text-2xl font-bold">Your Job Applications</h2>
 
-      <Link
-        href="/job/new"
-        className="inline-block bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        + Add Job
+      <Link href="/job/new" className="inline-block">
+        <Button>+ Add Job</Button>
       </Link>
 
       <ul className="divide-y border rounded mt-4">

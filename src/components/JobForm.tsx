@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Button from './Button';
 
 type JobFormProps = {
   mode?: 'create' | 'edit';
@@ -119,13 +120,12 @@ export default function JobForm({
         rows={4}
         className="w-full border p-2 rounded"
       />
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         {buttonLabel}
-      </button>
+      </Button>
     </form>
   );
 }

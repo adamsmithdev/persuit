@@ -1,7 +1,7 @@
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
+import { authOptions } from '@/lib/auth';
+import { getJob } from '@/lib/services/jobsService';
 import JobForm from '@/components/JobForm';
 
 interface EditJobPageProps {
@@ -15,12 +15,7 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
 
   if (!session?.user?.email) notFound();
 
-  const job = await prisma.job.findFirst({
-    where: {
-      id: params.id,
-      user: { email: session.user.email },
-    },
-  });
+  const job = await getJob(params.id, session.user.email);
 
   if (!job) notFound();
 

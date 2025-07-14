@@ -10,9 +10,7 @@
 
   * {
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
   }
 
@@ -23,22 +21,22 @@
     -webkit-font-smoothing: antialiased;
     line-height: 1.5;
   }
-}
 
-:root {
-  --background: #121212;
-  --elementBackground: #212121;
-  --foreground: #cccccc;
-  --accent: #bb86fc;
-  --accentHover: #bb86fcdd;
-  --success: #03dac6;
-  --successHover: #03dac6dd;
-  --danger: #cf6679;
-  --dangerHover: #cf6679dd;
-  --warning: #dcab55;
-  --warningHover: #dcab55dd;
-  --info: #5ea0d6;
-  --infoHover: #5ea0d6dd;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  :root {
+    --background: #121212;
+    --elementBackground: #212121;
+    --foreground: #cccccc;
+    --accent: #bb86fc;
+    --accentHover: #bb86fcdd;
+    --success: #4ec373;
+    --successHover: #4ec373dd;
+    --danger: #cf6679;
+    --dangerHover: #cf6679dd;
+    --warning: #dcab55;
+    --warningHover: #dcab55dd;
+    --info: #5ea0d6;
+    --infoHover: #5ea0d6dd;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+  }
 }

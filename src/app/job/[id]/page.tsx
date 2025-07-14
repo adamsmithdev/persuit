@@ -1,8 +1,8 @@
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { authOptions } from '@/lib/auth';
+import { getJob } from '@/lib/services/jobsService';
 import { DeleteJobButton } from '@/components/DeleteJobButton';
 import Button from '@/components/Button';
 
@@ -19,12 +19,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     notFound();
   }
 
-  const job = await prisma.job.findFirst({
-    where: {
-      id: params.id,
-      user: { email: session.user.email },
-    },
-  });
+  const job = await getJob(params.id, session.user.email);
 
   if (!job) {
     notFound();
@@ -55,14 +50,15 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
         </div>
       )}
       <div className="flex gap-4 mt-6">
-        <Link
-          href={`/job/${job.id}/edit`}
-        >
-          <Button color='warning'>Edit Job</Button>
+        <Link href={`/job/${job.id}/edit`}>
+          <Button>Edit Job</Button>
         </Link>
         <DeleteJobButton jobId={job.id} />
       </div>
-      <Link href="/" className="inline-block text-[var(--primary)] hover:underline">
+      <Link
+        href="/"
+        className="inline-block text-[var(--primary)] hover:underline"
+      >
         ← Back to Dashboard
       </Link>
     </div>

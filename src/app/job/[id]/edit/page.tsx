@@ -1,8 +1,10 @@
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { authOptions } from '@/lib/auth';
 import { getJob } from '@/lib/services/jobsService';
 import JobForm from '@/components/JobForm';
+import Button from '@/components/Button';
 
 interface EditJobPageProps {
   params: {
@@ -20,8 +22,19 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
   if (!job) notFound();
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 px-4">
-      <h1 className="text-2xl font-bold mb-6">Edit Job</h1>
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-[var(--foreground)]">Edit Job</h1>
+          <p className="text-gray-400 mt-1">Update your job application details</p>
+        </div>
+        <Link href={`/job/${job.id}`}>
+          <Button>
+            ← Back to Job
+          </Button>
+        </Link>
+      </div>
+      
       <JobForm
         mode="edit"
         initialData={{

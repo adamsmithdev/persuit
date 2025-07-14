@@ -21,5 +21,9 @@ export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
     }
   };
 
-  return <Button onClick={handleDelete}>Delete Job</Button>;
+  return (
+    <Button onClick={handleDelete} variant="danger">
+      🗑️ Delete Job
+    </Button>
+  );
 }

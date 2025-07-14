@@ -8,10 +8,10 @@ interface Props {
 
 export default function JobList({ jobs }: Props) {
   return (
-    <ul className="rounded mt-4 border">
+    <div className="bg-[var(--elementBackground)] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
       {jobs.map((job) => (
         <JobListItem key={job.id} job={job} />
       ))}
-    </ul>
+    </div>
   );
 }

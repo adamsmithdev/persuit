@@ -28,14 +28,14 @@ export default async function HomePage() {
         <Button>+ Add Job</Button>
       </Link>
 
-      <ul className="divide-y border rounded mt-4">
+      <ul className="rounded mt-4 border">
         {jobs.map((job) => (
-          <li key={job.id} className="p-4 hover:bg-gray-50 transition">
+          <li key={job.id} className="p-4 hover:bg-[var(--elementBackground)] transition">
             <Link href={`/job/${job.id}`} className="block">
               <p className="font-semibold">
                 {job.position} @ {job.company}
               </p>
-              <p className="text-sm text-gray-600">{job.status}</p>
+              <p className="text-sm text-gray-400">{job.status}</p>
             </Link>
           </li>
         ))}

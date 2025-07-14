@@ -2,7 +2,7 @@
 
 import './globals.css';
 import { SessionProvider } from 'next-auth/react';
-import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
 
 export default function RootLayout({
   children,
@@ -11,10 +11,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-[var(--background)] text-[var(--foreground)] font-sans">
         <SessionProvider>
-          <Header />
-          <main className="p-4">{children}</main>
+          <div className="flex min-h-screen">
+            <Sidebar />
+            <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+          </div>
         </SessionProvider>
       </body>
     </html>

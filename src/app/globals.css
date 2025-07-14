@@ -26,8 +26,8 @@
 }
 
 :root {
-  --background: #212121;
-  --elementBackground: #121212;
+  --background: #121212;
+  --elementBackground: #212121;
   --foreground: #cccccc;
   --accent: #bb86fc;
   --accentHover: #bb86fcdd;

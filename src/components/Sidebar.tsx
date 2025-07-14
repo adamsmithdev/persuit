@@ -13,9 +13,6 @@ export default function Sidebar() {
         <Link href="/" className="hover:text-[var(--accent)]">
           Dashboard
         </Link>
-        <Link href="/job/new" className="hover:text-[var(--accent)]">
-          Add Job
-        </Link>
         {/* Add more links here */}
       </nav>
 

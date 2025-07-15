@@ -15,7 +15,7 @@ export default function Header() {
           {/* Logo and brand */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-xl shadow-sm group-hover:shadow-md transition-all duration-200">
-              <span className="text-white text-lg font-bold">JT</span>
+              💼
             </div>
             <div>
               <h1 className="text-xl font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">

@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import Dashboard from '@/components/Dashboard';
 import { authOptions } from '@/lib/auth';
 import { getJobs } from '@/lib/services/jobsService';
+import AuthWrapper from '@/components/AuthWrapper';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -12,7 +13,7 @@ export default async function HomePage() {
         <div className="max-w-md mx-auto text-center">
           <div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
             <div className="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <span className="text-3xl">�</span>
+              <span className="text-3xl">💼</span>
             </div>
             <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
               Welcome to Job Tracker
@@ -36,5 +37,9 @@ export default async function HomePage() {
 
   const jobs = await getJobs(session.user.email);
 
-  return <Dashboard jobs={jobs} />;
+  return (
+    <AuthWrapper>
+      <Dashboard jobs={jobs} />
+    </AuthWrapper>
+  );
 }

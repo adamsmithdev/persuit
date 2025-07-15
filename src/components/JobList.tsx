@@ -8,7 +8,7 @@ interface Props {
 
 export default function JobList({ jobs }: Props) {
   return (
-    <div className="bg-[var(--elementBackground)] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="space-y-3">
       {jobs.map((job) => (
         <JobListItem key={job.id} job={job} />
       ))}

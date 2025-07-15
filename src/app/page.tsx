@@ -8,16 +8,27 @@ export default async function HomePage() {
 
   if (!session?.user?.email) {
     return (
-      <div className="max-w-3xl mx-auto mt-20 text-center">
-        <div className="bg-[var(--elementBackground)] rounded-lg p-8 border border-gray-200 dark:border-gray-700">
-          <div className="text-6xl mb-4">🔐</div>
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-4">Welcome to Job Tracker</h2>
-          <p className="text-gray-400 mb-6">
-            You must be signed in to view and manage your job applications.
-          </p>
-          <p className="text-sm text-gray-500">
-            Please sign in using the header to get started.
-          </p>
+      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+        <div className="max-w-md mx-auto text-center">
+          <div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
+            <div className="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <span className="text-3xl">�</span>
+            </div>
+            <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
+              Welcome to Job Tracker
+            </h2>
+            <p className="text-[var(--foreground-muted)] mb-6 leading-relaxed">
+              Track your job applications, organize interviews, and land your
+              dream job with ease.
+            </p>
+            <p className="text-sm text-[var(--foreground-subtle)] mb-6">
+              Sign in with GitHub to get started
+            </p>
+            <div className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)]">
+              <span className="w-2 h-2 bg-[var(--success)] rounded-full animate-pulse" />
+              <span>Ready to boost your career</span>
+            </div>
+          </div>
         </div>
       </div>
     );

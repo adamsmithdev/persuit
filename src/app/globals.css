@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 @tailwind utilities;
 
@@ -19,24 +20,145 @@
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--background);
   }
 
   :root {
-    --background: #121212;
-    --elementBackground: #212121;
-    --foreground: #cccccc;
-    --accent: #bb86fc;
-    --accentHover: #bb86fcdd;
-    --success: #4ec373;
-    --successHover: #4ec373dd;
-    --danger: #cf6679;
-    --dangerHover: #cf6679dd;
-    --warning: #dcab55;
-    --warningHover: #dcab55dd;
-    --info: #5ea0d6;
-    --infoHover: #5ea0d6dd;
-    --font-sans: 'Inter', system-ui, sans-serif;
-    --font-mono: 'Fira Code', monospace;
+    /* Light theme */
+    --background: #fafafa;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
+    --surface-variant: #f5f5f7;
+    --foreground: #1a1a1a;
+    --foreground-muted: #6b7280;
+    --foreground-subtle: #9ca3af;
+
+    /* Brand colors */
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #dbeafe;
+
+    /* Semantic colors */
+    --success: #10b981;
+    --success-hover: #059669;
+    --success-light: #d1fae5;
+
+    --warning: #f59e0b;
+    --warning-hover: #d97706;
+    --warning-light: #fef3c7;
+
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --danger-light: #fee2e2;
+
+    --info: #06b6d4;
+    --info-hover: #0891b2;
+    --info-light: #cffafe;
+
+    /* Border colors */
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+
+    /* Shadow */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Fonts */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      sans-serif;
+
+    /* Radius */
+    --radius-sm: 0.375rem;
+    --radius: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+
+    /* Transitions */
+    --transition: all 0.15s ease-in-out;
+  }
+
+  /* Dark theme */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0a0a0a;
+      --surface: #121212;
+      --surface-elevated: #1a1a1a;
+      --surface-variant: #2a2a2a;
+      --foreground: #ffffff;
+      --foreground-muted: #a1a1aa;
+      --foreground-subtle: #71717a;
+
+      --primary: #60a5fa;
+      --primary-hover: #3b82f6;
+      --primary-light: #1e3a8a;
+
+      --success: #34d399;
+      --success-hover: #10b981;
+      --success-light: #064e3b;
+
+      --warning: #fbbf24;
+      --warning-hover: #f59e0b;
+      --warning-light: #78350f;
+
+      --danger: #f87171;
+      --danger-hover: #ef4444;
+      --danger-light: #7f1d1d;
+
+      --info: #22d3ee;
+      --info-hover: #06b6d4;
+      --info-light: #164e63;
+
+      --border: #2a2a2a;
+      --border-strong: #404040;
+
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3),
+        0 2px 4px -2px rgb(0 0 0 / 0.3);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3),
+        0 4px 6px -4px rgb(0 0 0 / 0.3);
+    }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: var(--radius);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--foreground-muted);
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  /* Selection styles */
+  ::selection {
+    background-color: var(--primary-light);
+    color: var(--primary);
   }
 }

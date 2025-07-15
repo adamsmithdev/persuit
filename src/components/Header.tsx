@@ -9,15 +9,21 @@ export default function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="w-full bg-[var(--elementBackground)] shadow-sm border-b border-gray-200 dark:border-gray-700">
-      <div className="px-6 py-4">
-        <div className="flex justify-between items-center">
+    <header className="sticky top-0 z-50 w-full bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border)] shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="flex justify-between items-center h-16">
           {/* Logo and brand */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl">📋</div>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-xl shadow-sm group-hover:shadow-md transition-all duration-200">
+              <span className="text-white text-lg font-bold">JT</span>
+            </div>
             <div>
-              <h1 className="text-xl font-bold text-[var(--accent)]">Job Tracker</h1>
-              <p className="text-xs text-gray-400">Stay organized</p>
+              <h1 className="text-xl font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
+                Job Tracker
+              </h1>
+              <p className="text-xs text-[var(--foreground-muted)] hidden sm:block">
+                Stay organized, land your dream job
+              </p>
             </div>
           </Link>
 
@@ -25,29 +31,33 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             {session?.user ? (
               <div className="flex items-center space-x-3">
-                <div className="hidden sm:flex items-center space-x-3">
+                <div className="hidden md:flex items-center space-x-3">
                   {session.user.image && (
                     <Image
                       src={session.user.image}
                       alt="Profile"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 rounded-full"
+                      width={36}
+                      height={36}
+                      className="w-9 h-9 rounded-full ring-2 ring-[var(--border)] hover:ring-[var(--primary)] transition-all duration-200"
                     />
                   )}
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-[var(--foreground)]">
                       {session.user.name || 'User'}
                     </span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-[var(--foreground-muted)]">
                       {session.user.email}
                     </span>
                   </div>
                 </div>
-                <Button onClick={() => signOut()}>Sign Out</Button>
+                <Button variant="outline" size="sm" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
               </div>
             ) : (
-              <Button onClick={() => signIn('github')}>Sign In</Button>
+              <Button onClick={() => signIn('github')}>
+                Sign In with GitHub
+              </Button>
             )}
           </div>
         </div>

@@ -16,7 +16,7 @@ export default async function HomePage() {
             You must be signed in to view and manage your job applications.
           </p>
           <p className="text-sm text-gray-500">
-            Please sign in using the sidebar to get started.
+            Please sign in using the header to get started.
           </p>
         </div>
       </div>

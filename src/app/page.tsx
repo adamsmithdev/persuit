@@ -23,7 +23,7 @@ export default async function HomePage() {
               dream job with ease.
             </p>
             <p className="text-sm text-[var(--foreground-subtle)] mb-6">
-              Sign in with GitHub to get started
+              Sign in to get started
             </p>
             <div className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)]">
               <span className="w-2 h-2 bg-[var(--success)] rounded-full animate-pulse" />

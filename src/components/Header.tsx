@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
@@ -32,7 +32,7 @@ export default function Header() {
             {session?.user ? (
               <div className="flex items-center space-x-3">
                 <div className="hidden md:flex items-center space-x-3">
-                  {session.user.image && (
+                  {session.user.image ? (
                     <Image
                       src={session.user.image}
                       alt="Profile"
@@ -40,6 +40,14 @@ export default function Header() {
                       height={36}
                       className="w-9 h-9 rounded-full ring-2 ring-[var(--border)] hover:ring-[var(--primary)] transition-all duration-200"
                     />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full ring-2 ring-[var(--border)] hover:ring-[var(--primary)] transition-all duration-200 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                      <span className="text-white text-sm font-semibold">
+                        {(session.user.name || session.user.email || 'U')
+                          .charAt(0)
+                          .toUpperCase()}
+                      </span>
+                    </div>
                   )}
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-[var(--foreground)]">
@@ -55,9 +63,9 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
-              <Button onClick={() => signIn('github')}>
-                Sign In with GitHub
-              </Button>
+              <Link href="/login">
+                <Button>Sign In</Button>
+              </Link>
             )}
           </div>
         </div>

@@ -1,6 +1,6 @@
 # 🧾 Job Tracker (WIP)
 
-A simple full-stack job application tracker built with Next.js, Tailwind CSS, Prisma, and GitHub OAuth.
+A simple full-stack job application tracker built with Next.js, Tailwind CSS, Prisma, and OAuth authentication (GitHub & Google).
 
 You can add, edit, and manage job applications with status tracking and notes — all tied to your authenticated account.
 
@@ -11,15 +11,15 @@ You can add, edit, and manage job applications with status tracking and notes �
 - [Next.js (App Router)](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Prisma ORM](https://www.prisma.io/)
-- [NextAuth.js](https://next-auth.js.org/) for GitHub login
-- SQLite (local dev) or PostgreSQL (production)
+- [NextAuth.js](https://next-auth.js.org/) for GitHub & Google login
+- SQLite (local dev), PostgreSQL (production)
 
 ## 🚧 Features (in progress)
 
-- ✅ Auth via GitHub
+- ✅ Auth via GitHub & Google OAuth
 - ✅ Add/edit/delete job applications
 - ✅ Notes and job statuses
-- 🛠️ Filter + search
+- ✅ Filter + search
 - 🛠️ Resume/cover letter attachments
 - 🛠️ Calendar view for interviews
 
@@ -37,3 +37,4 @@ cp .env.local.example .env.local
 
 npx prisma migrate dev --name init
 npm run dev
+```

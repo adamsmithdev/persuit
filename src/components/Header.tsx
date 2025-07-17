@@ -4,33 +4,32 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
+import { MobileMenuButton } from './Sidebar';
 
-export default function Header() {
+interface HeaderProps {
+  readonly onMobileMenuClick: () => void;
+}
+
+export default function Header({ onMobileMenuClick }: HeaderProps) {
   const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border)] shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo and brand */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-xl shadow-sm group-hover:shadow-md transition-all duration-200">
-              💼
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-[var(--foreground)] group-hover:text-[var(--primary)] transition-colors">
-                Job Tracker
-              </h1>
-              <p className="text-xs text-[var(--foreground-muted)] hidden sm:block">
-                Stay organized, land your dream job
-              </p>
-            </div>
-          </Link>
+      <div className="px-4 lg:px-8 relative">
+        <div
+          className="flex items-center justify-end"
+          style={{ height: '4rem' }}
+        >
+          {/* Mobile menu button - positioned absolutely to left */}
+          <div className="absolute left-4 lg:left-8">
+            <MobileMenuButton onClick={onMobileMenuClick} />
+          </div>
 
-          {/* User section */}
+          {/* User section - always positioned at right */}
           <div className="flex items-center space-x-4">
             {session?.user ? (
-              <div className="flex items-center space-x-3">
+              <>
+                {/* User info - hidden on mobile */}
                 <div className="hidden md:flex items-center space-x-3">
                   {session.user.image ? (
                     <Image
@@ -58,13 +57,18 @@ export default function Header() {
                     </span>
                   </div>
                 </div>
+
+                {/* Sign out button */}
                 <Button variant="outline" size="sm" onClick={() => signOut()}>
                   Sign Out
                 </Button>
-              </div>
+              </>
             ) : (
+              /* Sign in button */
               <Link href="/login">
-                <Button>Sign In</Button>
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
               </Link>
             )}
           </div>

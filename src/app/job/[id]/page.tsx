@@ -15,13 +15,14 @@ interface JobDetailPageProps {
 }
 
 export default async function JobDetailPage({ params }: JobDetailPageProps) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
     notFound();
   }
 
-  const job = await getJob(params.id, session.user.email);
+  const job = await getJob(id, session.user.email);
 
   if (!job) {
     notFound();

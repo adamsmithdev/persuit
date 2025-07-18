@@ -14,11 +14,12 @@ interface EditJobPageProps {
 }
 
 export default async function EditJobPage({ params }: EditJobPageProps) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) notFound();
 
-  const job = await getJob(params.id, session.user.email);
+  const job = await getJob(id, session.user.email);
 
   if (!job) notFound();
 
@@ -34,7 +35,7 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
               Update your job application details
             </p>
           </div>
-          <Link href={`/job/${job.id}`}>
+          <Link href={`/job/${id}`}>
             <Button variant="secondary">
               <span className="mr-2">←</span>
               <span>Back to Details</span>

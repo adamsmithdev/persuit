@@ -5,8 +5,9 @@ import { NextResponse } from 'next/server';
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -34,7 +35,7 @@ export async function PUT(
   try {
     const updatedJob = await prisma.job.update({
       where: {
-        id: params.id,
+        id,
       },
       data: {
         company,
@@ -68,8 +69,9 @@ export async function PUT(
 
 export async function DELETE(
   _: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -86,7 +88,7 @@ export async function DELETE(
   }
 
   const job = await prisma.job.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!job || job.userId !== user.id) {
@@ -94,7 +96,7 @@ export async function DELETE(
   }
 
   await prisma.job.delete({
-    where: { id: params.id },
+    where: { id },
   });
 
   return NextResponse.json({ message: 'Job deleted' });

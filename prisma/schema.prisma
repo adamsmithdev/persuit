@@ -55,17 +55,27 @@ model VerificationToken {
 }
 
 model Job {
-  id        String    @id @default(cuid())
-  company   String
-  position  String
-  location  String?
-  status    JobStatus @default(WISHLIST)
-  appliedAt DateTime  @default(now())
-  notes     String?
+  id                  String       @id @default(cuid())
+  company             String
+  position            String
+  location            String?
+  status              JobStatus    @default(WISHLIST)
+  appliedAt           DateTime     @default(now())
+  notes               String?
+  salaryMin           Int?
+  salaryMax           Int?
+  jobUrl              String?
+  contactName         String?
+  contactEmail        String?
+  contactPhone        String?
+  companySize         CompanySize?
+  industry            String?
+  applicationDeadline DateTime?
+
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum JobStatus {
@@ -75,4 +85,12 @@ enum JobStatus {
   OFFER
   REJECTED
   ACCEPTED
+}
+
+enum CompanySize {
+  STARTUP
+  SMALL
+  MEDIUM
+  LARGE
+  ENTERPRISE
 }

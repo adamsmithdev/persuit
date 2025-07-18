@@ -1,8 +1,8 @@
 # 🧾 Job Tracker (WIP)
 
-A simple full-stack job application tracker built with Next.js, Tailwind CSS, Prisma, and OAuth authentication (GitHub & Google).
+A comprehensive job application tracker built with Next.js, Tailwind CSS, Prisma, and OAuth authentication (GitHub & Google).
 
-You can add, edit, and manage job applications with status tracking and notes — all tied to your authenticated account.
+Track job applications with detailed information including salary ranges, company details, contact information, and deadlines — all tied to your authenticated account.
 
 > This app is a work in progress. More features and polish are coming soon!
 
@@ -20,6 +20,7 @@ You can add, edit, and manage job applications with status tracking and notes �
 - ✅ Add/edit/delete job applications
 - ✅ Notes and job statuses
 - ✅ Filter + search
+- ✅ Enhanced application fields (salary, company size, contacts, deadlines)
 - 🛠️ Resume/cover letter attachments
 - 🛠️ Calendar view for interviews
 

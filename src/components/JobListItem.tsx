@@ -50,6 +50,28 @@ export default function JobListItem({ job }: Props) {
                   <span>{job.location}</span>
                 </div>
               )}
+              {(job.salaryMin || job.salaryMax) && (
+                <div className="flex items-center gap-1">
+                  <span>💰</span>
+                  <span>
+                    {(() => {
+                      if (job.salaryMin && job.salaryMax) {
+                        return `$${(job.salaryMin / 1000).toFixed(0)}k - $${(
+                          job.salaryMax / 1000
+                        ).toFixed(0)}k`;
+                      } else if (job.salaryMin) {
+                        return `$${(job.salaryMin / 1000).toFixed(0)}k+`;
+                      } else {
+                        return `Up to $${
+                          job.salaryMax
+                            ? (job.salaryMax / 1000).toFixed(0)
+                            : '0'
+                        }k`;
+                      }
+                    })()}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center gap-1">
                 <span>📅</span>
                 <span>

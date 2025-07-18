@@ -10,7 +10,22 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { company, position, location, notes, status } = body;
+  const {
+    company,
+    position,
+    location,
+    notes,
+    status,
+    salaryMin,
+    salaryMax,
+    jobUrl,
+    contactName,
+    contactEmail,
+    contactPhone,
+    companySize,
+    industry,
+    applicationDeadline,
+  } = body;
 
   try {
     const job = await prisma.job.create({
@@ -20,6 +35,17 @@ export async function POST(req: Request) {
         location,
         notes,
         status,
+        salaryMin,
+        salaryMax,
+        jobUrl,
+        contactName,
+        contactEmail,
+        contactPhone,
+        companySize,
+        industry,
+        applicationDeadline: applicationDeadline
+          ? new Date(applicationDeadline)
+          : null,
         user: {
           connect: {
             email: session.user.email,

@@ -14,7 +14,22 @@ export async function PUT(
   }
 
   const body = await req.json();
-  const { company, position, location, notes, status } = body;
+  const {
+    company,
+    position,
+    location,
+    notes,
+    status,
+    salaryMin,
+    salaryMax,
+    jobUrl,
+    contactName,
+    contactEmail,
+    contactPhone,
+    companySize,
+    industry,
+    applicationDeadline,
+  } = body;
 
   try {
     const updatedJob = await prisma.job.update({
@@ -27,6 +42,17 @@ export async function PUT(
         location,
         notes,
         status,
+        salaryMin,
+        salaryMax,
+        jobUrl,
+        contactName,
+        contactEmail,
+        contactPhone,
+        companySize,
+        industry,
+        applicationDeadline: applicationDeadline
+          ? new Date(applicationDeadline)
+          : null,
       },
     });
 

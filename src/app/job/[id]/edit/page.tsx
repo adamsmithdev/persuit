@@ -51,6 +51,17 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
             location: job.location ?? undefined,
             notes: job.notes ?? undefined,
             status: job.status,
+            salaryMin: job.salaryMin ?? undefined,
+            salaryMax: job.salaryMax ?? undefined,
+            jobUrl: job.jobUrl ?? undefined,
+            contactName: job.contactName ?? undefined,
+            contactEmail: job.contactEmail ?? undefined,
+            contactPhone: job.contactPhone ?? undefined,
+            companySize: job.companySize ?? undefined,
+            industry: job.industry ?? undefined,
+            applicationDeadline: job.applicationDeadline
+              ? job.applicationDeadline.toISOString()
+              : undefined,
           }}
         />
       </div>

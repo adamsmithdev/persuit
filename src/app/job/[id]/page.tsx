@@ -112,6 +112,25 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                     </p>
                   </div>
 
+                  {job.applicationDeadline && (
+                    <div>
+                      <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                        Application Deadline
+                      </p>
+                      <p className="text-[var(--foreground)] font-medium">
+                        {new Date(job.applicationDeadline).toLocaleDateString(
+                          'en-US',
+                          {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          }
+                        )}
+                      </p>
+                    </div>
+                  )}
+
                   <div>
                     <p className="text-sm text-[var(--foreground-muted)] mb-1">
                       Last Updated
@@ -127,20 +146,145 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                   </div>
                 </div>
               </div>
-            </div>
 
-            {job.notes && (
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide">
-                  Notes
+              {/* Company & Job Details */}
+              <div className="bg-[var(--surface-variant)] rounded-xl p-6">
+                <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide mb-3">
+                  Job Details
                 </h3>
-                <div className="bg-[var(--surface-variant)] rounded-xl p-6 border border-[var(--border)]">
-                  <p className="whitespace-pre-line text-[var(--foreground)] leading-relaxed">
-                    {job.notes}
-                  </p>
+                <div className="space-y-4">
+                  {(job.salaryMin || job.salaryMax) && (
+                    <div>
+                      <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                        Salary Range
+                      </p>
+                      <p className="text-[var(--foreground)] font-medium">
+                        {(() => {
+                          if (job.salaryMin && job.salaryMax) {
+                            return `$${job.salaryMin.toLocaleString()} - $${job.salaryMax.toLocaleString()}`;
+                          } else if (job.salaryMin) {
+                            return `$${job.salaryMin.toLocaleString()}+`;
+                          } else {
+                            return `Up to $${job.salaryMax?.toLocaleString()}`;
+                          }
+                        })()}
+                      </p>
+                    </div>
+                  )}
+
+                  {job.companySize && (
+                    <div>
+                      <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                        Company Size
+                      </p>
+                      <p className="text-[var(--foreground)] font-medium">
+                        {job.companySize === 'STARTUP' &&
+                          '🚀 Startup (1-10 employees)'}
+                        {job.companySize === 'SMALL' &&
+                          '🏢 Small (11-50 employees)'}
+                        {job.companySize === 'MEDIUM' &&
+                          '🏬 Medium (51-200 employees)'}
+                        {job.companySize === 'LARGE' &&
+                          '🏭 Large (201-1000 employees)'}
+                        {job.companySize === 'ENTERPRISE' &&
+                          '🏗️ Enterprise (1000+ employees)'}
+                      </p>
+                    </div>
+                  )}
+
+                  {job.industry && (
+                    <div>
+                      <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                        Industry
+                      </p>
+                      <p className="text-[var(--foreground)] font-medium">
+                        {job.industry}
+                      </p>
+                    </div>
+                  )}
+
+                  {job.jobUrl && (
+                    <div>
+                      <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                        Job Posting
+                      </p>
+                      <a
+                        href={job.jobUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[var(--primary)] hover:underline font-medium"
+                      >
+                        View Original Posting ↗
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
+            </div>
+
+            <div className="space-y-6">
+              {/* Contact Information */}
+              {(job.contactName || job.contactEmail || job.contactPhone) && (
+                <div className="bg-[var(--surface-variant)] rounded-xl p-6">
+                  <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide mb-3">
+                    Contact Information
+                  </h3>
+                  <div className="space-y-4">
+                    {job.contactName && (
+                      <div>
+                        <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                          Contact Person
+                        </p>
+                        <p className="text-[var(--foreground)] font-medium">
+                          {job.contactName}
+                        </p>
+                      </div>
+                    )}
+
+                    {job.contactEmail && (
+                      <div>
+                        <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                          Email
+                        </p>
+                        <a
+                          href={`mailto:${job.contactEmail}`}
+                          className="text-[var(--primary)] hover:underline font-medium"
+                        >
+                          {job.contactEmail}
+                        </a>
+                      </div>
+                    )}
+
+                    {job.contactPhone && (
+                      <div>
+                        <p className="text-sm text-[var(--foreground-muted)] mb-1">
+                          Phone
+                        </p>
+                        <a
+                          href={`tel:${job.contactPhone}`}
+                          className="text-[var(--primary)] hover:underline font-medium"
+                        >
+                          {job.contactPhone}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {job.notes && (
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide">
+                    Notes
+                  </h3>
+                  <div className="bg-[var(--surface-variant)] rounded-xl p-6 border border-[var(--border)]">
+                    <p className="whitespace-pre-line text-[var(--foreground)] leading-relaxed">
+                      {job.notes}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Action Buttons */}

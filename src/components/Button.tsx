@@ -34,7 +34,7 @@ export default function Button({
       case 'secondary':
         return 'bg-[var(--surface)] hover:bg-[var(--surface-variant)] text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--border-strong)] shadow-sm';
       case 'danger':
-        return 'bg-[var(--danger)] hover:bg-[var(--danger-hover)] text-white shadow-sm hover:shadow-md active:shadow-sm';
+        return 'bg-[var(--error)] hover:bg-[var(--error-hover)] text-white shadow-sm hover:shadow-md active:shadow-sm';
       case 'success':
         return 'bg-[var(--success)] hover:bg-[var(--success-hover)] text-white shadow-sm hover:shadow-md active:shadow-sm';
       case 'ghost':

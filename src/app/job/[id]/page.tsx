@@ -33,7 +33,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     APPLIED: { emoji: '📤', color: 'bg-[var(--primary)]' },
     INTERVIEW: { emoji: '🎯', color: 'bg-[var(--warning)]' },
     OFFER: { emoji: '🎉', color: 'bg-[var(--success)]' },
-    REJECTED: { emoji: '❌', color: 'bg-[var(--danger)]' },
+    REJECTED: { emoji: '❌', color: 'bg-[var(--error)]' },
     ACCEPTED: { emoji: '✅', color: 'bg-[var(--success)]' },
   } as const;
 

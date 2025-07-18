@@ -63,6 +63,15 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
             applicationDeadline: job.applicationDeadline
               ? job.applicationDeadline.toISOString()
               : undefined,
+            interviewDate: job.interviewDate
+              ? job.interviewDate.toISOString()
+              : undefined,
+            interviewTime: job.interviewTime ?? undefined,
+            interviewType: job.interviewType ?? undefined,
+            interviewLocation: job.interviewLocation ?? undefined,
+            interviewNotes: job.interviewNotes ?? undefined,
+            interviewDuration: job.interviewDuration ?? undefined,
+            interviewRound: job.interviewRound ?? undefined,
           }}
         />
       </div>

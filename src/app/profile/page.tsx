@@ -184,9 +184,9 @@ export default async function ProfilePage() {
                     <span className="mr-2">📋</span> View All Applications
                   </Button>
                 </Link>
-                <Link href="/calendar" className="block">
+                <Link href="/interviews" className="block">
                   <Button variant="outline" fullWidth>
-                    <span className="mr-2">📅</span> Check Calendar
+                    <span className="mr-2">📅</span> Check Interviews
                   </Button>
                 </Link>
               </div>

@@ -134,7 +134,7 @@ export default function SettingsPage() {
                   >
                     <option value="dashboard">Dashboard</option>
                     <option value="applications">Applications List</option>
-                    <option value="calendar">Calendar</option>
+                    <option value="interviews">Interviews</option>
                   </select>
                 </div>
               </div>

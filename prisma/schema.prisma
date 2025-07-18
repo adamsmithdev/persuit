@@ -55,12 +55,12 @@ model VerificationToken {
 }
 
 model Job {
-  id                  String       @id @default(cuid())
+  id                  String         @id @default(cuid())
   company             String
   position            String
   location            String?
-  status              JobStatus    @default(WISHLIST)
-  appliedAt           DateTime     @default(now())
+  status              JobStatus      @default(WISHLIST)
+  appliedAt           DateTime       @default(now())
   notes               String?
   salaryMin           Int?
   salaryMax           Int?
@@ -71,6 +71,13 @@ model Job {
   companySize         CompanySize?
   industry            String?
   applicationDeadline DateTime?
+  interviewDate       DateTime?
+  interviewTime       String?
+  interviewType       InterviewType?
+  interviewLocation   String?
+  interviewNotes      String?
+  interviewDuration   Int?
+  interviewRound      Int?
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])
@@ -93,4 +100,15 @@ enum CompanySize {
   MEDIUM
   LARGE
   ENTERPRISE
+}
+
+enum InterviewType {
+  PHONE
+  VIDEO
+  ONSITE
+  VIRTUAL
+  GROUP
+  TECHNICAL
+  BEHAVIORAL
+  FINAL
 }

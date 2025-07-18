@@ -30,6 +30,13 @@ export async function PUT(
     companySize,
     industry,
     applicationDeadline,
+    interviewDate,
+    interviewTime,
+    interviewType,
+    interviewLocation,
+    interviewNotes,
+    interviewDuration,
+    interviewRound,
   } = body;
 
   try {
@@ -54,6 +61,13 @@ export async function PUT(
         applicationDeadline: applicationDeadline
           ? new Date(applicationDeadline)
           : null,
+        interviewDate: interviewDate ? new Date(interviewDate) : null,
+        interviewTime,
+        interviewType,
+        interviewLocation,
+        interviewNotes,
+        interviewDuration,
+        interviewRound,
       },
     });
 

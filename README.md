@@ -22,7 +22,7 @@ Track job applications with detailed information including salary ranges, compan
 - ✅ Filter + search
 - ✅ Enhanced application fields (salary, company size, contacts, deadlines)
 - 🛠️ Resume/cover letter attachments
-- 🛠️ Calendar view for interviews
+- 🛠️ Interview scheduling and management
 
 ---
 

@@ -17,10 +17,10 @@ const navigationItems = [
     description: 'Manage applications',
   },
   {
-    name: 'Calendar',
-    href: '/calendar',
+    name: 'Interviews',
+    href: '/interviews',
     icon: '📅',
-    description: 'Interviews & deadlines',
+    description: 'Interviews & schedule',
   },
   {
     name: 'Documents',

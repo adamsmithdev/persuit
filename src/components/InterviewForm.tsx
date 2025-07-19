@@ -14,7 +14,7 @@ import {
   Grid,
   ErrorMessage,
 } from './ui';
-import { INTERVIEW_TYPES } from '@/lib/constants';
+import { INTERVIEW_TYPES, INTERVIEW_STATUSES } from '@/lib/constants';
 
 type Job = {
   id: string;
@@ -23,13 +23,33 @@ type Job = {
 };
 
 type InterviewFormProps = {
+  mode?: 'create' | 'edit';
   jobs: Job[];
+  initialData?: {
+    id: string;
+    date: Date | string;
+    time: string | null;
+    type: string;
+    location: string | null;
+    notes: string | null;
+    duration: number | null;
+    round: number | null;
+    status: string;
+    job: {
+      id: string;
+      company: string;
+      position: string;
+      status: string;
+    };
+  };
   onSuccess?: () => void;
   onCancel?: () => void;
 };
 
 export default function InterviewForm({
+  mode = 'create',
   jobs,
+  initialData,
   onSuccess,
   onCancel,
 }: Readonly<InterviewFormProps>) {
@@ -37,15 +57,22 @@ export default function InterviewForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
+  // Format date for date input (YYYY-MM-DD)
+  const formatDateForInput = (date: Date | string) => {
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+  };
+
   const [formData, setFormData] = useState({
-    jobId: '',
-    date: '',
-    time: '',
-    type: 'PHONE',
-    location: '',
-    notes: '',
-    duration: '',
-    round: '1',
+    jobId: initialData?.job.id || '',
+    date: initialData ? formatDateForInput(initialData.date) : '',
+    time: initialData?.time || '',
+    type: initialData?.type || 'PHONE',
+    location: initialData?.location || '',
+    notes: initialData?.notes || '',
+    duration: initialData?.duration?.toString() || '',
+    round: initialData?.round?.toString() || '1',
+    status: initialData?.status || 'SCHEDULED',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,14 +81,20 @@ export default function InterviewForm({
     setError('');
 
     try {
+      const endpoint =
+        mode === 'edit'
+          ? `/api/interview/${initialData?.id}`
+          : '/api/interview';
+      const method = mode === 'edit' ? 'PUT' : 'POST';
+
       const payload = {
         ...formData,
         duration: formData.duration ? parseInt(formData.duration) : undefined,
         round: parseInt(formData.round),
       };
 
-      const response = await fetch('/api/interview', {
-        method: 'POST',
+      const response = await fetch(endpoint, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -70,7 +103,8 @@ export default function InterviewForm({
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create interview');
+        const action = mode === 'edit' ? 'update' : 'create';
+        throw new Error(errorData.error || `Failed to ${action} interview`);
       }
 
       if (onSuccess) {
@@ -80,10 +114,12 @@ export default function InterviewForm({
         router.refresh();
       }
     } catch (error) {
-      console.error('Error creating interview:', error);
-      setError(
-        error instanceof Error ? error.message : 'Failed to create interview'
-      );
+      const action = mode === 'edit' ? 'updating' : 'creating';
+      console.error(`Error ${action} interview:`, error);
+      const defaultMessage = `Failed to ${
+        mode === 'edit' ? 'update' : 'create'
+      } interview`;
+      setError(error instanceof Error ? error.message : defaultMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -103,8 +139,12 @@ export default function InterviewForm({
 
   return (
     <FormContainer
-      title="Schedule New Interview"
-      description="Add a new interview for one of your job applications"
+      title={mode === 'edit' ? 'Edit Interview' : 'Schedule New Interview'}
+      description={
+        mode === 'edit' && initialData
+          ? `Update interview details for ${initialData.job.company} - ${initialData.job.position}`
+          : 'Add a new interview for one of your job applications'
+      }
     >
       {error && <ErrorMessage message={error} />}
 
@@ -156,7 +196,7 @@ export default function InterviewForm({
           </FormField>
         </Grid>
 
-        {/* Interview Type and Round */}
+        {/* Interview Type and Status/Round */}
         <Grid cols={2}>
           <FormField label="Interview Type" id="type" required>
             <Select
@@ -174,21 +214,52 @@ export default function InterviewForm({
             </Select>
           </FormField>
 
-          <FormField label="Interview Round" id="round">
-            <Input
-              type="number"
-              id="round"
-              name="round"
-              value={formData.round}
-              onChange={handleInputChange}
-              min="1"
-              placeholder="e.g. 1, 2, 3"
-            />
-          </FormField>
+          {mode === 'edit' ? (
+            <FormField label="Status" id="status">
+              <Select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                {INTERVIEW_STATUSES.map((status) => (
+                  <option key={status.value} value={status.value}>
+                    {status.label}
+                  </option>
+                ))}
+              </Select>
+            </FormField>
+          ) : (
+            <FormField label="Interview Round" id="round">
+              <Input
+                type="number"
+                id="round"
+                name="round"
+                value={formData.round}
+                onChange={handleInputChange}
+                min="1"
+                placeholder="e.g. 1, 2, 3"
+              />
+            </FormField>
+          )}
         </Grid>
 
-        {/* Location and Duration */}
+        {/* Round (for edit mode) and Location/Duration */}
         <Grid cols={2}>
+          {mode === 'edit' && (
+            <FormField label="Interview Round" id="round">
+              <Input
+                type="number"
+                id="round"
+                name="round"
+                value={formData.round}
+                onChange={handleInputChange}
+                min="1"
+                placeholder="e.g. 1, 2, 3"
+              />
+            </FormField>
+          )}
+
           <FormField label="Location" id="location">
             <Input
               type="text"
@@ -200,6 +271,24 @@ export default function InterviewForm({
             />
           </FormField>
 
+          {mode === 'create' && (
+            <FormField label="Duration (minutes)" id="duration">
+              <Input
+                type="number"
+                id="duration"
+                name="duration"
+                value={formData.duration}
+                onChange={handleInputChange}
+                min="1"
+                step="1"
+                placeholder="e.g. 60"
+              />
+            </FormField>
+          )}
+        </Grid>
+
+        {/* Duration for edit mode */}
+        {mode === 'edit' && (
           <FormField label="Duration (minutes)" id="duration">
             <Input
               type="number"
@@ -208,11 +297,11 @@ export default function InterviewForm({
               value={formData.duration}
               onChange={handleInputChange}
               min="1"
-              step="15"
+              step="1"
               placeholder="e.g. 60"
             />
           </FormField>
-        </Grid>
+        )}
 
         {/* Notes */}
         <FormField label="Notes" id="notes">
@@ -248,7 +337,14 @@ export default function InterviewForm({
             }
             loading={isSubmitting}
           >
-            {isSubmitting ? 'Scheduling...' : 'Schedule Interview'}
+            {(() => {
+              if (isSubmitting) {
+                return mode === 'edit' ? 'Updating...' : 'Scheduling...';
+              }
+              return mode === 'edit'
+                ? 'Update Interview'
+                : 'Schedule Interview';
+            })()}
           </Button>
         </FormActions>
       </form>

@@ -4,7 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { getInterviewById } from '@/lib/services/interviewsService';
 import { getJobs } from '@/lib/services/jobsService';
 import { notFound } from 'next/navigation';
-import EditInterviewForm from '@/components/EditInterviewForm';
+import InterviewForm from '@/components/InterviewForm';
+import { DeleteInterviewButton } from '@/components/DeleteInterviewButton';
 
 interface EditInterviewPageProps {
   params: Promise<{
@@ -33,8 +34,12 @@ export default async function EditInterviewPage({
 
   return (
     <AuthWrapper>
-      <div className="max-w-2xl mx-auto">
-        <EditInterviewForm interview={interview} jobs={jobs} />
+      <div className="max-w-2xl mx-auto space-y-6">
+        <InterviewForm mode="edit" initialData={interview} jobs={jobs} />
+
+        <div className="flex justify-center">
+          <DeleteInterviewButton interviewId={interview.id} />
+        </div>
       </div>
     </AuthWrapper>
   );

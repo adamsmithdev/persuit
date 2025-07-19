@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import JobList from '@/components/JobList';
 import DashboardStats from '@/components/DashboardStats';
 import SearchAndFilter from '@/components/SearchAndFilter';
+import { EmptyState } from './ui';
 
 interface Props {
   readonly jobs: Job[];
@@ -36,39 +37,24 @@ export default function Dashboard({ jobs }: Props) {
 
     if (jobs.length === 0) {
       return (
-        <div className="text-center py-16">
-          <div className="w-20 h-20 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-3xl">📝</span>
-          </div>
-          <h3 className="text-xl font-semibold text-[var(--foreground)] mb-3">
-            Ready to start your job search?
-          </h3>
-          <p className="text-[var(--foreground-muted)] mb-8 max-w-md mx-auto leading-relaxed">
-            Track applications, organize interviews, and stay on top of your job
-            search journey with ease.
-          </p>
-          <Link href="/job/new">
-            <Button size="lg">
-              <span className="mr-2">+</span>
-              <span>Add Your First Job</span>
-            </Button>
-          </Link>
-        </div>
+        <EmptyState
+          icon="📝"
+          title="Ready to start your job search?"
+          description="Track applications, organize interviews, and stay on top of your job search journey with ease."
+          actionLabel="Add Your First Job"
+          actionHref="/job/new"
+          size="lg"
+        />
       );
     }
 
     return (
-      <div className="text-center py-16">
-        <div className="w-16 h-16 bg-[var(--surface-variant)] rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <span className="text-2xl">🔍</span>
-        </div>
-        <h3 className="text-lg font-semibold text-[var(--foreground)] mb-3">
-          No jobs match your filters
-        </h3>
-        <p className="text-[var(--foreground-muted)] max-w-sm mx-auto">
-          Try adjusting your search terms or filters to see more results.
-        </p>
-      </div>
+      <EmptyState
+        icon="🔍"
+        title="No jobs match your filters"
+        description="Try adjusting your search terms or filters to see more results."
+        size="md"
+      />
     );
   };
 

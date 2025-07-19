@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { EmptyState } from '@/components/ui';
 
 type Interview = {
   id: string;
@@ -186,131 +187,144 @@ export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
 
       {/* Interview List */}
       <div className="space-y-3">
-        {filteredInterviews.length === 0 ? (
-          <div className="text-center py-12 text-[var(--foreground-muted)]">
-            <div className="text-6xl mb-4">📅</div>
-            <h3 className="text-lg font-medium mb-2">
-              {filter === 'today' && 'No interviews today'}
-              {filter === 'upcoming' && 'No upcoming interviews'}
-              {filter === 'all' && 'No interviews scheduled'}
-            </h3>
-            <p className="text-sm mb-6">
-              {filter === 'today'
-                ? 'Enjoy your day off!'
-                : 'Add interview details to your job applications to see them here'}
-            </p>
-            <Link
-              href="/interviews/new"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-opacity-90 transition-all text-sm font-medium"
-            >
-              <span>+</span>
-              <span>Schedule Interview</span>
-            </Link>
-          </div>
-        ) : (
-          filteredInterviews.map((interview) => {
-            const interviewDate = parseInterviewDate(interview.date);
-            const isToday =
-              interviewDate.toDateString() === new Date().toDateString();
-            const isTomorrow =
-              interviewDate.toDateString() ===
-              new Date(Date.now() + 86400000).toDateString();
-            const isPast = interviewDate < new Date();
+        {filteredInterviews.length === 0
+          ? (() => {
+              const getEmptyStateProps = () => {
+                switch (filter) {
+                  case 'today':
+                    return {
+                      title: 'No interviews today',
+                      description: 'Enjoy your day off!',
+                    };
+                  case 'upcoming':
+                    return {
+                      title: 'No upcoming interviews',
+                      description:
+                        'Add interview details to your job applications to see them here',
+                    };
+                  default:
+                    return {
+                      title: 'No interviews scheduled',
+                      description:
+                        'Add interview details to your job applications to see them here',
+                    };
+                }
+              };
 
-            let cardStyle =
-              'bg-[var(--surface-variant)] border-[var(--border)]';
-            if (isToday) {
-              cardStyle =
-                'bg-[var(--surface-variant)] border-[var(--error)] border-2';
-            } else if (isTomorrow) {
-              cardStyle =
-                'bg-[var(--surface-variant)] border-[var(--warning)] border-2';
-            } else if (isPast) {
-              cardStyle =
-                'bg-[var(--surface-variant)] border-[var(--border)] opacity-75';
-            }
+              const { title, description } = getEmptyStateProps();
 
-            return (
-              <div
-                key={interview.id}
-                className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${cardStyle}`}
-              >
-                {/* Interview Type Icon */}
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">
-                    {getTypeIcon(interview.type)}
-                  </span>
-                </div>
+              return (
+                <EmptyState
+                  icon="📅"
+                  title={title}
+                  description={description}
+                  actionLabel="Schedule Interview"
+                  actionHref="/interviews/new"
+                />
+              );
+            })()
+          : filteredInterviews.map((interview) => {
+              const interviewDate = parseInterviewDate(interview.date);
+              const isToday =
+                interviewDate.toDateString() === new Date().toDateString();
+              const isTomorrow =
+                interviewDate.toDateString() ===
+                new Date(Date.now() + 86400000).toDateString();
+              const isPast = interviewDate < new Date();
 
-                {/* Main Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-[var(--foreground)] truncate">
-                      {interview.job.company}
-                    </h3>
-                    <span className="text-[var(--foreground-muted)]">•</span>
-                    <span className="text-[var(--foreground-muted)] truncate">
-                      {interview.job.position}
+              let cardStyle =
+                'bg-[var(--surface-variant)] border-[var(--border)]';
+              if (isToday) {
+                cardStyle =
+                  'bg-[var(--surface-variant)] border-[var(--error)] border-2';
+              } else if (isTomorrow) {
+                cardStyle =
+                  'bg-[var(--surface-variant)] border-[var(--warning)] border-2';
+              } else if (isPast) {
+                cardStyle =
+                  'bg-[var(--surface-variant)] border-[var(--border)] opacity-75';
+              }
+
+              return (
+                <div
+                  key={interview.id}
+                  className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${cardStyle}`}
+                >
+                  {/* Interview Type Icon */}
+                  <div className="flex-shrink-0">
+                    <span className="text-2xl">
+                      {getTypeIcon(interview.type)}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-4 text-sm text-[var(--foreground-muted)]">
-                    <span className="font-medium">
-                      {formatRelativeDate(interviewDate)}
-                    </span>
-
-                    {interview.time && (
-                      <>
-                        <span>•</span>
-                        <span>{formatTime(interview.time)}</span>
-                      </>
-                    )}
-
-                    {interview.round && (
-                      <>
-                        <span>•</span>
-                        <span>Round {interview.round}</span>
-                      </>
-                    )}
-
-                    {interview.type && (
-                      <>
-                        <span>•</span>
-                        <span className="capitalize">
-                          {interview.type.toLowerCase()}
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  {interview.location && (
-                    <div className="mt-1 text-xs text-[var(--foreground-muted)] flex items-center gap-1">
-                      <span>📍</span>
-                      <span className="truncate">{interview.location}</span>
+                  {/* Main Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-[var(--foreground)] truncate">
+                        {interview.job.company}
+                      </h3>
+                      <span className="text-[var(--foreground-muted)]">•</span>
+                      <span className="text-[var(--foreground-muted)] truncate">
+                        {interview.job.position}
+                      </span>
                     </div>
-                  )}
-                </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                  <Link
-                    href={`/job/${interview.job.id}`}
-                    className="px-3 py-1 text-xs rounded-md bg-[var(--primary)] bg-opacity-10 text-white hover:bg-opacity-20 transition-all"
-                  >
-                    View Job
-                  </Link>
+                    <div className="flex items-center gap-4 text-sm text-[var(--foreground-muted)]">
+                      <span className="font-medium">
+                        {formatRelativeDate(interviewDate)}
+                      </span>
 
-                  <Link
-                    href={`/interviews/${interview.id}/edit`}
-                    className="px-3 py-1 text-xs rounded-md bg-[var(--surface-variant)] text-[var(--foreground-muted)] hover:bg-[var(--border)] transition-all"
-                  >
-                    Edit
-                  </Link>
+                      {interview.time && (
+                        <>
+                          <span>•</span>
+                          <span>{formatTime(interview.time)}</span>
+                        </>
+                      )}
+
+                      {interview.round && (
+                        <>
+                          <span>•</span>
+                          <span>Round {interview.round}</span>
+                        </>
+                      )}
+
+                      {interview.type && (
+                        <>
+                          <span>•</span>
+                          <span className="capitalize">
+                            {interview.type.toLowerCase()}
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {interview.location && (
+                      <div className="mt-1 text-xs text-[var(--foreground-muted)] flex items-center gap-1">
+                        <span>📍</span>
+                        <span className="truncate">{interview.location}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/job/${interview.job.id}`}
+                      className="px-3 py-1 text-xs rounded-md bg-[var(--primary)] bg-opacity-10 text-white hover:bg-opacity-20 transition-all"
+                    >
+                      View Job
+                    </Link>
+
+                    <Link
+                      href={`/interviews/${interview.id}/edit`}
+                      className="px-3 py-1 text-xs rounded-md bg-[var(--surface-variant)] text-[var(--foreground-muted)] hover:bg-[var(--border)] transition-all"
+                    >
+                      Edit
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        )}
+              );
+            })}
       </div>
 
       {/* Quick Actions */}

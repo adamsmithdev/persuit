@@ -3,6 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import {
+  FormContainer,
+  FormField,
+  Input,
+  TextArea,
+  Select,
+  DateInput,
+  FormSection,
+  FormActions,
+  Grid,
+} from './ui';
+import { COMPANY_SIZE_OPTIONS, JOB_STATUS_OPTIONS } from '@/lib/constants';
 
 type JobFormProps = {
   mode?: 'create' | 'edit';
@@ -124,348 +136,200 @@ export default function JobForm({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">
-            {mode === 'edit' ? 'Edit Application' : 'Add New Application'}
-          </h2>
-          <p className="text-[var(--foreground-muted)]">
-            {mode === 'edit'
-              ? 'Update your job application details'
-              : 'Track a new job opportunity'}
-          </p>
-        </div>
+    <FormContainer
+      title={mode === 'edit' ? 'Edit Application' : 'Add New Application'}
+      description={
+        mode === 'edit'
+          ? 'Update your job application details'
+          : 'Track a new job opportunity'
+      }
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <FormField label="Company" id="company" required>
+          <Input
+            id="company"
+            name="company"
+            placeholder="e.g. Google, Microsoft, Spotify"
+            required
+            value={formData.company}
+            onChange={handleChange}
+          />
+        </FormField>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="company"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Company *
-            </label>
-            <input
-              id="company"
-              type="text"
-              name="company"
-              placeholder="e.g. Google, Microsoft, Spotify"
-              required
-              value={formData.company}
+        <FormField label="Position" id="position" required>
+          <Input
+            id="position"
+            name="position"
+            placeholder="e.g. Software Engineer, Product Manager"
+            required
+            value={formData.position}
+            onChange={handleChange}
+          />
+        </FormField>
+
+        <FormField label="Location" id="location">
+          <Input
+            id="location"
+            name="location"
+            placeholder="e.g. San Francisco, CA (Remote)"
+            value={formData.location}
+            onChange={handleChange}
+          />
+        </FormField>
+
+        {/* Salary Range */}
+        <Grid cols={2}>
+          <FormField label="Min Salary" id="salaryMin">
+            <Input
+              id="salaryMin"
+              type="number"
+              name="salaryMin"
+              placeholder="e.g. 80000"
+              value={formData.salaryMin}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
             />
-          </div>
-
-          <div>
-            <label
-              htmlFor="position"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Position *
-            </label>
-            <input
-              id="position"
-              type="text"
-              name="position"
-              placeholder="e.g. Software Engineer, Product Manager"
-              required
-              value={formData.position}
+          </FormField>
+          <FormField label="Max Salary" id="salaryMax">
+            <Input
+              id="salaryMax"
+              type="number"
+              name="salaryMax"
+              placeholder="e.g. 120000"
+              value={formData.salaryMax}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
             />
-          </div>
+          </FormField>
+        </Grid>
 
-          <div>
-            <label
-              htmlFor="location"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Location
-            </label>
-            <input
-              id="location"
-              type="text"
-              name="location"
-              placeholder="e.g. San Francisco, CA (Remote)"
-              value={formData.location}
+        {/* Company Details */}
+        <Grid cols={2}>
+          <FormField label="Company Size" id="companySize">
+            <Select
+              id="companySize"
+              name="companySize"
+              value={formData.companySize}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
+            >
+              {COMPANY_SIZE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </Select>
+          </FormField>
+          <FormField label="Industry" id="industry">
+            <Input
+              id="industry"
+              name="industry"
+              placeholder="e.g. Technology, Finance, Healthcare"
+              value={formData.industry}
+              onChange={handleChange}
             />
-          </div>
+          </FormField>
+        </Grid>
 
-          {/* Salary Range */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="salaryMin"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Min Salary
-              </label>
-              <input
-                id="salaryMin"
-                type="number"
-                name="salaryMin"
-                placeholder="e.g. 80000"
-                value={formData.salaryMin}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="salaryMax"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Max Salary
-              </label>
-              <input
-                id="salaryMax"
-                type="number"
-                name="salaryMax"
-                placeholder="e.g. 120000"
-                value={formData.salaryMax}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-          </div>
-
-          {/* Company Details */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="companySize"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Company Size
-              </label>
-              <select
-                id="companySize"
-                name="companySize"
-                value={formData.companySize}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: 'right 0.75rem center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '1.5em 1.5em',
-                }}
-              >
-                <option value="">Select size</option>
-                <option value="STARTUP">🚀 Startup (1-10)</option>
-                <option value="SMALL">🏢 Small (11-50)</option>
-                <option value="MEDIUM">🏬 Medium (51-200)</option>
-                <option value="LARGE">🏭 Large (201-1000)</option>
-                <option value="ENTERPRISE">🏗️ Enterprise (1000+)</option>
-              </select>
-            </div>
-            <div>
-              <label
-                htmlFor="industry"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Industry
-              </label>
-              <input
-                id="industry"
-                type="text"
-                name="industry"
-                placeholder="e.g. Technology, Finance, Healthcare"
-                value={formData.industry}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-          </div>
-
-          {/* Job URL and Deadline */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="jobUrl"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Job Posting URL
-              </label>
-              <input
-                id="jobUrl"
-                type="url"
-                name="jobUrl"
-                placeholder="https://company.com/jobs/..."
-                value={formData.jobUrl}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="applicationDeadline"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Application Deadline
-              </label>
-              <div className="relative">
-                <input
-                  id="applicationDeadline"
-                  type="date"
-                  name="applicationDeadline"
-                  value={formData.applicationDeadline}
-                  onChange={handleChange}
-                  min="2023-01-01"
-                  max="2030-12-31"
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 cursor-pointer relative z-10"
-                  style={{
-                    colorScheme: 'dark',
-                  }}
-                />
-                {!formData.applicationDeadline && (
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[var(--foreground-muted)] z-0">
-                    Select deadline date...
-                  </div>
-                )}
-                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none z-20">
-                  <svg
-                    className="w-5 h-5 text-[var(--foreground-muted)]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 4V2a1 1 0 012 0v2h6V2a1 1 0 012 0v2h1a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h1zM4 10h16M9 14h6"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-[var(--foreground)] border-b border-[var(--border)] pb-2">
-              Contact Information (Optional)
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label
-                  htmlFor="contactName"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Contact Name
-                </label>
-                <input
-                  id="contactName"
-                  type="text"
-                  name="contactName"
-                  placeholder="e.g. Jane Smith"
-                  value={formData.contactName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="contactEmail"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Contact Email
-                </label>
-                <input
-                  id="contactEmail"
-                  type="email"
-                  name="contactEmail"
-                  placeholder="jane@company.com"
-                  value={formData.contactEmail}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="contactPhone"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Contact Phone
-                </label>
-                <input
-                  id="contactPhone"
-                  type="tel"
-                  name="contactPhone"
-                  placeholder="(555) 123-4567"
-                  value={formData.contactPhone}
-                  onChange={handlePhoneChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="status"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Status
-            </label>
-            <select
-              id="status"
-              name="status"
-              value={formData.status}
+        {/* Job URL and Deadline */}
+        <Grid cols={2}>
+          <FormField label="Job Posting URL" id="jobUrl">
+            <Input
+              id="jobUrl"
+              type="url"
+              name="jobUrl"
+              placeholder="https://company.com/jobs/..."
+              value={formData.jobUrl}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 appearance-none cursor-pointer"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                backgroundPosition: 'right 0.75rem center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '1.5em 1.5em',
-              }}
-            >
-              <option value="WISHLIST">📝 Wishlist</option>
-              <option value="APPLIED">📤 Applied</option>
-              <option value="INTERVIEW">🎯 Interview</option>
-              <option value="OFFER">🎉 Offer</option>
-              <option value="REJECTED">❌ Rejected</option>
-              <option value="ACCEPTED">✅ Accepted</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="notes"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Notes
-            </label>
-            <textarea
-              id="notes"
-              name="notes"
-              placeholder="Add any notes about the application, interview details, or next steps..."
-              value={formData.notes}
-              onChange={handleChange}
-              rows={4}
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] resize-vertical transition-all duration-200"
             />
-          </div>
+          </FormField>
+          <FormField label="Application Deadline" id="applicationDeadline">
+            <DateInput
+              id="applicationDeadline"
+              name="applicationDeadline"
+              value={formData.applicationDeadline}
+              onChange={handleChange}
+              min="2023-01-01"
+              max="2030-12-31"
+              placeholder="Select deadline date..."
+            />
+          </FormField>
+        </Grid>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-6">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={loading} loading={loading}>
-              {mode === 'edit' ? 'Update Application' : 'Create Application'}
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+        {/* Contact Information */}
+        <FormSection
+          title="Contact Information"
+          description="Optional contact details"
+        >
+          <Grid cols={3}>
+            <FormField label="Contact Name" id="contactName">
+              <Input
+                id="contactName"
+                name="contactName"
+                placeholder="e.g. Jane Smith"
+                value={formData.contactName}
+                onChange={handleChange}
+              />
+            </FormField>
+            <FormField label="Contact Email" id="contactEmail">
+              <Input
+                id="contactEmail"
+                type="email"
+                name="contactEmail"
+                placeholder="jane@company.com"
+                value={formData.contactEmail}
+                onChange={handleChange}
+              />
+            </FormField>
+            <FormField label="Contact Phone" id="contactPhone">
+              <Input
+                id="contactPhone"
+                type="tel"
+                name="contactPhone"
+                placeholder="(555) 123-4567"
+                value={formData.contactPhone}
+                onChange={handlePhoneChange}
+              />
+            </FormField>
+          </Grid>
+        </FormSection>
+
+        <FormField label="Status" id="status">
+          <Select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+          >
+            {JOB_STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        </FormField>
+
+        <FormField label="Notes" id="notes">
+          <TextArea
+            id="notes"
+            name="notes"
+            placeholder="Add any notes about the application, interview details, or next steps..."
+            value={formData.notes}
+            onChange={handleChange}
+            rows={4}
+          />
+        </FormField>
+
+        <FormActions>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
+          <Button type="submit" disabled={loading} loading={loading}>
+            {mode === 'edit' ? 'Update Application' : 'Create Application'}
+          </Button>
+        </FormActions>
+      </form>
+    </FormContainer>
   );
 }

@@ -3,6 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
+import {
+  FormContainer,
+  FormField,
+  Input,
+  TextArea,
+  Select,
+  DateInput,
+  FormActions,
+  Grid,
+  ErrorMessage,
+} from './ui';
+import { INTERVIEW_TYPES } from '@/lib/constants';
 
 type Job = {
   id: string;
@@ -15,17 +27,6 @@ type InterviewFormProps = {
   onSuccess?: () => void;
   onCancel?: () => void;
 };
-
-const INTERVIEW_TYPES = [
-  { value: 'PHONE', label: 'Phone Interview' },
-  { value: 'VIDEO', label: 'Video Interview' },
-  { value: 'ONSITE', label: 'On-site Interview' },
-  { value: 'VIRTUAL', label: 'Virtual Interview' },
-  { value: 'GROUP', label: 'Group Interview' },
-  { value: 'TECHNICAL', label: 'Technical Interview' },
-  { value: 'BEHAVIORAL', label: 'Behavioral Interview' },
-  { value: 'FINAL', label: 'Final Interview' },
-];
 
 export default function InterviewForm({
   jobs,
@@ -101,261 +102,156 @@ export default function InterviewForm({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">
-            Schedule New Interview
-          </h2>
-          <p className="text-[var(--foreground-muted)]">
-            Add a new interview for one of your job applications
-          </p>
-        </div>
+    <FormContainer
+      title="Schedule New Interview"
+      description="Add a new interview for one of your job applications"
+    >
+      {error && <ErrorMessage message={error} />}
 
-        {error && (
-          <div className="mb-6 p-4 bg-[var(--error)] bg-opacity-10 border border-[var(--error)] rounded-xl">
-            <p className="text-[var(--error)] text-sm">{error}</p>
-          </div>
-        )}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Job Selection */}
+        <FormField label="Job Application" id="jobId" required>
+          <Select
+            id="jobId"
+            name="jobId"
+            value={formData.jobId}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Select a job application</option>
+            {jobs.map((job) => (
+              <option key={job.id} value={job.id}>
+                {job.company} - {job.position}
+              </option>
+            ))}
+          </Select>
+        </FormField>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Job Selection */}
-          <div>
-            <label
-              htmlFor="jobId"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Job Application *
-            </label>
-            <select
-              id="jobId"
-              name="jobId"
-              value={formData.jobId}
+        {/* Date and Time */}
+        <Grid cols={2}>
+          <FormField label="Interview Date" id="date" required>
+            <DateInput
+              id="date"
+              name="date"
+              value={formData.date}
               onChange={handleInputChange}
               required
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 appearance-none cursor-pointer"
+              min="2023-01-01"
+              max="2030-12-31"
+              placeholder="Select interview date..."
+            />
+          </FormField>
+
+          <FormField label="Interview Time" id="time">
+            <Input
+              type="time"
+              id="time"
+              name="time"
+              value={formData.time}
+              onChange={handleInputChange}
               style={{
-                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                backgroundPosition: 'right 0.75rem center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '1.5em 1.5em',
+                colorScheme: 'dark',
               }}
+            />
+          </FormField>
+        </Grid>
+
+        {/* Interview Type and Round */}
+        <Grid cols={2}>
+          <FormField label="Interview Type" id="type" required>
+            <Select
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleInputChange}
+              required
             >
-              <option value="">Select a job application</option>
-              {jobs.map((job) => (
-                <option key={job.id} value={job.id}>
-                  {job.company} - {job.position}
+              {INTERVIEW_TYPES.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
                 </option>
               ))}
-            </select>
-          </div>
+            </Select>
+          </FormField>
 
-          {/* Date and Time */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Interview Date *
-              </label>
-              <div className="relative">
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  required
-                  min="2023-01-01"
-                  max="2030-12-31"
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 cursor-pointer relative z-10"
-                  style={{
-                    colorScheme: 'dark',
-                  }}
-                />
-                {!formData.date && (
-                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[var(--foreground-muted)] z-0">
-                    Select interview date...
-                  </div>
-                )}
-                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none z-20">
-                  <svg
-                    className="w-5 h-5 text-[var(--foreground-muted)]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 4V2a1 1 0 012 0v2h6V2a1 1 0 012 0v2h1a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h1zM4 10h16M9 14h6"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="time"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Interview Time
-              </label>
-              <input
-                type="time"
-                id="time"
-                name="time"
-                value={formData.time}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200"
-                style={{
-                  colorScheme: 'dark',
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Interview Type and Round */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="type"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Interview Type *
-              </label>
-              <select
-                id="type"
-                name="type"
-                value={formData.type}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                  backgroundPosition: 'right 0.75rem center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '1.5em 1.5em',
-                }}
-              >
-                {INTERVIEW_TYPES.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="round"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Interview Round
-              </label>
-              <input
-                type="number"
-                id="round"
-                name="round"
-                value={formData.round}
-                onChange={handleInputChange}
-                min="1"
-                placeholder="e.g. 1, 2, 3"
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-          </div>
-
-          {/* Location and Duration */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="location"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Location
-              </label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                placeholder="e.g. Company Office, Zoom, Phone"
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="duration"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Duration (minutes)
-              </label>
-              <input
-                type="number"
-                id="duration"
-                name="duration"
-                value={formData.duration}
-                onChange={handleInputChange}
-                min="1"
-                step="15"
-                placeholder="e.g. 60"
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-              />
-            </div>
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label
-              htmlFor="notes"
-              className="block text-sm font-medium text-[var(--foreground)] mb-2"
-            >
-              Notes
-            </label>
-            <textarea
-              id="notes"
-              name="notes"
-              value={formData.notes}
+          <FormField label="Interview Round" id="round">
+            <Input
+              type="number"
+              id="round"
+              name="round"
+              value={formData.round}
               onChange={handleInputChange}
-              rows={4}
-              placeholder="Any additional notes about the interview..."
-              className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] resize-vertical transition-all duration-200"
+              min="1"
+              placeholder="e.g. 1, 2, 3"
             />
-          </div>
+          </FormField>
+        </Grid>
 
-          {/* Form Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-6">
-            {onCancel && (
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={onCancel}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-            )}
+        {/* Location and Duration */}
+        <Grid cols={2}>
+          <FormField label="Location" id="location">
+            <Input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+              placeholder="e.g. Company Office, Zoom, Phone"
+            />
+          </FormField>
+
+          <FormField label="Duration (minutes)" id="duration">
+            <Input
+              type="number"
+              id="duration"
+              name="duration"
+              value={formData.duration}
+              onChange={handleInputChange}
+              min="1"
+              step="15"
+              placeholder="e.g. 60"
+            />
+          </FormField>
+        </Grid>
+
+        {/* Notes */}
+        <FormField label="Notes" id="notes">
+          <TextArea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleInputChange}
+            rows={4}
+            placeholder="Any additional notes about the interview..."
+          />
+        </FormField>
+
+        {/* Form Actions */}
+        <FormActions>
+          {onCancel && (
             <Button
-              type="submit"
-              disabled={
-                isSubmitting ||
-                !formData.jobId ||
-                !formData.date ||
-                !formData.type
-              }
-              loading={isSubmitting}
+              type="button"
+              variant="secondary"
+              onClick={onCancel}
+              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Scheduling...' : 'Schedule Interview'}
+              Cancel
             </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+          )}
+          <Button
+            type="submit"
+            disabled={
+              isSubmitting ||
+              !formData.jobId ||
+              !formData.date ||
+              !formData.type
+            }
+            loading={isSubmitting}
+          >
+            {isSubmitting ? 'Scheduling...' : 'Schedule Interview'}
+          </Button>
+        </FormActions>
+      </form>
+    </FormContainer>
   );
 }

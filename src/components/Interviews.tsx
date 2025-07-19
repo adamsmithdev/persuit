@@ -78,14 +78,15 @@ export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
     compareDate.setHours(0, 0, 0, 0);
 
     const diffTime = compareDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) return '🔥 Today';
     if (diffDays === 1) return '⚡ Tomorrow';
     if (diffDays === -1) return '🕒 Yesterday';
     if (diffDays < -1) return `🕒 ${Math.abs(diffDays)} days ago`;
-    if (diffDays <= 7) return `📅 In ${diffDays} days`;
-    if (diffDays <= 14) return `📅 In ${Math.ceil(diffDays / 7)} week`;
+    if (diffDays > 1 && diffDays <= 7) return `📅 In ${diffDays} days`;
+    if (diffDays > 7 && diffDays <= 14)
+      return `📅 In ${Math.ceil(diffDays / 7)} week`;
     return `📅 ${date.toLocaleDateString()}`;
   };
 

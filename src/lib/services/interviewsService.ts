@@ -1,6 +1,16 @@
 import prisma from '@/lib/prisma';
 import { InterviewType, InterviewStatus } from '@prisma/client';
 
+// Helper function to create date in local timezone to avoid UTC conversion issues
+const createLocalDate = (dateString: string): Date => {
+  // If date string is in YYYY-MM-DD format, create date in local timezone
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (dateRegex.exec(dateString)) {
+    return new Date(dateString + 'T00:00:00');
+  }
+  return new Date(dateString);
+};
+
 export interface CreateInterviewData {
   date: string;
   time?: string;
@@ -84,7 +94,7 @@ export async function createInterview(
 
   return await prisma.interview.create({
     data: {
-      date: new Date(data.date),
+      date: createLocalDate(data.date),
       time: data.time,
       type: data.type,
       location: data.location,
@@ -130,7 +140,7 @@ export async function updateInterview(
   return await prisma.interview.update({
     where: { id },
     data: {
-      ...(data.date && { date: new Date(data.date) }),
+      ...(data.date && { date: createLocalDate(data.date) }),
       ...(data.time !== undefined && { time: data.time }),
       ...(data.type && { type: data.type }),
       ...(data.location !== undefined && { location: data.location }),

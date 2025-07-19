@@ -84,10 +84,7 @@ export default function InterviewListItem({ interview }: Props) {
   }
 
   return (
-    <ListItem
-      href={`/interviews/${interview.id}/edit`}
-      className={cardClassName}
-    >
+    <ListItem href={`/interviews/${interview.id}`} className={cardClassName}>
       <div className="flex items-center gap-3 mb-3">
         <StatusBadge
           status={interview.status}

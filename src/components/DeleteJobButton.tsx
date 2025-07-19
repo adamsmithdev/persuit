@@ -28,7 +28,7 @@ export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
   };
 
   return (
-    <Button onClick={handleDelete} variant="danger" size="sm">
+    <Button onClick={handleDelete} variant="danger" fullWidth>
       <span className="mr-2">🗑️</span>
       <span>Delete Application</span>
     </Button>

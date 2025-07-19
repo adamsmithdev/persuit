@@ -279,13 +279,15 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-[var(--border)]">
-            <Link href={`/job/${job.id}/edit`}>
-              <Button>
+            <Link href={`/job/${job.id}/edit`} className="flex-1 sm:flex-none">
+              <Button fullWidth>
                 <span className="mr-2">✏️</span>
                 <span>Edit Application</span>
               </Button>
             </Link>
-            <DeleteJobButton jobId={job.id} />
+            <div className="flex-1 sm:flex-none">
+              <DeleteJobButton jobId={job.id} />
+            </div>
           </div>
         </div>
       </div>

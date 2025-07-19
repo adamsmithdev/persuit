@@ -42,10 +42,10 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
               View and manage this job application
             </p>
           </div>
-          <Link href="/">
+          <Link href="/jobs">
             <Button variant="secondary">
               <span className="mr-2">←</span>
-              <span>Back to Dashboard</span>
+              <span>Back to Applications</span>
             </Button>
           </Link>
         </div>

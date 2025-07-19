@@ -17,7 +17,7 @@ export default function JobsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  // Fetch jobs
+  // Fetch jobs using the jobs service via API
   useEffect(() => {
     if (!session?.user?.email) return;
 
@@ -27,9 +27,11 @@ export default function JobsPage() {
         if (response.ok) {
           const data = await response.json();
           setJobs(data);
+        } else {
+          console.error('Failed to fetch jobs:', response.statusText);
         }
       } catch (error) {
-        console.error('Failed to fetch jobs:', error);
+        console.error('Error fetching jobs:', error);
       } finally {
         setLoading(false);
       }
@@ -45,7 +47,10 @@ export default function JobsPage() {
         job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.notes?.toLowerCase().includes(searchQuery.toLowerCase());
+        job.notes?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.industry?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.contactName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.contactEmail?.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesStatus = !statusFilter || job.status === statusFilter;
 

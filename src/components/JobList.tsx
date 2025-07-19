@@ -1,6 +1,7 @@
 import { Job } from '@prisma/client';
 import React from 'react';
 import JobListItem from './JobListItem';
+import { List } from './ui';
 
 interface Props {
   readonly jobs: Job[];
@@ -8,10 +9,10 @@ interface Props {
 
 export default function JobList({ jobs }: Props) {
   return (
-    <div className="space-y-3">
+    <List>
       {jobs.map((job) => (
         <JobListItem key={job.id} job={job} />
       ))}
-    </div>
+    </List>
   );
 }

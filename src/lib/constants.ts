@@ -1,11 +1,15 @@
 // Job status configurations
 export const JOB_STATUS_CONFIG = {
-  WISHLIST: { emoji: '📝', color: 'bg-[var(--foreground-muted)]' },
-  APPLIED: { emoji: '📤', color: 'bg-[var(--primary)]' },
-  INTERVIEW: { emoji: '🎯', color: 'bg-[var(--warning)]' },
-  OFFER: { emoji: '🎉', color: 'bg-[var(--success)]' },
-  REJECTED: { emoji: '❌', color: 'bg-[var(--error)]' },
-  ACCEPTED: { emoji: '✅', color: 'bg-[var(--success)]' },
+  WISHLIST: {
+    emoji: '📝',
+    color: 'bg-[var(--foreground-muted)]',
+    label: 'Wishlist',
+  },
+  APPLIED: { emoji: '📤', color: 'bg-[var(--primary)]', label: 'Applied' },
+  INTERVIEW: { emoji: '🎯', color: 'bg-[var(--warning)]', label: 'Interview' },
+  OFFER: { emoji: '🎉', color: 'bg-[var(--success)]', label: 'Offer' },
+  REJECTED: { emoji: '❌', color: 'bg-[var(--error)]', label: 'Rejected' },
+  ACCEPTED: { emoji: '✅', color: 'bg-[var(--success)]', label: 'Accepted' },
 } as const;
 
 // Interview type configurations
@@ -19,6 +23,18 @@ export const INTERVIEW_TYPES = [
   { value: 'BEHAVIORAL', label: 'Behavioral Interview' },
   { value: 'FINAL', label: 'Final Interview' },
 ];
+
+// Interview status configurations
+export const INTERVIEW_STATUS_CONFIG = {
+  SCHEDULED: { emoji: '📅', color: 'bg-[var(--primary)]', label: 'Scheduled' },
+  COMPLETED: { emoji: '✅', color: 'bg-[var(--success)]', label: 'Completed' },
+  CANCELLED: { emoji: '❌', color: 'bg-[var(--error)]', label: 'Cancelled' },
+  RESCHEDULED: {
+    emoji: '🔄',
+    color: 'bg-[var(--warning)]',
+    label: 'Rescheduled',
+  },
+} as const;
 
 // Interview status configurations
 export const INTERVIEW_STATUSES = [
@@ -62,6 +78,14 @@ export function getJobStatusConfig(status: string) {
   return (
     JOB_STATUS_CONFIG[status as keyof typeof JOB_STATUS_CONFIG] ||
     JOB_STATUS_CONFIG.WISHLIST
+  );
+}
+
+// Helper function to get interview status config
+export function getInterviewStatusConfig(status: string) {
+  return (
+    INTERVIEW_STATUS_CONFIG[status as keyof typeof INTERVIEW_STATUS_CONFIG] ||
+    INTERVIEW_STATUS_CONFIG.SCHEDULED
   );
 }
 

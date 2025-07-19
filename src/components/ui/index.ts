@@ -11,3 +11,5 @@ export { default as EmptyState } from './EmptyState';
 export { default as FormActions } from './FormActions';
 export { default as Grid } from './Grid';
 export { default as ErrorMessage } from './ErrorMessage';
+export { default as List } from './List';
+export { default as ListItem } from './ListItem';

@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { getJob } from '@/lib/services/jobsService';
 import { DeleteJobButton } from '@/components/DeleteJobButton';
 import Button from '@/components/Button';
-import { formatStatus } from '@/lib/statusUtils';
+import { getJobStatusConfig } from '@/lib/constants';
 import AuthWrapper from '@/components/AuthWrapper';
 
 interface JobDetailPageProps {
@@ -28,18 +28,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     notFound();
   }
 
-  const statusConfig = {
-    WISHLIST: { emoji: '📝', color: 'bg-[var(--foreground-muted)]' },
-    APPLIED: { emoji: '📤', color: 'bg-[var(--primary)]' },
-    INTERVIEW: { emoji: '🎯', color: 'bg-[var(--warning)]' },
-    OFFER: { emoji: '🎉', color: 'bg-[var(--success)]' },
-    REJECTED: { emoji: '❌', color: 'bg-[var(--error)]' },
-    ACCEPTED: { emoji: '✅', color: 'bg-[var(--success)]' },
-  } as const;
-
-  const config =
-    statusConfig[job.status as keyof typeof statusConfig] ||
-    statusConfig.WISHLIST;
+  const config = getJobStatusConfig(job.status);
 
   return (
     <AuthWrapper>
@@ -79,7 +68,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white ${config.color}`}
                 >
                   <span>{config.emoji}</span>
-                  <span>{formatStatus(job.status)}</span>
+                  <span>{config.label}</span>
                 </div>
                 {job.location && (
                   <div className="flex items-center gap-2 text-[var(--foreground-muted)]">

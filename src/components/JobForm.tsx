@@ -22,13 +22,6 @@ type JobFormProps = {
     companySize?: string;
     industry?: string;
     applicationDeadline?: string;
-    interviewDate?: string;
-    interviewTime?: string;
-    interviewType?: string;
-    interviewLocation?: string;
-    interviewNotes?: string;
-    interviewDuration?: number;
-    interviewRound?: number;
   };
 };
 
@@ -52,13 +45,6 @@ export default function JobForm({
     companySize: initialData?.companySize || '',
     industry: initialData?.industry || '',
     applicationDeadline: initialData?.applicationDeadline?.split('T')[0] || '',
-    interviewDate: initialData?.interviewDate?.split('T')[0] || '',
-    interviewTime: initialData?.interviewTime || '',
-    interviewType: initialData?.interviewType || '',
-    interviewLocation: initialData?.interviewLocation || '',
-    interviewNotes: initialData?.interviewNotes || '',
-    interviewDuration: initialData?.interviewDuration?.toString() || '',
-    interviewRound: initialData?.interviewRound?.toString() || '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -120,19 +106,6 @@ export default function JobForm({
       contactEmail: formData.contactEmail || null,
       contactPhone: formData.contactPhone || null,
       industry: formData.industry || null,
-      interviewDate: formData.interviewDate
-        ? new Date(formData.interviewDate).toISOString()
-        : null,
-      interviewTime: formData.interviewTime || null,
-      interviewType: formData.interviewType || null,
-      interviewLocation: formData.interviewLocation || null,
-      interviewNotes: formData.interviewNotes || null,
-      interviewDuration: formData.interviewDuration
-        ? parseInt(formData.interviewDuration)
-        : null,
-      interviewRound: formData.interviewRound
-        ? parseInt(formData.interviewRound)
-        : null,
     };
 
     const res = await fetch(endpoint, {
@@ -364,7 +337,7 @@ export default function JobForm({
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      d="M7 4V2a1 1 0 012 0v2h6V2a1 1 0 012 0v2h1a2 2 0 012 2v14a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h1zM4 10h16M9 14h6"
                     />
                   </svg>
                 </div>
@@ -429,187 +402,6 @@ export default function JobForm({
                   className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
                 />
               </div>
-            </div>
-          </div>
-
-          {/* Interview Section */}
-          <div className="border-t border-[var(--border)] pt-6">
-            <h3 className="text-lg font-semibold text-[var(--foreground)] mb-4">
-              📅 Interview Details
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label
-                  htmlFor="interviewDate"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Interview Date
-                </label>
-                <div className="relative">
-                  <input
-                    id="interviewDate"
-                    type="date"
-                    name="interviewDate"
-                    value={formData.interviewDate}
-                    onChange={handleChange}
-                    min="2023-01-01"
-                    max="2030-12-31"
-                    className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 cursor-pointer relative z-10"
-                    style={{
-                      colorScheme: 'dark',
-                    }}
-                  />
-                  {!formData.interviewDate && (
-                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[var(--foreground-muted)] z-0">
-                      Select interview date...
-                    </div>
-                  )}
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none z-20">
-                    <svg
-                      className="w-5 h-5 text-[var(--foreground-muted)]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="interviewTime"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Interview Time
-                </label>
-                <input
-                  id="interviewTime"
-                  type="time"
-                  name="interviewTime"
-                  value={formData.interviewTime}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200"
-                  style={{
-                    colorScheme: 'dark',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label
-                  htmlFor="interviewType"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Interview Type
-                </label>
-                <select
-                  id="interviewType"
-                  name="interviewType"
-                  value={formData.interviewType}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] transition-all duration-200 appearance-none cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: 'right 0.75rem center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: '1.5em 1.5em',
-                  }}
-                >
-                  <option value="">Select Type</option>
-                  <option value="PHONE">📞 Phone</option>
-                  <option value="VIDEO">💻 Video</option>
-                  <option value="ONSITE">🏢 On-site</option>
-                  <option value="VIRTUAL">🌐 Virtual</option>
-                  <option value="GROUP">👥 Group</option>
-                  <option value="TECHNICAL">⚙️ Technical</option>
-                  <option value="BEHAVIORAL">🗣️ Behavioral</option>
-                  <option value="FINAL">🎯 Final</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  htmlFor="interviewRound"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Interview Round
-                </label>
-                <input
-                  id="interviewRound"
-                  type="number"
-                  name="interviewRound"
-                  placeholder="e.g. 1, 2, 3"
-                  min="1"
-                  value={formData.interviewRound}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label
-                  htmlFor="interviewDuration"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Duration (minutes)
-                </label>
-                <input
-                  id="interviewDuration"
-                  type="number"
-                  name="interviewDuration"
-                  placeholder="e.g. 60, 90"
-                  min="15"
-                  step="15"
-                  value={formData.interviewDuration}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="interviewLocation"
-                  className="block text-sm font-medium text-[var(--foreground)] mb-2"
-                >
-                  Location/Link
-                </label>
-                <input
-                  id="interviewLocation"
-                  type="text"
-                  name="interviewLocation"
-                  placeholder="Address or meeting link"
-                  value={formData.interviewLocation}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] transition-all duration-200"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="interviewNotes"
-                className="block text-sm font-medium text-[var(--foreground)] mb-2"
-              >
-                Interview Notes
-              </label>
-              <textarea
-                id="interviewNotes"
-                name="interviewNotes"
-                placeholder="Preparation notes, questions to ask, interview feedback..."
-                value={formData.interviewNotes}
-                onChange={handleChange}
-                rows={3}
-                className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-[var(--foreground)] placeholder-[var(--foreground-muted)] resize-vertical transition-all duration-200"
-              />
             </div>
           </div>
 

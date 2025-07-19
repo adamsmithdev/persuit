@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Button from '@/components/Button';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { getJobs } from '@/lib/services/jobsService';
+import { getInterviews } from '@/lib/services/interviewsService';
 
 export default async function InterviewsPage() {
   const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export default async function InterviewsPage() {
     return <div>Please log in to view your interviews</div>;
   }
 
-  const jobs = await getJobs(session.user.email);
+  const interviews = await getInterviews(session.user.email);
 
   return (
     <AuthWrapper>
@@ -28,16 +28,16 @@ export default async function InterviewsPage() {
               Track your upcoming interviews and stay organized
             </p>
           </div>
-          <Link href="/job/new">
+          <Link href="/interviews/new">
             <Button>
               <span className="mr-2">+</span>
-              <span>Add New Job</span>
+              <span>Schedule Interview</span>
             </Button>
           </Link>
         </div>
 
         {/* Interview List Component */}
-        <Interviews jobs={jobs} />
+        <Interviews interviews={interviews} />
       </div>
     </AuthWrapper>
   );

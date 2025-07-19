@@ -25,13 +25,6 @@ export async function POST(req: Request) {
     companySize,
     industry,
     applicationDeadline,
-    interviewDate,
-    interviewTime,
-    interviewType,
-    interviewLocation,
-    interviewNotes,
-    interviewDuration,
-    interviewRound,
   } = body;
 
   try {
@@ -53,13 +46,6 @@ export async function POST(req: Request) {
         applicationDeadline: applicationDeadline
           ? new Date(applicationDeadline)
           : null,
-        interviewDate: interviewDate ? new Date(interviewDate) : null,
-        interviewTime,
-        interviewType,
-        interviewLocation,
-        interviewNotes,
-        interviewDuration,
-        interviewRound,
         user: {
           connect: {
             email: session.user.email,

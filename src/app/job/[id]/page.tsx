@@ -9,9 +9,9 @@ import { formatStatus } from '@/lib/statusUtils';
 import AuthWrapper from '@/components/AuthWrapper';
 
 interface JobDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function JobDetailPage({ params }: JobDetailPageProps) {

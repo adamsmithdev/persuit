@@ -3,23 +3,27 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-type Job = {
+type Interview = {
   id: string;
-  company: string;
-  position: string;
-  interviewDate: Date | null;
-  interviewTime: string | null;
-  interviewType: string | null;
-  interviewLocation: string | null;
-  interviewRound: number | null;
+  date: Date | string;
+  time: string | null;
+  type: string;
+  location: string | null;
+  round: number | null;
   status: string;
+  job: {
+    id: string;
+    company: string;
+    position: string;
+    status: string;
+  };
 };
 
 type InterviewsProps = {
-  jobs: Job[];
+  interviews: Interview[];
 };
 
-export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
+export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'today'>(
     'upcoming'
   );
@@ -86,19 +90,15 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
 
   // Filter interviews based on selected filter
   const getFilteredInterviews = () => {
-    const interviewJobs = jobs.filter((job) => job.interviewDate);
-
     const now = new Date();
     now.setHours(0, 0, 0, 0);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
 
-    return interviewJobs
-      .filter((job) => {
-        const interviewDate = parseInterviewDate(job.interviewDate!);
+    return interviews
+      .filter((interview) => {
+        const interviewDate = parseInterviewDate(interview.date);
         interviewDate.setHours(0, 0, 0, 0);
 
         switch (filter) {
@@ -112,24 +112,22 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
         }
       })
       .sort((a, b) => {
-        const dateA = parseInterviewDate(a.interviewDate!);
-        const dateB = parseInterviewDate(b.interviewDate!);
+        const dateA = parseInterviewDate(a.date);
+        const dateB = parseInterviewDate(b.date);
         return dateA.getTime() - dateB.getTime();
       });
   };
 
   const filteredInterviews = getFilteredInterviews();
-  const totalInterviews = jobs.filter((job) => job.interviewDate).length;
-  const upcomingCount = jobs.filter((job) => {
-    if (!job.interviewDate) return false;
-    const interviewDate = parseInterviewDate(job.interviewDate);
+  const totalInterviews = interviews.length;
+  const upcomingCount = interviews.filter((interview) => {
+    const interviewDate = parseInterviewDate(interview.date);
     const now = new Date();
     now.setHours(0, 0, 0, 0);
     return interviewDate >= now;
   }).length;
-  const todayCount = jobs.filter((job) => {
-    if (!job.interviewDate) return false;
-    const interviewDate = parseInterviewDate(job.interviewDate);
+  const todayCount = interviews.filter((interview) => {
+    const interviewDate = parseInterviewDate(interview.date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     interviewDate.setHours(0, 0, 0, 0);
@@ -202,16 +200,16 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
                 : 'Add interview details to your job applications to see them here'}
             </p>
             <Link
-              href="/job/new"
+              href="/interviews/new"
               className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-opacity-90 transition-all text-sm font-medium"
             >
               <span>+</span>
-              <span>Add Job Application</span>
+              <span>Schedule Interview</span>
             </Link>
           </div>
         ) : (
           filteredInterviews.map((interview) => {
-            const interviewDate = parseInterviewDate(interview.interviewDate!);
+            const interviewDate = parseInterviewDate(interview.date);
             const isToday =
               interviewDate.toDateString() === new Date().toDateString();
             const isTomorrow =
@@ -240,7 +238,7 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
                 {/* Interview Type Icon */}
                 <div className="flex-shrink-0">
                   <span className="text-2xl">
-                    {getTypeIcon(interview.interviewType)}
+                    {getTypeIcon(interview.type)}
                   </span>
                 </div>
 
@@ -248,11 +246,11 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-semibold text-[var(--foreground)] truncate">
-                      {interview.company}
+                      {interview.job.company}
                     </h3>
                     <span className="text-[var(--foreground-muted)]">•</span>
                     <span className="text-[var(--foreground-muted)] truncate">
-                      {interview.position}
+                      {interview.job.position}
                     </span>
                   </div>
 
@@ -261,36 +259,34 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
                       {formatRelativeDate(interviewDate)}
                     </span>
 
-                    {interview.interviewTime && (
+                    {interview.time && (
                       <>
                         <span>•</span>
-                        <span>{formatTime(interview.interviewTime)}</span>
+                        <span>{formatTime(interview.time)}</span>
                       </>
                     )}
 
-                    {interview.interviewRound && (
+                    {interview.round && (
                       <>
                         <span>•</span>
-                        <span>Round {interview.interviewRound}</span>
+                        <span>Round {interview.round}</span>
                       </>
                     )}
 
-                    {interview.interviewType && (
+                    {interview.type && (
                       <>
                         <span>•</span>
                         <span className="capitalize">
-                          {interview.interviewType.toLowerCase()}
+                          {interview.type.toLowerCase()}
                         </span>
                       </>
                     )}
                   </div>
 
-                  {interview.interviewLocation && (
+                  {interview.location && (
                     <div className="mt-1 text-xs text-[var(--foreground-muted)] flex items-center gap-1">
                       <span>📍</span>
-                      <span className="truncate">
-                        {interview.interviewLocation}
-                      </span>
+                      <span className="truncate">{interview.location}</span>
                     </div>
                   )}
                 </div>
@@ -298,14 +294,14 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
                 {/* Actions */}
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/job/${interview.id}`}
+                    href={`/job/${interview.job.id}`}
                     className="px-3 py-1 text-xs rounded-md bg-[var(--primary)] bg-opacity-10 text-white hover:bg-opacity-20 transition-all"
                   >
-                    View Details
+                    View Job
                   </Link>
 
                   <Link
-                    href={`/job/${interview.id}/edit`}
+                    href={`/interviews/${interview.id}/edit`}
                     className="px-3 py-1 text-xs rounded-md bg-[var(--surface-variant)] text-[var(--foreground-muted)] hover:bg-[var(--border)] transition-all"
                   >
                     Edit
@@ -328,11 +324,11 @@ export default function Interviews({ jobs }: Readonly<InterviewsProps>) {
 
             <div className="flex gap-2">
               <Link
-                href="/job/new"
+                href="/interviews/new"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-opacity-90 transition-all text-sm font-medium"
               >
                 <span>+</span>
-                <span>Add Interview</span>
+                <span>Schedule Interview</span>
               </Link>
             </div>
           </div>

@@ -16,10 +16,10 @@ export default function NewJobPage() {
               Track a new job opportunity
             </p>
           </div>
-          <Link href="/">
+          <Link href="/jobs">
             <Button variant="secondary">
               <span className="mr-2">←</span>
-              <span>Back to Dashboard</span>
+              <span>Back to Jobs</span>
             </Button>
           </Link>
         </div>

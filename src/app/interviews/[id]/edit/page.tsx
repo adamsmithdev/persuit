@@ -4,8 +4,9 @@ import { authOptions } from '@/lib/auth';
 import { getInterviewById } from '@/lib/services/interviewsService';
 import { getJobs } from '@/lib/services/jobsService';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import InterviewForm from '@/components/InterviewForm';
-import { DeleteInterviewButton } from '@/components/DeleteInterviewButton';
+import Button from '@/components/Button';
 
 interface EditInterviewPageProps {
   params: Promise<{
@@ -16,13 +17,13 @@ interface EditInterviewPageProps {
 export default async function EditInterviewPage({
   params,
 }: EditInterviewPageProps) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return <div>Please log in to edit interviews</div>;
+    notFound();
   }
 
-  const { id } = await params;
   const [interview, jobs] = await Promise.all([
     getInterviewById(id, session.user.email),
     getJobs(session.user.email),
@@ -34,12 +35,25 @@ export default async function EditInterviewPage({
 
   return (
     <AuthWrapper>
-      <div className="max-w-2xl mx-auto space-y-6">
-        <InterviewForm mode="edit" initialData={interview} jobs={jobs} />
-
-        <div className="flex justify-center">
-          <DeleteInterviewButton interviewId={interview.id} />
+      <div className="space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-[var(--foreground)]">
+              Edit Interview
+            </h1>
+            <p className="text-[var(--foreground-muted)] mt-2">
+              Update your interview details
+            </p>
+          </div>
+          <Link href={`/interviews/${id}`}>
+            <Button variant="secondary">
+              <span className="mr-2">←</span>
+              <span>Back to Details</span>
+            </Button>
+          </Link>
         </div>
+
+        <InterviewForm mode="edit" initialData={interview} jobs={jobs} />
       </div>
     </AuthWrapper>
   );

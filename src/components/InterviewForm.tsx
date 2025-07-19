@@ -43,7 +43,6 @@ type InterviewFormProps = {
     };
   };
   onSuccess?: () => void;
-  onCancel?: () => void;
 };
 
 export default function InterviewForm({
@@ -51,7 +50,6 @@ export default function InterviewForm({
   jobs,
   initialData,
   onSuccess,
-  onCancel,
 }: Readonly<InterviewFormProps>) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -317,26 +315,15 @@ export default function InterviewForm({
 
         {/* Form Actions */}
         <FormActions>
-          {onCancel && (
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={onCancel}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-          )}
           <Button
-            type="submit"
-            disabled={
-              isSubmitting ||
-              !formData.jobId ||
-              !formData.date ||
-              !formData.type
-            }
-            loading={isSubmitting}
+            type="button"
+            variant="secondary"
+            onClick={() => router.back()}
+            disabled={isSubmitting}
           >
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting} loading={isSubmitting}>
             {(() => {
               if (isSubmitting) {
                 return mode === 'edit' ? 'Updating...' : 'Scheduling...';

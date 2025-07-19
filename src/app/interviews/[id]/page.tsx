@@ -51,6 +51,29 @@ export default async function InterviewDetailPage({
     return `${displayHour}:${minutes} ${ampm}`;
   };
 
+  const getInterviewTypeIcon = (type: string) => {
+    switch (type) {
+      case 'PHONE':
+        return '📞';
+      case 'VIDEO':
+        return '💻';
+      case 'ONSITE':
+        return '🏢';
+      case 'VIRTUAL':
+        return '🌐';
+      case 'GROUP':
+        return '👥';
+      case 'TECHNICAL':
+        return '⚙️';
+      case 'BEHAVIORAL':
+        return '🗣️';
+      case 'FINAL':
+        return '🎯';
+      default:
+        return '💼';
+    }
+  };
+
   const interviewDate = parseInterviewDate(interview.date);
 
   return (
@@ -97,7 +120,7 @@ export default async function InterviewDetailPage({
                 </div>
                 {interview.type && (
                   <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
-                    <span>💼</span>
+                    <span>{getInterviewTypeIcon(interview.type)}</span>
                     <span className="capitalize">
                       {interview.type.toLowerCase()}
                     </span>

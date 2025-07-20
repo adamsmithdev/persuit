@@ -12,7 +12,7 @@ export default function SettingsPage() {
 						Settings
 					</h1>
 					<p className="text-[var(--foreground-muted)] mt-2">
-						Customize your Job Tracker experience
+						Customize your Persuit experience
 					</p>
 				</div>
 

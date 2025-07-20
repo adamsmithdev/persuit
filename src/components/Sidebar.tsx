@@ -124,7 +124,7 @@ export default function Sidebar({
 								</div>
 								<div className="min-w-0">
 									<h2 className="font-semibold text-[var(--foreground)] whitespace-nowrap">
-										Application Tracker
+										Persuit
 									</h2>
 									<p className="text-xs text-[var(--foreground-muted)] whitespace-nowrap">
 										Stay organized
@@ -252,7 +252,7 @@ export default function Sidebar({
 							>
 								{/* Desktop: Full text with version */}
 								<p className="whitespace-nowrap hidden lg:block">
-									Application Tracker v0.1.0 by{' '}
+									Persuit v0.1.0 by{' '}
 									<a
 										href="https://adamsmith.tech"
 										target="_blank"

@@ -16,7 +16,7 @@ export default async function HomePage() {
 							<span className="text-3xl">💼</span>
 						</div>
 						<h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
-							Welcome to Application Tracker
+							Welcome to Persuit
 						</h2>
 						<p className="text-[var(--foreground-muted)] mb-6 leading-relaxed">
 							Track your applications, organize interviews, and land your dream

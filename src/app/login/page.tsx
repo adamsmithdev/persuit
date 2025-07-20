@@ -56,8 +56,8 @@ function LoginContent() {
 						Welcome Back
 					</h1>
 					<p className="text-[var(--foreground-muted)] mb-8 leading-relaxed">
-						Sign in to access your job tracking dashboard and continue managing
-						your applications.
+						Sign in to access your Persuit dashboard and continue managing your
+						job hunt.
 					</p>
 					<div className="space-y-4">
 						<button

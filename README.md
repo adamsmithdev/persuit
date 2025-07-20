@@ -1,4 +1,4 @@
-# 🧾 Job Tracker (WIP)
+# 🧾 Persuit (WIP)
 
 A comprehensive job application tracker built with Next.js, Tailwind CSS, Prisma, and OAuth authentication (GitHub & Google).
 
@@ -29,8 +29,8 @@ Track applications with detailed information including salary ranges, company de
 ## 🏁 Local Dev
 
 ```bash
-git clone https://github.com/yourusername/job-tracker.git
-cd job-tracker
+git clone https://github.com/adamsmithdev/persuit.git
+cd persuit
 
 npm install
 cp .env.local.example .env.local

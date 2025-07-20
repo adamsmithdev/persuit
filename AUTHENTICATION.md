@@ -1,6 +1,6 @@
 # Authentication & Protected Routes
 
-This application tracker implements comprehensive authentication and route protection using NextAuth.js and custom middleware.
+This job application tracker implements comprehensive authentication and route protection using NextAuth.js and custom middleware.
 
 ## Authentication Features
 

@@ -4,24 +4,24 @@ import { authOptions } from '@/lib/auth';
 import { ReactNode } from 'react';
 
 interface AuthWrapperProps {
-  readonly children: ReactNode;
-  readonly redirectTo?: string;
-  readonly fallback?: ReactNode;
+	readonly children: ReactNode;
+	readonly redirectTo?: string;
+	readonly fallback?: ReactNode;
 }
 
 export default async function AuthWrapper({
-  children,
-  redirectTo = '/login',
-  fallback,
+	children,
+	redirectTo = '/login',
+	fallback,
 }: AuthWrapperProps) {
-  const session = await getServerSession(authOptions);
+	const session = await getServerSession(authOptions);
 
-  if (!session?.user?.email) {
-    if (fallback) {
-      return <>{fallback}</>;
-    }
-    redirect(redirectTo);
-  }
+	if (!session?.user?.email) {
+		if (fallback) {
+			return <>{fallback}</>;
+		}
+		redirect(redirectTo);
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 }

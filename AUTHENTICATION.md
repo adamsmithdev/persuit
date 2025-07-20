@@ -107,11 +107,11 @@ GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
 import AuthWrapper from '@/components/AuthWrapper';
 
 export default function ProtectedPage() {
-  return (
-    <AuthWrapper>
-      <h1>Protected Content</h1>
-    </AuthWrapper>
-  );
+	return (
+		<AuthWrapper>
+			<h1>Protected Content</h1>
+		</AuthWrapper>
+	);
 }
 ```
 
@@ -122,10 +122,10 @@ export default function ProtectedPage() {
 import { ClientAuthWrapper } from '@/components/ClientAuthWrapper';
 
 export default function ProtectedClientPage() {
-  return (
-    <ClientAuthWrapper>
-      <h1>Protected Client Content</h1>
-    </ClientAuthWrapper>
-  );
+	return (
+		<ClientAuthWrapper>
+			<h1>Protected Client Content</h1>
+		</ClientAuthWrapper>
+	);
 }
 ```

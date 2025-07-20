@@ -4,37 +4,37 @@ import { useRouter } from 'next/navigation';
 import Button from './Button';
 
 export function DeleteApplicationButton({
-  applicationId,
+	applicationId,
 }: {
-  readonly applicationId: string;
+	readonly applicationId: string;
 }) {
-  const router = useRouter();
+	const router = useRouter();
 
-  const handleDelete = async () => {
-    const confirmDelete = confirm(
-      'Are you sure you want to delete this application?\n\nThis action cannot be undone.'
-    );
-    if (!confirmDelete) return;
+	const handleDelete = async () => {
+		const confirmDelete = confirm(
+			'Are you sure you want to delete this application?\n\nThis action cannot be undone.',
+		);
+		if (!confirmDelete) return;
 
-    try {
-      const res = await fetch(`/api/application/${applicationId}`, {
-        method: 'DELETE',
-      });
+		try {
+			const res = await fetch(`/api/application/${applicationId}`, {
+				method: 'DELETE',
+			});
 
-      if (res.ok) {
-        router.push('/');
-      } else {
-        alert('Failed to delete application. Please try again.');
-      }
-    } catch {
-      alert('An error occurred while deleting the application.');
-    }
-  };
+			if (res.ok) {
+				router.push('/');
+			} else {
+				alert('Failed to delete application. Please try again.');
+			}
+		} catch {
+			alert('An error occurred while deleting the application.');
+		}
+	};
 
-  return (
-    <Button onClick={handleDelete} variant="danger" fullWidth>
-      <span className="mr-2">🗑️</span>
-      <span>Delete Application</span>
-    </Button>
-  );
+	return (
+		<Button onClick={handleDelete} variant="danger" fullWidth>
+			<span className="mr-2">🗑️</span>
+			<span>Delete Application</span>
+		</Button>
+	);
 }

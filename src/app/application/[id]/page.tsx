@@ -58,10 +58,10 @@ export default async function ApplicationDetailPage({
 					<div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
 						<div className="space-y-4 flex-1">
 							<div>
-								<h1 className="text-2xl font-bold text-slate-900">
+								<h1 className="text-2xl font-bold text-white">
 									{application.position}
 								</h1>
-								<p className="text-lg text-slate-600">{application.company}</p>
+								<p className="text-lg text-slate-300">{application.company}</p>
 							</div>
 
 							<div className="flex flex-wrap items-center gap-4">
@@ -87,7 +87,7 @@ export default async function ApplicationDetailPage({
 									href={application.applicationUrl}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+									className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
 								>
 									<span>View Application</span>
 									<svg

@@ -61,6 +61,21 @@ export default function Sidebar({
 		if (href === '/') {
 			return pathname === '/';
 		}
+
+		// Handle special cases where route patterns differ from nav hrefs
+		if (href === '/applications') {
+			return (
+				pathname.startsWith('/applications') ||
+				pathname.startsWith('/application')
+			);
+		}
+
+		if (href === '/interviews') {
+			return (
+				pathname.startsWith('/interviews') || pathname.startsWith('/interview')
+			);
+		}
+
 		return pathname.startsWith(href);
 	};
 

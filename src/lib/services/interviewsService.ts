@@ -19,7 +19,7 @@ export interface CreateInterviewData {
   notes?: string;
   duration?: number;
   round?: number;
-  jobId: string;
+  applicationId: string;
 }
 
 export interface UpdateInterviewData extends Partial<CreateInterviewData> {
@@ -29,14 +29,14 @@ export interface UpdateInterviewData extends Partial<CreateInterviewData> {
 export async function getInterviews(userEmail: string) {
   return await prisma.interview.findMany({
     where: {
-      job: {
+      application: {
         user: {
           email: userEmail,
         },
       },
     },
     include: {
-      job: {
+      application: {
         select: {
           id: true,
           company: true,
@@ -55,14 +55,14 @@ export async function getInterviewById(id: string, userEmail: string) {
   return await prisma.interview.findFirst({
     where: {
       id,
-      job: {
+      application: {
         user: {
           email: userEmail,
         },
       },
     },
     include: {
-      job: {
+      application: {
         select: {
           id: true,
           company: true,
@@ -78,18 +78,18 @@ export async function createInterview(
   data: CreateInterviewData,
   userEmail: string
 ) {
-  // Verify the job belongs to the user
-  const job = await prisma.job.findFirst({
+  // Verify the application belongs to the user
+  const application = await prisma.application.findFirst({
     where: {
-      id: data.jobId,
+      id: data.applicationId,
       user: {
         email: userEmail,
       },
     },
   });
 
-  if (!job) {
-    throw new Error('Job not found or access denied');
+  if (!application) {
+    throw new Error('Application not found or access denied');
   }
 
   return await prisma.interview.create({
@@ -101,10 +101,10 @@ export async function createInterview(
       notes: data.notes,
       duration: data.duration,
       round: data.round || 1,
-      jobId: data.jobId,
+      applicationId: data.applicationId,
     },
     include: {
-      job: {
+      application: {
         select: {
           id: true,
           company: true,
@@ -125,7 +125,7 @@ export async function updateInterview(
   const interview = await prisma.interview.findFirst({
     where: {
       id,
-      job: {
+      application: {
         user: {
           email: userEmail,
         },
@@ -150,7 +150,7 @@ export async function updateInterview(
       ...(data.status && { status: data.status }),
     },
     include: {
-      job: {
+      application: {
         select: {
           id: true,
           company: true,
@@ -167,7 +167,7 @@ export async function deleteInterview(id: string, userEmail: string) {
   const interview = await prisma.interview.findFirst({
     where: {
       id,
-      job: {
+      application: {
         user: {
           email: userEmail,
         },

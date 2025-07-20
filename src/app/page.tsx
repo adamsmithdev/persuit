@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import Dashboard from '@/components/Dashboard';
 import { authOptions } from '@/lib/auth';
-import { getJobs } from '@/lib/services/jobsService';
+import { getApplications } from '@/lib/services/applicationsService';
 import AuthWrapper from '@/components/AuthWrapper';
 
 export default async function HomePage() {
@@ -16,11 +16,11 @@ export default async function HomePage() {
               <span className="text-3xl">💼</span>
             </div>
             <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
-              Welcome to Job Tracker
+              Welcome to Application Tracker
             </h2>
             <p className="text-[var(--foreground-muted)] mb-6 leading-relaxed">
-              Track your job applications, organize interviews, and land your
-              dream job with ease.
+              Track your applications, organize interviews, and land your dream
+              job with ease.
             </p>
             <p className="text-sm text-[var(--foreground-subtle)] mb-6">
               Sign in to get started
@@ -35,11 +35,11 @@ export default async function HomePage() {
     );
   }
 
-  const jobs = await getJobs(session.user.email);
+  const applications = await getApplications(session.user.email);
 
   return (
     <AuthWrapper>
-      <Dashboard jobs={jobs} />
+      <Dashboard applications={applications} />
     </AuthWrapper>
   );
 }

@@ -112,7 +112,7 @@ export default function DocumentsPage() {
               For now, you can add document links in the notes section of your
               applications.
             </p>
-            <Link href="/jobs">
+            <Link href="/applications">
               <Button variant="secondary">
                 <span className="mr-2">📋</span>
                 <span>View Applications</span>

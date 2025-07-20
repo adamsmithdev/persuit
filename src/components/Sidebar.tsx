@@ -12,7 +12,7 @@ const navigationItems = [
   },
   {
     name: 'Applications',
-    href: '/jobs',
+    href: '/applications',
     icon: '📋',
     description: 'Manage applications',
   },
@@ -109,7 +109,7 @@ export default function Sidebar({
                 </div>
                 <div className="min-w-0">
                   <h2 className="font-semibold text-[var(--foreground)] whitespace-nowrap">
-                    Job Tracker
+                    Application Tracker
                   </h2>
                   <p className="text-xs text-[var(--foreground-muted)] whitespace-nowrap">
                     Stay organized
@@ -237,7 +237,7 @@ export default function Sidebar({
               >
                 {/* Desktop: Full text with version */}
                 <p className="whitespace-nowrap hidden lg:block">
-                  Job Tracker v0.1.0 by{' '}
+                  Application Tracker v0.1.0 by{' '}
                   <a
                     href="https://adamsmith.tech"
                     target="_blank"

@@ -2,7 +2,7 @@ import AuthWrapper from '@/components/AuthWrapper';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getInterviewById } from '@/lib/services/interviewsService';
-import { getJobs } from '@/lib/services/jobsService';
+import { getApplications } from '@/lib/services/applicationsService';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import InterviewForm from '@/components/InterviewForm';
@@ -24,9 +24,9 @@ export default async function EditInterviewPage({
     notFound();
   }
 
-  const [interview, jobs] = await Promise.all([
+  const [interview, applications] = await Promise.all([
     getInterviewById(id, session.user.email),
-    getJobs(session.user.email),
+    getApplications(session.user.email),
   ]);
 
   if (!interview) {
@@ -53,7 +53,11 @@ export default async function EditInterviewPage({
           </Link>
         </div>
 
-        <InterviewForm mode="edit" initialData={interview} jobs={jobs} />
+        <InterviewForm
+          mode="edit"
+          initialData={interview}
+          applications={applications}
+        />
       </div>
     </AuthWrapper>
   );

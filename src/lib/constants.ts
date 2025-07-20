@@ -1,5 +1,5 @@
-// Job status configurations
-export const JOB_STATUS_CONFIG = {
+// Application status configurations
+export const APPLICATION_STATUS_CONFIG = {
   WISHLIST: {
     emoji: '📝',
     color: 'bg-[var(--foreground-muted)]',
@@ -54,8 +54,8 @@ export const COMPANY_SIZE_OPTIONS = [
   { value: 'ENTERPRISE', label: '🏗️ Enterprise (1000+)' },
 ];
 
-// Job status select options
-export const JOB_STATUS_OPTIONS = [
+// Application status select options
+export const APPLICATION_STATUS_OPTIONS = [
   { value: 'WISHLIST', label: '📝 Wishlist' },
   { value: 'APPLIED', label: '📤 Applied' },
   { value: 'INTERVIEW', label: '🎯 Interview' },
@@ -73,11 +73,12 @@ export const COMPANY_SIZE_DISPLAY = {
   ENTERPRISE: '🏗️ Enterprise (1000+ employees)',
 } as const;
 
-// Helper function to get job status config
-export function getJobStatusConfig(status: string) {
+// Helper function to get application status config
+export function getApplicationStatusConfig(status: string) {
   return (
-    JOB_STATUS_CONFIG[status as keyof typeof JOB_STATUS_CONFIG] ||
-    JOB_STATUS_CONFIG.WISHLIST
+    APPLICATION_STATUS_CONFIG[
+      status as keyof typeof APPLICATION_STATUS_CONFIG
+    ] || APPLICATION_STATUS_CONFIG.WISHLIST
   );
 }
 

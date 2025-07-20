@@ -174,12 +174,12 @@ export default async function ProfilePage() {
                 Quick Actions
               </h3>
               <div className="space-y-3">
-                <Link href="/job/new" className="block">
+                <Link href="/application/new" className="block">
                   <Button fullWidth>
                     <span className="mr-2">+</span> Add New Application
                   </Button>
                 </Link>
-                <Link href="/jobs" className="block">
+                <Link href="/applications" className="block">
                   <Button variant="outline" fullWidth>
                     <span className="mr-2">📋</span> View All Applications
                   </Button>

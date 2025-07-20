@@ -12,7 +12,7 @@ type Interview = {
   location: string | null;
   round: number | null;
   status: string;
-  job: {
+  application: {
     id: string;
     company: string;
     position: string;
@@ -94,11 +94,11 @@ export default function InterviewListItem({ interview }: Props) {
       </div>
 
       <h3 className="font-semibold text-lg text-[var(--foreground)] mb-2 group-hover:text-[var(--primary)] transition-colors">
-        {interview.job.company}
+        {interview.application.company}
       </h3>
 
       <p className="text-[var(--foreground-muted)] font-medium mb-3">
-        {interview.job.position}
+        {interview.application.position}
       </p>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-[var(--foreground-subtle)]">

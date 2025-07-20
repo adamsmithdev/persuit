@@ -3,7 +3,11 @@
 import { useRouter } from 'next/navigation';
 import Button from './Button';
 
-export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
+export function DeleteApplicationButton({
+  applicationId,
+}: {
+  readonly applicationId: string;
+}) {
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -13,7 +17,7 @@ export function DeleteJobButton({ jobId }: { readonly jobId: string }) {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`/api/job/${jobId}`, {
+      const res = await fetch(`/api/application/${applicationId}`, {
         method: 'DELETE',
       });
 

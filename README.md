@@ -2,7 +2,7 @@
 
 A comprehensive job application tracker built with Next.js, Tailwind CSS, Prisma, and OAuth authentication (GitHub & Google).
 
-Track job applications with detailed information including salary ranges, company details, contact information, and deadlines — all tied to your authenticated account.
+Track applications with detailed information including salary ranges, company details, contact information, and deadlines — all tied to your authenticated account.
 
 > This app is a work in progress. More features and polish are coming soon!
 
@@ -17,8 +17,8 @@ Track job applications with detailed information including salary ranges, compan
 ## 🚧 Features (in progress)
 
 - ✅ Auth via GitHub & Google OAuth
-- ✅ Add/edit/delete job applications
-- ✅ Notes and job statuses
+- ✅ Add/edit/delete applications
+- ✅ Notes and application statuses
 - ✅ Filter + search
 - ✅ Enhanced application fields (salary, company size, contacts, deadlines)
 - 🛠️ Resume/cover letter attachments

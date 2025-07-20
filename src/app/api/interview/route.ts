@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
 
     // Validate required fields
-    if (!data.date || !data.type || !data.jobId) {
+    if (!data.date || !data.type || !data.applicationId) {
       return NextResponse.json(
-        { error: 'Date, type, and jobId are required' },
+        { error: 'Date, type, and applicationId are required' },
         { status: 400 }
       );
     }
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     console.error('Error creating interview:', error);
     if (
       error instanceof Error &&
-      error.message === 'Job not found or access denied'
+      error.message === 'Application not found or access denied'
     ) {
       return NextResponse.json({ error: error.message }, { status: 404 });
     }

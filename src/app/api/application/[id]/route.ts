@@ -23,7 +23,7 @@ export async function PUT(
     status,
     salaryMin,
     salaryMax,
-    jobUrl,
+    applicationUrl,
     contactName,
     contactEmail,
     contactPhone,
@@ -33,7 +33,7 @@ export async function PUT(
   } = body;
 
   try {
-    const updatedJob = await prisma.job.update({
+    const updatedApplication = await prisma.application.update({
       where: {
         id,
       },
@@ -45,7 +45,7 @@ export async function PUT(
         status,
         salaryMin,
         salaryMax,
-        jobUrl,
+        applicationUrl,
         contactName,
         contactEmail,
         contactPhone,
@@ -57,11 +57,11 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json(updatedJob);
+    return NextResponse.json(updatedApplication);
   } catch (err) {
-    console.error('Failed to update job:', err);
+    console.error('Failed to update application:', err);
     return NextResponse.json(
-      { error: 'Failed to update job' },
+      { error: 'Failed to update application' },
       { status: 500 }
     );
   }
@@ -87,17 +87,17 @@ export async function DELETE(
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 
-  const job = await prisma.job.findUnique({
+  const application = await prisma.application.findUnique({
     where: { id },
   });
 
-  if (!job || job.userId !== user.id) {
+  if (!application || application.userId !== user.id) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  await prisma.job.delete({
+  await prisma.application.delete({
     where: { id },
   });
 
-  return NextResponse.json({ message: 'Job deleted' });
+  return NextResponse.json({ message: 'Application deleted' });
 }

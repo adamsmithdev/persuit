@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Input, Select } from '@/components/ui';
-import { JOB_STATUS_CONFIG } from '@/lib/constants';
+import { APPLICATION_STATUS_CONFIG } from '@/lib/constants';
 
 interface Props {
   readonly onSearch: (query: string) => void;
@@ -25,7 +25,7 @@ export default function SearchAndFilter({
 
   const statusOptions = [
     { value: '', label: 'All Statuses', emoji: '📋' },
-    ...Object.entries(JOB_STATUS_CONFIG).map(([value, config]) => ({
+    ...Object.entries(APPLICATION_STATUS_CONFIG).map(([value, config]) => ({
       value,
       label: config.label,
       emoji: config.emoji,

@@ -5,58 +5,69 @@ import { useSession } from 'next-auth/react';
 import { ClientAuthWrapper } from '@/components/ClientAuthWrapper';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import JobList from '@/components/JobList';
+import ApplicationList from '@/components/ApplicationList';
 import SearchAndFilter from '@/components/SearchAndFilter';
-import { Job } from '@prisma/client';
+import { Application } from '@prisma/client';
 import { EmptyState } from '@/components/ui';
 
-export default function JobsPage() {
+export default function ApplicationsPage() {
   const { data: session } = useSession();
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  // Fetch jobs using the jobs service via API
+  // Fetch applications using the applications service via API
   useEffect(() => {
     if (!session?.user?.email) return;
 
-    const fetchJobs = async () => {
+    const fetchApplications = async () => {
       try {
-        const response = await fetch('/api/job');
+        const response = await fetch('/api/application');
         if (response.ok) {
           const data = await response.json();
-          setJobs(data);
+          setApplications(data);
         } else {
-          console.error('Failed to fetch jobs:', response.statusText);
+          console.error('Failed to fetch applications:', response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        console.error('Error fetching applications:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchJobs();
+    fetchApplications();
   }, [session]);
 
-  // Filter jobs based on search and status
-  const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => {
+  // Filter applications based on search and status
+  const filteredApplications = useMemo(() => {
+    return applications.filter((application) => {
       const matchesSearch =
-        job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.notes?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.industry?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.contactName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.contactEmail?.toLowerCase().includes(searchQuery.toLowerCase());
+        application.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.position
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        application.location
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        application.notes?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.industry
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        application.contactName
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        application.contactEmail
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
-      const matchesStatus = !statusFilter || job.status === statusFilter;
+      const matchesStatus =
+        !statusFilter || application.status === statusFilter;
 
       return matchesSearch && matchesStatus;
     });
-  }, [jobs, searchQuery, statusFilter]);
+  }, [applications, searchQuery, statusFilter]);
 
   if (loading) {
     return (
@@ -80,10 +91,11 @@ export default function JobsPage() {
               All Applications
             </h1>
             <p className="text-[var(--foreground-muted)] mt-2">
-              Manage and track all your job applications ({jobs.length} total)
+              Manage and track all your applications ({applications.length}{' '}
+              total)
             </p>
           </div>
-          <Link href="/job/new">
+          <Link href="/application/new">
             <Button size="lg">
               <span className="mr-2">+</span>
               <span>Add New Application</span>
@@ -92,7 +104,7 @@ export default function JobsPage() {
         </div>
 
         {/* Search and Filter */}
-        {jobs.length > 0 && (
+        {applications.length > 0 && (
           <SearchAndFilter
             onSearch={setSearchQuery}
             onFilterStatus={setStatusFilter}
@@ -100,31 +112,31 @@ export default function JobsPage() {
           />
         )}
 
-        {/* Jobs List */}
+        {/* Applications List */}
         {(() => {
-          if (jobs.length === 0) {
+          if (applications.length === 0) {
             return (
               <EmptyState
                 icon="📄"
                 title="No applications yet"
-                description="Start tracking your job search by adding your first application."
-                actionLabel="Add Your First Job"
-                actionHref="/job/new"
+                description="Start tracking your application search by adding your first application."
+                actionLabel="Add Your First Application"
+                actionHref="/application/new"
               />
             );
           }
 
-          if (filteredJobs.length === 0) {
+          if (filteredApplications.length === 0) {
             return (
               <EmptyState
                 icon="🔍"
-                title="No jobs match your filters"
+                title="No applications match your filters"
                 description="Try adjusting your search terms or filters to see more results."
               />
             );
           }
 
-          return <JobList jobs={filteredJobs} />;
+          return <ApplicationList applications={filteredApplications} />;
         })()}
       </div>
     </ClientAuthWrapper>

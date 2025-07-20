@@ -2,7 +2,7 @@ import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { getJobs } from '@/lib/services/jobsService';
+import { getApplications } from '@/lib/services/applicationsService';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -11,12 +11,12 @@ export async function GET() {
   }
 
   try {
-    const jobs = await getJobs(session.user.email);
-    return NextResponse.json(jobs);
+    const applications = await getApplications(session.user.email);
+    return NextResponse.json(applications);
   } catch (error) {
-    console.error('Error fetching jobs:', error);
+    console.error('Error fetching applications:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch jobs' },
+      { error: 'Failed to fetch applications' },
       { status: 500 }
     );
   }
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     status,
     salaryMin,
     salaryMax,
-    jobUrl,
+    applicationUrl,
     contactName,
     contactEmail,
     contactPhone,
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
   } = body;
 
   try {
-    const job = await prisma.job.create({
+    const application = await prisma.application.create({
       data: {
         company,
         position,
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         status,
         salaryMin,
         salaryMax,
-        jobUrl,
+        applicationUrl,
         contactName,
         contactEmail,
         contactPhone,
@@ -73,11 +73,11 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(job);
+    return NextResponse.json(application);
   } catch (error) {
-    console.error('Error creating job:', error);
+    console.error('Error creating application:', error);
     return NextResponse.json(
-      { error: 'Failed to create job' },
+      { error: 'Failed to create application' },
       { status: 500 }
     );
   }

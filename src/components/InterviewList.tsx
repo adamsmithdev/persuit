@@ -10,7 +10,7 @@ type Interview = {
   location: string | null;
   round: number | null;
   status: string;
-  job: {
+  application: {
     id: string;
     company: string;
     position: string;

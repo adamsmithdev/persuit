@@ -1,34 +1,34 @@
-import { Job } from '@prisma/client';
+import { Application } from '@prisma/client';
 import React from 'react';
 
 interface Props {
-  readonly jobs: Job[];
+  readonly applications: Application[];
 }
 
-export default function DashboardStats({ jobs }: Props) {
-  const stats = jobs.reduce((acc, job) => {
-    acc[job.status] = (acc[job.status] || 0) + 1;
+export default function DashboardStats({ applications }: Props) {
+  const stats = applications.reduce((acc, application) => {
+    acc[application.status] = (acc[application.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const totalJobs = jobs.length;
-  const recentJobs = jobs.filter((job) => {
+  const totalApplications = applications.length;
+  const recentApplications = applications.filter((application) => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    return new Date(job.appliedAt) > oneWeekAgo;
+    return new Date(application.appliedAt) > oneWeekAgo;
   }).length;
 
   const statItems = [
     {
       label: 'Total Applications',
-      value: totalJobs,
+      value: totalApplications,
       gradient: 'from-[var(--primary)] to-[var(--info)]',
       icon: '📊',
       description: 'All time applications',
     },
     {
       label: 'This Week',
-      value: recentJobs,
+      value: recentApplications,
       gradient: 'from-[var(--success)] to-emerald-400',
       icon: '📈',
       description: 'Recent activity',

@@ -8,15 +8,11 @@ export async function middleware(req: NextRequest) {
   const { pathname } = new URL(req.url);
 
   // Define protected routes that require authentication
-  const protectedRoutes = [
-    '/',
-    '/job',
-    '/dashboard'
-  ];
+  const protectedRoutes = ['/', '/application', '/applications', '/dashboard'];
 
   // Check if the current path is a protected route
-  const isProtectedRoute = protectedRoutes.some(route => 
-    pathname === route || pathname.startsWith(route + '/')
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + '/')
   );
 
   // If user is authenticated and trying to access login page, redirect to dashboard
@@ -45,5 +41,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public files (public directory)
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.svg$|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.webp$).*)'],
+    '/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\.svg$|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.webp$).*)',
+  ],
 };

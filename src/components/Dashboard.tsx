@@ -1,48 +1,49 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Job } from '@prisma/client';
+import { Application } from '@prisma/client';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import JobList from '@/components/JobList';
+import ApplicationList from '@/components/ApplicationList';
 import DashboardStats from '@/components/DashboardStats';
 import SearchAndFilter from '@/components/SearchAndFilter';
 import { EmptyState } from './ui';
 
 interface Props {
-  readonly jobs: Job[];
+  readonly applications: Application[];
 }
 
-export default function Dashboard({ jobs }: Props) {
+export default function Dashboard({ applications }: Props) {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
 
-  const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => {
+  const filteredApplications = useMemo(() => {
+    return applications.filter((application) => {
       const matchesSearch =
         searchQuery === '' ||
-        job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.position.toLowerCase().includes(searchQuery.toLowerCase());
+        application.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        application.position.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesStatus = statusFilter === '' || job.status === statusFilter;
+      const matchesStatus =
+        statusFilter === '' || application.status === statusFilter;
 
       return matchesSearch && matchesStatus;
     });
-  }, [jobs, searchQuery, statusFilter]);
+  }, [applications, searchQuery, statusFilter]);
 
-  const renderJobsContent = () => {
-    if (filteredJobs.length > 0) {
-      return <JobList jobs={filteredJobs} />;
+  const renderApplicationsContent = () => {
+    if (filteredApplications.length > 0) {
+      return <ApplicationList applications={filteredApplications} />;
     }
 
-    if (jobs.length === 0) {
+    if (applications.length === 0) {
       return (
         <EmptyState
           icon="📝"
-          title="Ready to start your job search?"
-          description="Track applications, organize interviews, and stay on top of your job search journey with ease."
-          actionLabel="Add Your First Job"
-          actionHref="/job/new"
+          title="Ready to start your application search?"
+          description="Track applications, organize interviews, and stay on top of your application search journey with ease."
+          actionLabel="Add Your First Application"
+          actionHref="/application/new"
           size="lg"
         />
       );
@@ -51,7 +52,7 @@ export default function Dashboard({ jobs }: Props) {
     return (
       <EmptyState
         icon="🔍"
-        title="No jobs match your filters"
+        title="No applications match your filters"
         description="Try adjusting your search terms or filters to see more results."
         size="md"
       />
@@ -70,7 +71,7 @@ export default function Dashboard({ jobs }: Props) {
             Track and manage your job applications in one place
           </p>
         </div>
-        <Link href="/job/new">
+        <Link href="/application/new">
           <Button size="lg">
             <span className="mr-2">+</span>
             <span>Add New Application</span>
@@ -79,7 +80,7 @@ export default function Dashboard({ jobs }: Props) {
       </div>
 
       {/* Stats Section */}
-      <DashboardStats jobs={jobs} />
+      <DashboardStats applications={applications} />
 
       {/* Main Content */}
       <div className="bg-[var(--surface)] rounded-2xl p-6 lg:p-8 border border-[var(--border)] shadow-sm">
@@ -89,7 +90,8 @@ export default function Dashboard({ jobs }: Props) {
               Your Applications
             </h2>
             <p className="text-sm text-[var(--foreground-muted)] mt-1">
-              {filteredJobs.length} of {jobs.length} applications
+              {filteredApplications.length} of {applications.length}{' '}
+              applications
             </p>
           </div>
         </div>
@@ -102,7 +104,7 @@ export default function Dashboard({ jobs }: Props) {
           />
         </div>
 
-        {renderJobsContent()}
+        {renderApplicationsContent()}
       </div>
     </div>
   );

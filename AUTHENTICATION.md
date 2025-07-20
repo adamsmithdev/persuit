@@ -1,12 +1,12 @@
 # Authentication & Protected Routes
 
-This job tracker application implements comprehensive authentication and route protection using NextAuth.js and custom middleware.
+This application tracker implements comprehensive authentication and route protection using NextAuth.js and custom middleware.
 
 ## Authentication Features
 
 ### 1. **Middleware-Level Protection** (`middleware.ts`)
 
-- Protects all job-related routes automatically
+- Protects all application-related routes automatically
 - Redirects unauthenticated users to `/login`
 - Redirects authenticated users away from `/login` to the dashboard
 - Preserves the original URL as a callback parameter for seamless redirects after login
@@ -16,10 +16,10 @@ This job tracker application implements comprehensive authentication and route p
 The following routes require authentication:
 
 - `/` (Dashboard)
-- `/job/*` (All job-related pages)
-  - `/job/new` (Create new job application)
-  - `/job/[id]` (View job details)
-  - `/job/[id]/edit` (Edit job application)
+- `/applications/*` (All application-related pages)
+  - `/application/new` (Create new application)
+  - `/applicaiton/[id]` (View application details)
+  - `/application/[id]/edit` (Edit application)
 
 ### 3. **Public Routes**
 
@@ -45,9 +45,9 @@ The login page includes multi-layer protection against authenticated users:
 
 All API endpoints include authentication checks:
 
-- `POST /api/job` (Create job)
-- `PUT /api/job/[id]` (Update job)
-- `DELETE /api/job/[id]` (Delete job)
+- `POST /api/application` (Create application)
+- `PUT /api/application/[id]` (Update application)
+- `DELETE /api/application/[id]` (Delete application)
 
 ## Authentication Flow
 

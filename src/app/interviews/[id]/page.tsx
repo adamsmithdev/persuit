@@ -104,10 +104,10 @@ export default async function InterviewDetailPage({
             <div className="space-y-4 flex-1">
               <div>
                 <h2 className="text-3xl font-bold text-[var(--foreground)] mb-2">
-                  {interview.job.company}
+                  {interview.application.company}
                 </h2>
                 <p className="text-xl text-[var(--primary)] font-semibold">
-                  {interview.job.position}
+                  {interview.application.position}
                 </p>
               </div>
 
@@ -202,13 +202,13 @@ export default async function InterviewDetailPage({
 
               <div className="bg-[var(--surface-variant)] rounded-xl p-6">
                 <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide mb-3">
-                  Related Job Application
+                  Related Application
                 </h3>
                 <div>
-                  <Link href={`/job/${interview.job.id}`}>
+                  <Link href={`/application/${interview.application.id}`}>
                     <Button variant="secondary">
                       <span className="mr-2">🔗</span>
-                      <span>View Job Application</span>
+                      <span>View Application</span>
                     </Button>
                   </Link>
                 </div>

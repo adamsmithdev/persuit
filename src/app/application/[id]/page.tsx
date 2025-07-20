@@ -2,19 +2,22 @@ import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { authOptions } from '@/lib/auth';
-import { getJob } from '@/lib/services/jobsService';
-import { DeleteJobButton } from '@/components/DeleteJobButton';
+import { getApplication } from '@/lib/services/applicationsService';
+import { DeleteApplicationButton } from '@/components/DeleteApplicationButton';
 import Button from '@/components/Button';
-import { getJobStatusConfig } from '@/lib/constants';
+import { getApplicationStatusConfig } from '@/lib/constants';
 import AuthWrapper from '@/components/AuthWrapper';
+import { StatusBadge } from '@/components/ui';
 
-interface JobDetailPageProps {
+interface ApplicationDetailPageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function JobDetailPage({ params }: JobDetailPageProps) {
+export default async function ApplicationDetailPage({
+  params,
+}: ApplicationDetailPageProps) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
 
@@ -22,13 +25,13 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     notFound();
   }
 
-  const job = await getJob(id, session.user.email);
+  const application = await getApplication(id, session.user.email);
 
-  if (!job) {
+  if (!application) {
     notFound();
   }
 
-  const config = getJobStatusConfig(job.status);
+  const config = getApplicationStatusConfig(application.status);
 
   return (
     <AuthWrapper>
@@ -39,10 +42,10 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
               Application Details
             </h1>
             <p className="text-[var(--foreground-muted)] mt-2">
-              View and manage this job application
+              View and manage this application
             </p>
           </div>
-          <Link href="/jobs">
+          <Link href="/applications">
             <Button variant="secondary">
               <span className="mr-2">←</span>
               <span>Back to Applications</span>
@@ -55,12 +58,10 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
             <div className="space-y-4 flex-1">
               <div>
-                <h2 className="text-3xl font-bold text-[var(--foreground)] mb-2">
-                  {job.position}
-                </h2>
-                <p className="text-xl text-[var(--primary)] font-semibold">
-                  {job.company}
-                </p>
+                <h1 className="text-2xl font-bold text-slate-900">
+                  {application.position}
+                </h1>
+                <p className="text-lg text-slate-600">{application.company}</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
@@ -70,13 +71,40 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                   <span>{config.emoji}</span>
                   <span>{config.label}</span>
                 </div>
-                {job.location && (
+                {application.location && (
                   <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
                     <span>📍</span>
-                    <span>{job.location}</span>
+                    <span>{application.location}</span>
                   </div>
                 )}
               </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <StatusBadge status={application.status} config={config} />
+              {application.applicationUrl && (
+                <a
+                  href={application.applicationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                >
+                  <span>View Application</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 
@@ -93,30 +121,32 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                       Applied Date
                     </p>
                     <p className="text-[var(--foreground)] font-medium">
-                      {new Date(job.appliedAt).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      {new Date(application.appliedAt).toLocaleDateString(
+                        'en-US',
+                        {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        }
+                      )}
                     </p>
                   </div>
 
-                  {job.applicationDeadline && (
+                  {application.applicationDeadline && (
                     <div>
                       <p className="text-sm text-[var(--foreground-muted)] mb-1">
                         Application Deadline
                       </p>
                       <p className="text-[var(--foreground)] font-medium">
-                        {new Date(job.applicationDeadline).toLocaleDateString(
-                          'en-US',
-                          {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          }
-                        )}
+                        {new Date(
+                          application.applicationDeadline
+                        ).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
                       </p>
                     </div>
                   )}
@@ -126,80 +156,83 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                       Last Updated
                     </p>
                     <p className="text-[var(--foreground)] font-medium">
-                      {new Date(job.updatedAt).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      {new Date(application.updatedAt).toLocaleDateString(
+                        'en-US',
+                        {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        }
+                      )}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Company & Job Details */}
+              {/* Company & Application Details */}
               <div className="bg-[var(--surface-variant)] rounded-xl p-6">
                 <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide mb-3">
-                  Job Details
+                  Application Details
                 </h3>
                 <div className="space-y-4">
-                  {(job.salaryMin || job.salaryMax) && (
+                  {(application.salaryMin || application.salaryMax) && (
                     <div>
                       <p className="text-sm text-[var(--foreground-muted)] mb-1">
                         Salary Range
                       </p>
                       <p className="text-[var(--foreground)] font-medium">
                         {(() => {
-                          if (job.salaryMin && job.salaryMax) {
-                            return `$${job.salaryMin.toLocaleString()} - $${job.salaryMax.toLocaleString()}`;
-                          } else if (job.salaryMin) {
-                            return `$${job.salaryMin.toLocaleString()}+`;
+                          if (application.salaryMin && application.salaryMax) {
+                            return `$${application.salaryMin.toLocaleString()} - $${application.salaryMax.toLocaleString()}`;
+                          } else if (application.salaryMin) {
+                            return `$${application.salaryMin.toLocaleString()}+`;
                           } else {
-                            return `Up to $${job.salaryMax?.toLocaleString()}`;
+                            return `Up to $${application.salaryMax?.toLocaleString()}`;
                           }
                         })()}
                       </p>
                     </div>
                   )}
 
-                  {job.companySize && (
+                  {application.companySize && (
                     <div>
                       <p className="text-sm text-[var(--foreground-muted)] mb-1">
                         Company Size
                       </p>
                       <p className="text-[var(--foreground)] font-medium">
-                        {job.companySize === 'STARTUP' &&
+                        {application.companySize === 'STARTUP' &&
                           '🚀 Startup (1-10 employees)'}
-                        {job.companySize === 'SMALL' &&
+                        {application.companySize === 'SMALL' &&
                           '🏢 Small (11-50 employees)'}
-                        {job.companySize === 'MEDIUM' &&
+                        {application.companySize === 'MEDIUM' &&
                           '🏬 Medium (51-200 employees)'}
-                        {job.companySize === 'LARGE' &&
+                        {application.companySize === 'LARGE' &&
                           '🏭 Large (201-1000 employees)'}
-                        {job.companySize === 'ENTERPRISE' &&
+                        {application.companySize === 'ENTERPRISE' &&
                           '🏗️ Enterprise (1000+ employees)'}
                       </p>
                     </div>
                   )}
 
-                  {job.industry && (
+                  {application.industry && (
                     <div>
                       <p className="text-sm text-[var(--foreground-muted)] mb-1">
                         Industry
                       </p>
                       <p className="text-[var(--foreground)] font-medium">
-                        {job.industry}
+                        {application.industry}
                       </p>
                     </div>
                   )}
 
-                  {job.jobUrl && (
+                  {application.applicationUrl && (
                     <div>
                       <p className="text-sm text-[var(--foreground-muted)] mb-1">
-                        Job Posting
+                        Application Posting
                       </p>
                       <a
-                        href={job.jobUrl}
+                        href={application.applicationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[var(--primary)] hover:underline font-medium"
@@ -214,47 +247,49 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
 
             <div className="space-y-6">
               {/* Contact Information */}
-              {(job.contactName || job.contactEmail || job.contactPhone) && (
+              {(application.contactName ||
+                application.contactEmail ||
+                application.contactPhone) && (
                 <div className="bg-[var(--surface-variant)] rounded-xl p-6">
                   <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide mb-3">
                     Contact Information
                   </h3>
                   <div className="space-y-4">
-                    {job.contactName && (
+                    {application.contactName && (
                       <div>
                         <p className="text-sm text-[var(--foreground-muted)] mb-1">
                           Contact Person
                         </p>
                         <p className="text-[var(--foreground)] font-medium">
-                          {job.contactName}
+                          {application.contactName}
                         </p>
                       </div>
                     )}
 
-                    {job.contactEmail && (
+                    {application.contactEmail && (
                       <div>
                         <p className="text-sm text-[var(--foreground-muted)] mb-1">
                           Email
                         </p>
                         <a
-                          href={`mailto:${job.contactEmail}`}
+                          href={`mailto:${application.contactEmail}`}
                           className="text-[var(--primary)] hover:underline font-medium"
                         >
-                          {job.contactEmail}
+                          {application.contactEmail}
                         </a>
                       </div>
                     )}
 
-                    {job.contactPhone && (
+                    {application.contactPhone && (
                       <div>
                         <p className="text-sm text-[var(--foreground-muted)] mb-1">
                           Phone
                         </p>
                         <a
-                          href={`tel:${job.contactPhone}`}
+                          href={`tel:${application.contactPhone}`}
                           className="text-[var(--primary)] hover:underline font-medium"
                         >
-                          {job.contactPhone}
+                          {application.contactPhone}
                         </a>
                       </div>
                     )}
@@ -262,14 +297,14 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
                 </div>
               )}
 
-              {job.notes && (
+              {application.notes && (
                 <div className="space-y-3">
                   <h3 className="text-sm font-semibold text-[var(--foreground)] uppercase tracking-wide">
                     Notes
                   </h3>
                   <div className="bg-[var(--surface-variant)] rounded-xl p-6 border border-[var(--border)]">
                     <p className="whitespace-pre-line text-[var(--foreground)] leading-relaxed">
-                      {job.notes}
+                      {application.notes}
                     </p>
                   </div>
                 </div>
@@ -279,14 +314,17 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-[var(--border)]">
-            <Link href={`/job/${job.id}/edit`} className="flex-1 sm:flex-none">
+            <Link
+              href={`/application/${application.id}/edit`}
+              className="flex-1 sm:flex-none"
+            >
               <Button fullWidth>
                 <span className="mr-2">✏️</span>
                 <span>Edit Application</span>
               </Button>
             </Link>
             <div className="flex-1 sm:flex-none">
-              <DeleteJobButton jobId={job.id} />
+              <DeleteApplicationButton applicationId={application.id} />
             </div>
           </div>
         </div>

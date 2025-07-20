@@ -14,9 +14,12 @@ import {
   FormActions,
   Grid,
 } from './ui';
-import { COMPANY_SIZE_OPTIONS, JOB_STATUS_OPTIONS } from '@/lib/constants';
+import {
+  COMPANY_SIZE_OPTIONS,
+  APPLICATION_STATUS_OPTIONS,
+} from '@/lib/constants';
 
-type JobFormProps = {
+type ApplicationFormProps = {
   mode?: 'create' | 'edit';
   initialData?: {
     id: string;
@@ -27,7 +30,7 @@ type JobFormProps = {
     status: string;
     salaryMin?: number;
     salaryMax?: number;
-    jobUrl?: string;
+    applicationUrl?: string;
     contactName?: string;
     contactEmail?: string;
     contactPhone?: string;
@@ -37,10 +40,10 @@ type JobFormProps = {
   };
 };
 
-export default function JobForm({
+export default function ApplicationForm({
   mode = 'create',
   initialData,
-}: Readonly<JobFormProps>) {
+}: Readonly<ApplicationFormProps>) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     company: initialData?.company || '',
@@ -50,7 +53,7 @@ export default function JobForm({
     status: initialData?.status || 'WISHLIST',
     salaryMin: initialData?.salaryMin?.toString() || '',
     salaryMax: initialData?.salaryMax?.toString() || '',
-    jobUrl: initialData?.jobUrl || '',
+    applicationUrl: initialData?.applicationUrl || '',
     contactName: initialData?.contactName || '',
     contactEmail: initialData?.contactEmail || '',
     contactPhone: initialData?.contactPhone || '',
@@ -101,7 +104,9 @@ export default function JobForm({
     setLoading(true);
 
     const endpoint =
-      mode === 'edit' ? `/api/job/${initialData?.id}` : '/api/job';
+      mode === 'edit'
+        ? `/api/application/${initialData?.id}`
+        : '/api/application';
     const method = mode === 'edit' ? 'PUT' : 'POST';
 
     // Prepare the data with proper types
@@ -113,7 +118,7 @@ export default function JobForm({
         ? new Date(formData.applicationDeadline).toISOString()
         : null,
       companySize: formData.companySize || null,
-      jobUrl: formData.jobUrl || null,
+      applicationUrl: formData.applicationUrl || null,
       contactName: formData.contactName || null,
       contactEmail: formData.contactEmail || null,
       contactPhone: formData.contactPhone || null,
@@ -140,8 +145,8 @@ export default function JobForm({
       title={mode === 'edit' ? 'Edit Application' : 'Add New Application'}
       description={
         mode === 'edit'
-          ? 'Update your job application details'
-          : 'Track a new job opportunity'
+          ? 'Update your application details'
+          : 'Track a new application opportunity'
       }
     >
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -228,15 +233,15 @@ export default function JobForm({
           </FormField>
         </Grid>
 
-        {/* Job URL and Deadline */}
+        {/* Application URL and Deadline */}
         <Grid cols={2}>
-          <FormField label="Job Posting URL" id="jobUrl">
+          <FormField label="Application Posting URL" id="applicationUrl">
             <Input
-              id="jobUrl"
+              id="applicationUrl"
               type="url"
-              name="jobUrl"
+              name="applicationUrl"
               placeholder="https://company.com/jobs/..."
-              value={formData.jobUrl}
+              value={formData.applicationUrl}
               onChange={handleChange}
             />
           </FormField>
@@ -298,7 +303,7 @@ export default function JobForm({
             value={formData.status}
             onChange={handleChange}
           >
-            {JOB_STATUS_OPTIONS.map((option) => (
+            {APPLICATION_STATUS_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

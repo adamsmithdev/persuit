@@ -13,7 +13,7 @@ type Interview = {
   location: string | null;
   round: number | null;
   status: string;
-  job: {
+  application: {
     id: string;
     company: string;
     position: string;
@@ -151,13 +151,13 @@ export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
                   return {
                     title: 'No upcoming interviews',
                     description:
-                      'Add interview details to your job applications to see them here',
+                      'Add interview details to your applications to see them here',
                   };
                 default:
                   return {
                     title: 'No interviews scheduled',
                     description:
-                      'Add interview details to your job applications to see them here',
+                      'Add interview details to your applications to see them here',
                   };
               }
             };

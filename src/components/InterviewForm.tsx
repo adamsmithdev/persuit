@@ -16,7 +16,7 @@ import {
 } from './ui';
 import { INTERVIEW_TYPES, INTERVIEW_STATUSES } from '@/lib/constants';
 
-type Job = {
+type Application = {
   id: string;
   company: string;
   position: string;
@@ -24,7 +24,7 @@ type Job = {
 
 type InterviewFormProps = {
   mode?: 'create' | 'edit';
-  jobs: Job[];
+  applications: Application[];
   initialData?: {
     id: string;
     date: Date | string;
@@ -35,7 +35,7 @@ type InterviewFormProps = {
     duration: number | null;
     round: number | null;
     status: string;
-    job: {
+    application: {
       id: string;
       company: string;
       position: string;
@@ -47,7 +47,7 @@ type InterviewFormProps = {
 
 export default function InterviewForm({
   mode = 'create',
-  jobs,
+  applications,
   initialData,
   onSuccess,
 }: Readonly<InterviewFormProps>) {
@@ -62,7 +62,7 @@ export default function InterviewForm({
   };
 
   const [formData, setFormData] = useState({
-    jobId: initialData?.job.id || '',
+    applicationId: initialData?.application.id || '',
     date: initialData ? formatDateForInput(initialData.date) : '',
     time: initialData?.time || '',
     type: initialData?.type || 'PHONE',
@@ -140,26 +140,26 @@ export default function InterviewForm({
       title={mode === 'edit' ? 'Edit Interview' : 'Schedule New Interview'}
       description={
         mode === 'edit' && initialData
-          ? `Update interview details for ${initialData.job.company} - ${initialData.job.position}`
-          : 'Add a new interview for one of your job applications'
+          ? `Update interview details for ${initialData.application.company} - ${initialData.application.position}`
+          : 'Add a new interview for one of your applications'
       }
     >
       {error && <ErrorMessage message={error} />}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Job Selection */}
-        <FormField label="Job Application" id="jobId" required>
+        {/* Application Selection */}
+        <FormField label="Application" id="applicationId" required>
           <Select
-            id="jobId"
-            name="jobId"
-            value={formData.jobId}
+            id="applicationId"
+            name="applicationId"
+            value={formData.applicationId}
             onChange={handleInputChange}
             required
           >
-            <option value="">Select a job application</option>
-            {jobs.map((job) => (
-              <option key={job.id} value={job.id}>
-                {job.company} - {job.position}
+            <option value="">Select an application</option>
+            {applications.map((application) => (
+              <option key={application.id} value={application.id}>
+                {application.company} - {application.position}
               </option>
             ))}
           </Select>

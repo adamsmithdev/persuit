@@ -1,8 +1,16 @@
 'use client';
 
 import React from 'react';
-import { ListItem, StatusBadge } from './ui';
+import { ListItem, StatusBadge, Icon } from './ui';
 import { getInterviewStatusConfig } from '@/lib/constants';
+import {
+	faFire,
+	faBolt,
+	faClock,
+	faCalendar,
+	faMapMarkerAlt,
+	faSyncAlt,
+} from '@/lib/fontawesome';
 
 type Interview = {
 	id: string;
@@ -44,25 +52,65 @@ export default function InterviewListItem({ interview }: Props) {
 		return `${displayHour}:${minutes} ${ampm}`;
 	};
 
-	const formatRelativeDate = (date: Date) => {
+	const getUrgencyDisplay = (date: Date | string): React.JSX.Element => {
 		const today = new Date();
-		today.setHours(0, 0, 0, 0);
+		today.setHours(0, 0, 0, 0); // Reset to midnight for fair comparison
+
 		const compareDate = new Date(date);
 		compareDate.setHours(0, 0, 0, 0);
 
 		const diffTime = compareDate.getTime() - today.getTime();
 		const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
-		if (diffDays === 0) return '🔥 Today';
-		if (diffDays === 1) return '⚡ Tomorrow';
-		if (diffDays === -1) return '🕒 Yesterday';
-		if (diffDays < -1) return `🕒 ${Math.abs(diffDays)} days ago`;
-		if (diffDays > 1 && diffDays <= 7) return `📅 In ${diffDays} days`;
+		if (diffDays === 0)
+			return (
+				<span className="flex items-center gap-1 text-red-500">
+					<Icon icon={faFire} />
+					Today
+				</span>
+			);
+		if (diffDays === 1)
+			return (
+				<span className="flex items-center gap-1 text-orange-500">
+					<Icon icon={faBolt} />
+					Tomorrow
+				</span>
+			);
+		if (diffDays === -1)
+			return (
+				<span className="flex items-center gap-1 text-gray-500">
+					<Icon icon={faClock} />
+					Yesterday
+				</span>
+			);
+		if (diffDays < -1)
+			return (
+				<span className="flex items-center gap-1 text-gray-500">
+					<Icon icon={faClock} />
+					{Math.abs(diffDays)} days ago
+				</span>
+			);
+		if (diffDays > 1 && diffDays <= 7)
+			return (
+				<span className="flex items-center gap-1 text-blue-500">
+					<Icon icon={faCalendar} />
+					In {diffDays} days
+				</span>
+			);
 		if (diffDays > 7 && diffDays <= 14)
-			return `📅 In ${Math.ceil(diffDays / 7)} week`;
-		return `📅 ${date.toLocaleDateString()}`;
+			return (
+				<span className="flex items-center gap-1 text-blue-500">
+					<Icon icon={faCalendar} />
+					In {Math.ceil(diffDays / 7)} week
+				</span>
+			);
+		return (
+			<span className="flex items-center gap-1 text-blue-500">
+				<Icon icon={faCalendar} />
+				{new Date(date).toLocaleDateString()}
+			</span>
+		);
 	};
-
 	const interviewDate = parseInterviewDate(interview.date);
 	const today = new Date();
 	today.setHours(0, 0, 0, 0); // Reset to midnight for fair comparison
@@ -104,20 +152,20 @@ export default function InterviewListItem({ interview }: Props) {
 			<div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-[var(--foreground-subtle)]">
 				<div className="flex items-center gap-1">
 					<span className="font-medium">
-						{formatRelativeDate(interviewDate)}
+						{getUrgencyDisplay(interviewDate)}
 					</span>
 				</div>
 
 				{interview.time && (
 					<div className="flex items-center gap-1">
-						<span>🕐</span>
+						<Icon icon={faClock} className="text-blue-500" />
 						<span>{formatTime(interview.time)}</span>
 					</div>
 				)}
 
 				{interview.round && (
 					<div className="flex items-center gap-1">
-						<span>🔄</span>
+						<Icon icon={faSyncAlt} className="text-purple-500" />
 						<span>Round {interview.round}</span>
 					</div>
 				)}
@@ -131,7 +179,7 @@ export default function InterviewListItem({ interview }: Props) {
 
 			{interview.location && (
 				<div className="mt-2 text-xs text-[var(--foreground-muted)] flex items-center gap-1">
-					<span>📍</span>
+					<Icon icon={faMapMarkerAlt} className="text-green-500" />
 					<span className="truncate">{interview.location}</span>
 				</div>
 			)}

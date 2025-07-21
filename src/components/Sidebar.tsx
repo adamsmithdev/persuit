@@ -3,42 +3,53 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { Icon } from '@/components/ui';
+import {
+	faChartBar,
+	faClipboard,
+	faCalendar,
+	faFileAlt,
+	faUser,
+	faCog,
+	faTimes,
+	faBars,
+} from '@/lib/fontawesome';
 
 const navigationItems = [
 	{
 		name: 'Dashboard',
 		href: '/',
-		icon: '📊',
+		icon: faChartBar,
 		description: 'Overview & stats',
 	},
 	{
 		name: 'Applications',
 		href: '/applications',
-		icon: '📋',
+		icon: faClipboard,
 		description: 'Manage applications',
 	},
 	{
 		name: 'Interviews',
 		href: '/interviews',
-		icon: '📅',
+		icon: faCalendar,
 		description: 'Interviews & schedule',
 	},
 	{
 		name: 'Documents',
 		href: '/documents',
-		icon: '📄',
+		icon: faFileAlt,
 		description: 'Resumes & cover letters',
 	},
 	{
 		name: 'Profile',
 		href: '/profile',
-		icon: '👤',
+		icon: faUser,
 		description: 'Your information',
 	},
 	{
 		name: 'Settings',
 		href: '/settings',
-		icon: '⚙️',
+		icon: faCog,
 		description: 'App preferences',
 	},
 ];
@@ -134,7 +145,7 @@ export default function Sidebar({
 								onClick={() => setIsMobileOpen(false)}
 								className="lg:hidden p-1.5 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
 							>
-								<span className="text-lg">✕</span>
+								<Icon icon={faTimes} />
 							</button>
 
 							{/* Desktop collapse button */}
@@ -146,7 +157,7 @@ export default function Sidebar({
                 ${isCollapsed ? 'mx-auto' : ''}
               `}
 							>
-								<span className="text-lg">☰</span>
+								<Icon icon={faBars} />
 							</button>
 						</div>
 					</div>
@@ -196,7 +207,11 @@ export default function Sidebar({
 									className={getLinkClasses()}
 									title={isCollapsed ? item.name : undefined}
 								>
-									<span className={getIconClasses()}>{item.icon}</span>
+									{typeof item.icon === 'string' ? (
+										<span className={getIconClasses()}>{item.icon}</span>
+									) : (
+										<Icon icon={item.icon} className={getIconClasses()} />
+									)}
 
 									<div
 										className={`
@@ -281,7 +296,7 @@ export function MobileMenuButton({
 			onClick={onClick}
 			className="lg:hidden p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
 		>
-			<span className="text-lg">☰</span>
+			<Icon icon={faBars} />
 		</button>
 	);
 }

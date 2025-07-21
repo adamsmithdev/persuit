@@ -1,5 +1,7 @@
 import { Application } from '@prisma/client';
 import React from 'react';
+import { Icon } from './ui';
+import { faChartBar, faChartLine, faBullseye, faGift } from '@/lib/fontawesome';
 
 interface Props {
 	readonly applications: Application[];
@@ -26,28 +28,28 @@ export default function DashboardStats({ applications }: Props) {
 			label: 'Total Applications',
 			value: totalApplications,
 			gradient: 'from-[var(--primary)] to-[var(--info)]',
-			icon: '📊',
+			icon: faChartBar,
 			description: 'All time applications',
 		},
 		{
 			label: 'This Week',
 			value: recentApplications,
 			gradient: 'from-[var(--success)] to-emerald-400',
-			icon: '📈',
+			icon: faChartLine,
 			description: 'Recent activity',
 		},
 		{
 			label: 'Interviews',
 			value: stats.INTERVIEW || 0,
 			gradient: 'from-[var(--warning)] to-orange-400',
-			icon: '🎯',
+			icon: faBullseye,
 			description: 'In progress',
 		},
 		{
 			label: 'Offers',
 			value: stats.OFFER || 0,
 			gradient: 'from-purple-500 to-pink-500',
-			icon: '🎉',
+			icon: faGift,
 			description: 'Received offers',
 		},
 	];
@@ -61,7 +63,7 @@ export default function DashboardStats({ applications }: Props) {
 							<div
 								className={`w-12 h-12 bg-gradient-to-br ${item.gradient} rounded-xl flex items-center justify-center shadow-sm`}
 							>
-								<span className="text-xl">{item.icon}</span>
+								<Icon icon={item.icon} className="text-xl text-white" />
 							</div>
 							<div className="text-right">
 								<p className="text-3xl font-bold text-[var(--foreground)] mb-1">

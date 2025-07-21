@@ -1,6 +1,15 @@
 import AuthWrapper from '@/components/AuthWrapper';
 import Link from 'next/link';
 import Button from '@/components/Button';
+import { Icon } from '@/components/ui';
+import {
+	faPlus,
+	faFileAlt,
+	faEdit,
+	faLink,
+	faClipboard,
+	faCheck,
+} from '@/lib/fontawesome';
 
 export default function DocumentsPage() {
 	return (
@@ -18,7 +27,7 @@ export default function DocumentsPage() {
 						</p>
 					</div>
 					<Button>
-						<span className="mr-2">+</span>
+						<Icon icon={faPlus} className="mr-2" />
 						<span>Upload Document</span>
 					</Button>
 				</div>
@@ -26,7 +35,7 @@ export default function DocumentsPage() {
 				{/* Coming Soon Content */}
 				<div className="text-center py-20">
 					<div className="w-20 h-20 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-3xl flex items-center justify-center mx-auto mb-8">
-						<span className="text-4xl">📄</span>
+						<Icon icon={faFileAlt} className="text-4xl text-white" />
 					</div>
 					<h2 className="text-2xl font-bold text-[var(--foreground)] mb-4">
 						Document Management Coming Soon
@@ -40,7 +49,10 @@ export default function DocumentsPage() {
 					<div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
 						<div className="bg-[var(--surface)] rounded-2xl p-6 border border-[var(--border)]">
 							<div className="w-12 h-12 bg-[var(--primary)]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-								<span className="text-2xl">📝</span>
+								<Icon
+									icon={faEdit}
+									className="text-2xl text-[var(--primary)]"
+								/>
 							</div>
 							<h3 className="font-semibold text-[var(--foreground)] mb-2">
 								Resume Versions
@@ -52,7 +64,10 @@ export default function DocumentsPage() {
 
 						<div className="bg-[var(--surface)] rounded-2xl p-6 border border-[var(--border)]">
 							<div className="w-12 h-12 bg-[var(--primary)]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-								<span className="text-2xl">💌</span>
+								<Icon
+									icon={faFileAlt}
+									className="text-2xl text-[var(--primary)]"
+								/>
 							</div>
 							<h3 className="font-semibold text-[var(--foreground)] mb-2">
 								Cover Letter Templates
@@ -64,7 +79,10 @@ export default function DocumentsPage() {
 
 						<div className="bg-[var(--surface)] rounded-2xl p-6 border border-[var(--border)]">
 							<div className="w-12 h-12 bg-[var(--primary)]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-								<span className="text-2xl">🔗</span>
+								<Icon
+									icon={faLink}
+									className="text-2xl text-[var(--primary)]"
+								/>
 							</div>
 							<h3 className="font-semibold text-[var(--foreground)] mb-2">
 								Smart Attachments
@@ -81,25 +99,25 @@ export default function DocumentsPage() {
 						</h3>
 						<div className="grid md:grid-cols-2 gap-4 text-left">
 							<div className="flex items-start space-x-3">
-								<span className="text-green-500 mt-1">✓</span>
+								<Icon icon={faCheck} className="text-green-500 mt-1" />
 								<span className="text-sm text-[var(--foreground-muted)]">
 									Upload PDFs, Word docs, and other file types
 								</span>
 							</div>
 							<div className="flex items-start space-x-3">
-								<span className="text-green-500 mt-1">✓</span>
+								<Icon icon={faCheck} className="text-green-500 mt-1" />
 								<span className="text-sm text-[var(--foreground-muted)]">
 									Preview documents without downloading
 								</span>
 							</div>
 							<div className="flex items-start space-x-3">
-								<span className="text-green-500 mt-1">✓</span>
+								<Icon icon={faCheck} className="text-green-500 mt-1" />
 								<span className="text-sm text-[var(--foreground-muted)]">
 									Version control for document updates
 								</span>
 							</div>
 							<div className="flex items-start space-x-3">
-								<span className="text-green-500 mt-1">✓</span>
+								<Icon icon={faCheck} className="text-green-500 mt-1" />
 								<span className="text-sm text-[var(--foreground-muted)]">
 									Share secure document links
 								</span>
@@ -114,7 +132,7 @@ export default function DocumentsPage() {
 						</p>
 						<Link href="/applications">
 							<Button variant="secondary">
-								<span className="mr-2">📋</span>
+								<Icon icon={faClipboard} className="mr-2" />
 								<span>View Applications</span>
 							</Button>
 						</Link>

@@ -7,7 +7,8 @@ import Button from '@/components/Button';
 import ApplicationList from '@/components/ApplicationList';
 import DashboardStats from '@/components/DashboardStats';
 import SearchAndFilter from '@/components/SearchAndFilter';
-import { EmptyState } from './ui';
+import { EmptyState, Icon } from './ui';
+import { faPlus, faTasks, faSearch } from '@/lib/fontawesome';
 
 interface Props {
 	readonly applications: Application[];
@@ -39,7 +40,7 @@ export default function Dashboard({ applications }: Props) {
 		if (applications.length === 0) {
 			return (
 				<EmptyState
-					icon="📝"
+					icon={faTasks}
 					title="Ready to start your application search?"
 					description="Track applications, organize interviews, and stay on top of your application search journey with ease."
 					actionLabel="Add Your First Application"
@@ -51,7 +52,7 @@ export default function Dashboard({ applications }: Props) {
 
 		return (
 			<EmptyState
-				icon="🔍"
+				icon={faSearch}
 				title="No applications match your filters"
 				description="Try adjusting your search terms or filters to see more results."
 				size="md"
@@ -73,7 +74,7 @@ export default function Dashboard({ applications }: Props) {
 				</div>
 				<Link href="/application/new">
 					<Button>
-						<span className="mr-2">+</span>
+						<Icon icon={faPlus} className="mr-2" />
 						<span>Add New Application</span>
 					</Button>
 				</Link>

@@ -1,6 +1,7 @@
 'use client';
 
 import './globals.css';
+import '@/lib/fontawesome';
 import { SessionProvider } from 'next-auth/react';
 import AppLayout from '@/components/AppLayout';
 

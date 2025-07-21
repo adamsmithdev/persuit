@@ -3,9 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import Button from '../Button';
+import { Icon } from './Icon';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faPlus } from '@/lib/fontawesome';
 
 interface EmptyStateProps {
-	icon: string;
+	icon: string | IconDefinition;
 	title: string;
 	description: string;
 	actionLabel?: string;
@@ -56,7 +59,7 @@ export default function EmptyState({
 			return (
 				<Link href={actionHref}>
 					<Button size={size === 'lg' ? 'lg' : 'md'}>
-						<span className="mr-2">+</span>
+						<Icon icon={faPlus} className="mr-2" />
 						<span>{actionLabel}</span>
 					</Button>
 				</Link>
@@ -66,7 +69,7 @@ export default function EmptyState({
 		if (onAction) {
 			return (
 				<Button onClick={onAction} size={size === 'lg' ? 'lg' : 'md'}>
-					<span className="mr-2">+</span>
+					<Icon icon={faPlus} className="mr-2" />
 					<span>{actionLabel}</span>
 				</Button>
 			);
@@ -82,7 +85,11 @@ export default function EmptyState({
 			<div
 				className={`${classes.iconContainer} bg-[var(--surface-variant)] rounded-2xl flex items-center justify-center mx-auto mb-6`}
 			>
-				<span className={classes.icon}>{icon}</span>
+				{typeof icon === 'string' ? (
+					<span className={classes.icon}>{icon}</span>
+				) : (
+					<Icon icon={icon} className={classes.icon} />
+				)}
 			</div>
 			<h3
 				className={`font-semibold text-[var(--foreground)] mb-3 ${classes.title}`}

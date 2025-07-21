@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { EmptyState } from '@/components/ui';
-import InterviewList from './InterviewList';
+import InterviewList from '@/components/InterviewList';
+import { EmptyState, Icon } from '@/components/ui';
+import { faPlus, faCalendar } from '@/lib/fontawesome';
 
 type Interview = {
 	id: string;
@@ -166,7 +167,7 @@ export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
 
 						return (
 							<EmptyState
-								icon="📅"
+								icon={faCalendar}
 								title={title}
 								description={description}
 								actionLabel="Schedule Interview"
@@ -193,7 +194,7 @@ export default function Interviews({ interviews }: Readonly<InterviewsProps>) {
 								href="/interviews/new"
 								className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-opacity-90 transition-all text-sm font-medium"
 							>
-								<span>+</span>
+								<Icon icon={faPlus} />
 								<span>Schedule Interview</span>
 							</Link>
 						</div>

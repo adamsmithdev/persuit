@@ -7,7 +7,15 @@ import { DeleteApplicationButton } from '@/components/DeleteApplicationButton';
 import Button from '@/components/Button';
 import { getApplicationStatusConfig } from '@/lib/constants';
 import AuthWrapper from '@/components/AuthWrapper';
-import { StatusBadge } from '@/components/ui';
+import { StatusBadge, Icon } from '@/components/ui';
+import {
+	faMapMarkerAlt,
+	faPencilAlt,
+	faRocket,
+	faBuilding,
+	faCity,
+	faExternalLinkAlt,
+} from '@/lib/fontawesome';
 
 interface ApplicationDetailPageProps {
 	params: Promise<{
@@ -68,12 +76,12 @@ export default async function ApplicationDetailPage({
 								<div
 									className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white ${config.color}`}
 								>
-									<span>{config.emoji}</span>
+									<Icon icon={config.icon} className="w-4 h-4" />
 									<span>{config.label}</span>
 								</div>
 								{application.location && (
 									<div className="flex items-center gap-2 text-[var(--foreground-muted)]">
-										<span>📍</span>
+										<Icon icon={faMapMarkerAlt} className="w-4 h-4" />
 										<span>{application.location}</span>
 									</div>
 								)}
@@ -90,19 +98,7 @@ export default async function ApplicationDetailPage({
 									className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
 								>
 									<span>View Application</span>
-									<svg
-										className="w-4 h-4"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-										/>
-									</svg>
+									<Icon icon={faExternalLinkAlt} className="w-4 h-4" />
 								</a>
 							)}
 						</div>
@@ -200,17 +196,43 @@ export default async function ApplicationDetailPage({
 											<p className="text-sm text-[var(--foreground-muted)] mb-1">
 												Company Size
 											</p>
-											<p className="text-[var(--foreground)] font-medium">
-												{application.companySize === 'STARTUP' &&
-													'🚀 Startup (1-10 employees)'}
-												{application.companySize === 'SMALL' &&
-													'🏢 Small (11-50 employees)'}
-												{application.companySize === 'MEDIUM' &&
-													'🏬 Medium (51-200 employees)'}
-												{application.companySize === 'LARGE' &&
-													'🏭 Large (201-1000 employees)'}
-												{application.companySize === 'ENTERPRISE' &&
-													'🏗️ Enterprise (1000+ employees)'}
+											<p className="text-[var(--foreground)] font-medium flex items-center gap-1">
+												{application.companySize === 'STARTUP' && (
+													<>
+														<Icon icon={faRocket} className="text-green-500" />
+														Startup (1-10 employees)
+													</>
+												)}
+												{application.companySize === 'SMALL' && (
+													<>
+														<Icon icon={faBuilding} className="text-blue-500" />
+														Small (11-50 employees)
+													</>
+												)}
+												{application.companySize === 'MEDIUM' && (
+													<>
+														<Icon
+															icon={faBuilding}
+															className="text-orange-500"
+														/>
+														Medium (51-200 employees)
+													</>
+												)}
+												{application.companySize === 'LARGE' && (
+													<>
+														<Icon
+															icon={faBuilding}
+															className="text-purple-500"
+														/>
+														Large (201-1000 employees)
+													</>
+												)}
+												{application.companySize === 'ENTERPRISE' && (
+													<>
+														<Icon icon={faCity} className="text-red-500" />
+														Enterprise (1000+ employees)
+													</>
+												)}
 											</p>
 										</div>
 									)}
@@ -319,7 +341,7 @@ export default async function ApplicationDetailPage({
 							className="flex-1 sm:flex-none"
 						>
 							<Button fullWidth>
-								<span className="mr-2">✏️</span>
+								<Icon icon={faPencilAlt} className="mr-2" />
 								<span>Edit Application</span>
 							</Button>
 						</Link>

@@ -1,7 +1,15 @@
 import AuthWrapper from '@/components/AuthWrapper';
 import Button from '@/components/Button';
 import Link from 'next/link';
-
+import { Icon } from '@/components/ui';
+import {
+	faDownload,
+	faSyncAlt,
+	faTrash,
+	faHourglassHalf,
+	faBook,
+	faQuestionCircle,
+} from '@/lib/fontawesome';
 export default function SettingsPage() {
 	return (
 		<AuthWrapper>
@@ -149,12 +157,13 @@ export default function SettingsPage() {
 							<div className="space-y-6">
 								<div className="space-y-4">
 									<Button variant="outline" disabled fullWidth>
-										<span className="mr-2">📥</span> Export My Data (Coming
-										Soon)
+										<Icon icon={faDownload} className="mr-2" /> Export My Data
+										(Coming Soon)
 									</Button>
 
 									<Button variant="outline" disabled fullWidth>
-										<span className="mr-2">🔄</span> Backup Data (Coming Soon)
+										<Icon icon={faSyncAlt} className="mr-2" /> Backup Data
+										(Coming Soon)
 									</Button>
 								</div>
 
@@ -167,8 +176,8 @@ export default function SettingsPage() {
 											These actions cannot be undone. Please be careful.
 										</p>
 										<Button variant="outline" disabled>
-											<span className="mr-2">🗑️</span> Delete Account (Coming
-											Soon)
+											<Icon icon={faTrash} className="mr-2" /> Delete Account
+											(Coming Soon)
 										</Button>
 									</div>
 								</div>
@@ -184,19 +193,19 @@ export default function SettingsPage() {
 							</h3>
 							<div className="space-y-3 text-sm text-[var(--foreground-muted)]">
 								<div className="flex items-center space-x-3">
-									<span className="text-yellow-500">⏳</span>
+									<Icon icon={faHourglassHalf} className="text-yellow-500" />
 									<span>Custom dashboard layouts</span>
 								</div>
 								<div className="flex items-center space-x-3">
-									<span className="text-yellow-500">⏳</span>
+									<Icon icon={faHourglassHalf} className="text-yellow-500" />
 									<span>Advanced filtering options</span>
 								</div>
 								<div className="flex items-center space-x-3">
-									<span className="text-yellow-500">⏳</span>
+									<Icon icon={faHourglassHalf} className="text-yellow-500" />
 									<span>Integration settings</span>
 								</div>
 								<div className="flex items-center space-x-3">
-									<span className="text-yellow-500">⏳</span>
+									<Icon icon={faHourglassHalf} className="text-yellow-500" />
 									<span>API access management</span>
 								</div>
 							</div>
@@ -209,12 +218,12 @@ export default function SettingsPage() {
 							<div className="space-y-3">
 								<Link href="/" className="block">
 									<Button variant="outline" fullWidth>
-										<span className="mr-2">📚</span> Documentation
+										<Icon icon={faBook} className="mr-2" /> Documentation
 									</Button>
 								</Link>
 								<Link href="/" className="block">
 									<Button variant="outline" fullWidth>
-										<span className="mr-2">💬</span> Support
+										<Icon icon={faQuestionCircle} className="mr-2" /> Support
 									</Button>
 								</Link>
 							</div>

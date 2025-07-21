@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import { Icon } from './ui';
+import { faTrash } from '@/lib/fontawesome';
 
 export function DeleteApplicationButton({
 	applicationId,
@@ -33,7 +35,7 @@ export function DeleteApplicationButton({
 
 	return (
 		<Button onClick={handleDelete} variant="danger" fullWidth>
-			<span className="mr-2">🗑️</span>
+			<Icon icon={faTrash} className="mr-2" />
 			<span>Delete Application</span>
 		</Button>
 	);

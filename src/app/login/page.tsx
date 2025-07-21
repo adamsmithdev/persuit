@@ -3,6 +3,8 @@
 import { signIn, useSession } from 'next-auth/react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+import { Icon } from '@/components/ui';
+import { faLock } from '@/lib/fontawesome';
 
 function LoginContent() {
 	const { data: session, status } = useSession();
@@ -50,7 +52,7 @@ function LoginContent() {
 			<div className="max-w-md mx-auto text-center">
 				<div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
 					<div className="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-2xl flex items-center justify-center mx-auto mb-6">
-						<span className="text-3xl">🔐</span>
+						<Icon icon={faLock} className="text-3xl text-white" />
 					</div>
 					<h1 className="text-2xl font-bold text-[var(--foreground)] mb-3">
 						Welcome Back

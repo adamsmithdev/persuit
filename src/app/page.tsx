@@ -3,6 +3,8 @@ import Dashboard from '@/components/Dashboard';
 import { authOptions } from '@/lib/auth';
 import { getApplications } from '@/lib/services/applicationsService';
 import AuthWrapper from '@/components/AuthWrapper';
+import { Icon } from '@/components/ui';
+import { faBriefcase } from '@/lib/fontawesome';
 
 export default async function HomePage() {
 	const session = await getServerSession(authOptions);
@@ -13,7 +15,7 @@ export default async function HomePage() {
 				<div className="max-w-md mx-auto text-center">
 					<div className="bg-[var(--surface)] rounded-2xl p-8 border border-[var(--border)] shadow-lg">
 						<div className="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-2xl flex items-center justify-center mx-auto mb-6">
-							<span className="text-3xl">💼</span>
+							<Icon icon={faBriefcase} className="text-3xl text-white" />
 						</div>
 						<h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
 							Welcome to Persuit

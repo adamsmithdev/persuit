@@ -5,6 +5,8 @@ import Button from '@/components/Button';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getInterviews } from '@/lib/services/interviewsService';
+import { Icon } from '@/components/ui';
+import { faPlus } from '@/lib/fontawesome';
 
 export default async function InterviewsPage() {
 	const session = await getServerSession(authOptions);
@@ -30,7 +32,7 @@ export default async function InterviewsPage() {
 					</div>
 					<Link href="/interviews/new">
 						<Button>
-							<span className="mr-2">+</span>
+							<Icon icon={faPlus} className="mr-2" />
 							<span>Schedule Interview</span>
 						</Button>
 					</Link>

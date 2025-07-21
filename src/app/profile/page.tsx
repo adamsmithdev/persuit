@@ -1,8 +1,17 @@
 import AuthWrapper from '@/components/AuthWrapper';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import Button from '@/components/Button';
 import Link from 'next/link';
+import Button from '@/components/Button';
+import { Icon } from '@/components/ui';
+import {
+	faPlus,
+	faClipboard,
+	faLock,
+	faCalendar,
+	faSave,
+	faSignOutAlt,
+} from '@/lib/fontawesome';
 import Image from 'next/image';
 
 export default async function ProfilePage() {
@@ -98,7 +107,8 @@ export default async function ProfilePage() {
 										your Google or GitHub account.
 									</p>
 									<Button variant="outline" disabled>
-										<span className="mr-2">🔒</span> Edit Profile (Coming Soon)
+										<Icon icon={faLock} className="mr-2" /> Edit Profile (Coming
+										Soon)
 									</Button>
 								</div>
 							</div>
@@ -160,8 +170,8 @@ export default async function ProfilePage() {
 
 							<div className="pt-6">
 								<Button variant="outline" disabled>
-									<span className="mr-2">💾</span> Save Preferences (Coming
-									Soon)
+									<Icon icon={faSave} className="mr-2" /> Save Preferences
+									(Coming Soon)
 								</Button>
 							</div>
 						</div>
@@ -176,17 +186,18 @@ export default async function ProfilePage() {
 							<div className="space-y-3">
 								<Link href="/application/new" className="block">
 									<Button fullWidth>
-										<span className="mr-2">+</span> Add New Application
+										<Icon icon={faPlus} className="mr-2" /> Add New Application
 									</Button>
 								</Link>
 								<Link href="/applications" className="block">
 									<Button variant="outline" fullWidth>
-										<span className="mr-2">📋</span> View All Applications
+										<Icon icon={faClipboard} className="mr-2" /> View All
+										Applications
 									</Button>
 								</Link>
 								<Link href="/interviews" className="block">
 									<Button variant="outline" fullWidth>
-										<span className="mr-2">📅</span> Check Interviews
+										<Icon icon={faCalendar} className="mr-2" /> Check Interviews
 									</Button>
 								</Link>
 							</div>
@@ -203,7 +214,7 @@ export default async function ProfilePage() {
 								</p>
 								<div className="pt-3 border-t border-[var(--border)]">
 									<Button variant="outline" size="sm" fullWidth>
-										<span className="mr-2">🚪</span> Sign Out
+										<Icon icon={faSignOutAlt} className="mr-2" /> Sign Out
 									</Button>
 								</div>
 							</div>

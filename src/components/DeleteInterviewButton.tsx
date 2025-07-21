@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import Button from './Button';
+import { Icon } from './ui';
+import { faTrash } from '@/lib/fontawesome';
 
 export function DeleteInterviewButton({
 	interviewId,
@@ -34,7 +36,7 @@ export function DeleteInterviewButton({
 
 	return (
 		<Button onClick={handleDelete} variant="danger" fullWidth>
-			<span className="mr-2">🗑️</span>
+			<Icon icon={faTrash} className="mr-2" />
 			<span>Delete Interview</span>
 		</Button>
 	);

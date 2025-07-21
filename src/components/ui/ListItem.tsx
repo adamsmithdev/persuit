@@ -3,6 +3,8 @@
 import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import Card from './Card';
+import { Icon } from './Icon';
+import { faChevronRight } from '@/lib/fontawesome';
 
 interface ListItemProps {
 	href: string;
@@ -28,19 +30,10 @@ export default function ListItem({
 
 					<div className="flex-shrink-0 ml-4">
 						<div className="w-8 h-8 rounded-full bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center group-hover:bg-[var(--primary)] group-hover:border-[var(--primary)] transition-all duration-200">
-							<svg
+							<Icon
+								icon={faChevronRight}
 								className="w-4 h-4 text-[var(--foreground-muted)] group-hover:text-white transition-colors"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M9 5l7 7-7 7"
-								/>
-							</svg>
+							/>
 						</div>
 					</div>
 				</div>

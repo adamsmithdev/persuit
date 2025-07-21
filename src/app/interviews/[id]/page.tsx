@@ -7,6 +7,20 @@ import { DeleteInterviewButton } from '@/components/DeleteInterviewButton';
 import Button from '@/components/Button';
 import { getInterviewStatusConfig } from '@/lib/constants';
 import AuthWrapper from '@/components/AuthWrapper';
+import { Icon } from '@/components/ui';
+import {
+	faPhone,
+	faLaptop,
+	faBuilding,
+	faGlobe,
+	faUsers,
+	faWrench,
+	faBrain,
+	faBullseye,
+	faBriefcase,
+	faLink,
+	faPencilAlt,
+} from '@/lib/fontawesome';
 
 interface InterviewDetailPageProps {
 	params: Promise<{
@@ -54,23 +68,23 @@ export default async function InterviewDetailPage({
 	const getInterviewTypeIcon = (type: string) => {
 		switch (type) {
 			case 'PHONE':
-				return '📞';
+				return faPhone;
 			case 'VIDEO':
-				return '💻';
+				return faLaptop;
 			case 'ONSITE':
-				return '🏢';
+				return faBuilding;
 			case 'VIRTUAL':
-				return '🌐';
+				return faGlobe;
 			case 'GROUP':
-				return '👥';
+				return faUsers;
 			case 'TECHNICAL':
-				return '⚙️';
+				return faWrench;
 			case 'BEHAVIORAL':
-				return '🗣️';
+				return faBrain;
 			case 'FINAL':
-				return '🎯';
+				return faBullseye;
 			default:
-				return '💼';
+				return faBriefcase;
 		}
 	};
 
@@ -115,12 +129,15 @@ export default async function InterviewDetailPage({
 								<div
 									className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white ${config.color}`}
 								>
-									<span>{config.emoji}</span>
+									<Icon icon={config.icon} className="w-4 h-4" />
 									<span>{config.label}</span>
 								</div>
 								{interview.type && (
 									<div className="flex items-center gap-2 text-[var(--foreground-muted)]">
-										<span>{getInterviewTypeIcon(interview.type)}</span>
+										<Icon
+											icon={getInterviewTypeIcon(interview.type)}
+											className="w-4 h-4"
+										/>
 										<span className="capitalize">
 											{interview.type.toLowerCase()}
 										</span>
@@ -207,7 +224,7 @@ export default async function InterviewDetailPage({
 								<div>
 									<Link href={`/application/${interview.application.id}`}>
 										<Button variant="secondary">
-											<span className="mr-2">🔗</span>
+											<Icon icon={faLink} className="mr-2" />
 											<span>View Application</span>
 										</Button>
 									</Link>
@@ -239,7 +256,7 @@ export default async function InterviewDetailPage({
 							className="flex-1 sm:flex-none"
 						>
 							<Button fullWidth>
-								<span className="mr-2">✏️</span>
+								<Icon icon={faPencilAlt} className="mr-2" />
 								<span>Edit Interview</span>
 							</Button>
 						</Link>

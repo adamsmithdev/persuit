@@ -8,7 +8,8 @@ import Button from '@/components/Button';
 import ApplicationList from '@/components/ApplicationList';
 import SearchAndFilter from '@/components/SearchAndFilter';
 import { Application } from '@prisma/client';
-import { EmptyState } from '@/components/ui';
+import { EmptyState, Icon } from '@/components/ui';
+import { faPlus, faFileAlt, faSearch } from '@/lib/fontawesome';
 
 export default function ApplicationsPage() {
 	const { data: session } = useSession();
@@ -97,7 +98,7 @@ export default function ApplicationsPage() {
 					</div>
 					<Link href="/application/new">
 						<Button>
-							<span className="mr-2">+</span>
+							<Icon icon={faPlus} className="mr-2" />
 							<span>Add New Application</span>
 						</Button>
 					</Link>
@@ -117,7 +118,7 @@ export default function ApplicationsPage() {
 					if (applications.length === 0) {
 						return (
 							<EmptyState
-								icon="📄"
+								icon={faFileAlt}
 								title="No applications yet"
 								description="Start tracking your application search by adding your first application."
 								actionLabel="Add Your First Application"
@@ -129,7 +130,7 @@ export default function ApplicationsPage() {
 					if (filteredApplications.length === 0) {
 						return (
 							<EmptyState
-								icon="🔍"
+								icon={faSearch}
 								title="No applications match your filters"
 								description="Try adjusting your search terms or filters to see more results."
 							/>

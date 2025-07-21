@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Input, Select } from '@/components/ui';
 import { APPLICATION_STATUS_CONFIG } from '@/lib/constants';
+import { faClipboard } from '@/lib/fontawesome';
 
 interface Props {
 	readonly onSearch: (query: string) => void;
@@ -24,11 +25,11 @@ export default function SearchAndFilter({
 	};
 
 	const statusOptions = [
-		{ value: '', label: 'All Statuses', emoji: '📋' },
+		{ value: '', label: 'All Statuses', icon: faClipboard },
 		...Object.entries(APPLICATION_STATUS_CONFIG).map(([value, config]) => ({
 			value,
 			label: config.label,
-			emoji: config.emoji,
+			icon: config.icon,
 		})),
 	];
 
@@ -51,7 +52,7 @@ export default function SearchAndFilter({
 				>
 					{statusOptions.map((option) => (
 						<option key={option.value} value={option.value}>
-							{option.emoji} {option.label}
+							{option.label}
 						</option>
 					))}
 				</Select>

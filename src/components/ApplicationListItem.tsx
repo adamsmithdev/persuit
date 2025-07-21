@@ -1,7 +1,14 @@
 import { Application } from '@prisma/client';
 import React from 'react';
-import { StatusBadge, ListItem } from './ui';
+import { StatusBadge, ListItem, Icon } from './ui';
 import { getApplicationStatusConfig } from '@/lib/constants';
+import {
+	faMapMarkerAlt,
+	faCalendar,
+	faBuilding,
+	faClock,
+	faDollarSign,
+} from '@/lib/fontawesome';
 
 interface Props {
 	readonly application: Application;
@@ -26,7 +33,7 @@ export default function ApplicationListItem({ application }: Props) {
 
 		return (
 			<div className="flex items-center gap-1">
-				<span>💰</span>
+				<Icon icon={faDollarSign} className="text-green-500" />
 				<span>{salaryText}</span>
 			</div>
 		);
@@ -57,7 +64,7 @@ export default function ApplicationListItem({ application }: Props) {
 				/>
 				{application.applicationDeadline && (
 					<div className="text-xs text-[var(--foreground-muted)] flex items-center gap-1">
-						<span>⏰</span>
+						<Icon icon={faClock} className="text-orange-500" />
 						<span>
 							Deadline:{' '}
 							{new Date(application.applicationDeadline).toLocaleDateString(
@@ -83,18 +90,18 @@ export default function ApplicationListItem({ application }: Props) {
 			<div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-[var(--foreground-subtle)]">
 				{application.location && (
 					<div className="flex items-center gap-1">
-						<span>📍</span>
+						<Icon icon={faMapMarkerAlt} className="text-blue-500" />
 						<span>{application.location}</span>
 					</div>
 				)}
 				{renderSalaryInfo()}
 				<div className="flex items-center gap-1">
-					<span>📅</span>
+					<Icon icon={faCalendar} className="text-purple-500" />
 					<span>Applied {getDaysAgo(application.appliedAt)}</span>
 				</div>
 				{application.companySize && (
 					<div className="flex items-center gap-1">
-						<span>🏢</span>
+						<Icon icon={faBuilding} className="text-gray-500" />
 						<span className="capitalize">
 							{application.companySize.toLowerCase()}
 						</span>

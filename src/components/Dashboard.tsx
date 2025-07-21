@@ -72,7 +72,7 @@ export default function Dashboard({ applications }: Props) {
 					</p>
 				</div>
 				<Link href="/application/new">
-					<Button size="lg">
+					<Button>
 						<span className="mr-2">+</span>
 						<span>Add New Application</span>
 					</Button>

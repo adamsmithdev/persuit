@@ -55,6 +55,9 @@ import {
 	faSave,
 	faBars,
 	faChevronRight,
+	faChevronLeft,
+	faArrowLeft,
+	faArrowRight,
 	faExternalLinkAlt,
 	faHourglassHalf,
 } from '@fortawesome/free-solid-svg-icons';
@@ -116,6 +119,9 @@ library.add(
 	faSave,
 	faBars,
 	faChevronRight,
+	faChevronLeft,
+	faArrowLeft,
+	faArrowRight,
 	faExternalLinkAlt,
 	faHourglassHalf,
 );
@@ -176,6 +182,9 @@ export {
 	faSave,
 	faBars,
 	faChevronRight,
+	faChevronLeft,
+	faArrowLeft,
+	faArrowRight,
 	faExternalLinkAlt,
 	faHourglassHalf,
 };

@@ -12,7 +12,8 @@ import {
 	faUser,
 	faCog,
 	faTimes,
-	faBars,
+	faChevronLeft,
+	faChevronRight,
 } from '@/lib/fontawesome';
 
 const navigationItems = [
@@ -56,16 +57,16 @@ const navigationItems = [
 
 interface SidebarProps {
 	readonly isCollapsed: boolean;
-	readonly setIsCollapsed: (collapsed: boolean) => void;
 	readonly isMobileOpen: boolean;
 	readonly setIsMobileOpen: (open: boolean) => void;
+	readonly onToggleCollapse: () => void;
 }
 
 export default function Sidebar({
 	isCollapsed,
-	setIsCollapsed,
 	isMobileOpen,
 	setIsMobileOpen,
+	onToggleCollapse,
 }: SidebarProps) {
 	const pathname = usePathname();
 
@@ -110,60 +111,58 @@ export default function Sidebar({
           ${
 						isMobileOpen
 							? 'fixed left-0 z-50 top-16 h-[calc(100vh-4rem)]'
-							: 'hidden lg:sticky lg:top-0 lg:h-screen lg:block lg:z-auto'
+							: 'hidden lg:block lg:z-auto lg:h-[calc(100vh-4rem)]'
 					}
         `}
 			>
 				<div className="flex flex-col h-full">
-					{/* Header */}
-					<div className="border-b border-[var(--border)]">
-						<div
-							className={`
-              flex items-center justify-between
-              ${isCollapsed ? 'px-3' : 'px-6'}
-            `}
-							style={{ height: '4rem' }}
-						>
+					{/* Mobile header with close button */}
+					{isMobileOpen && (
+						<div className="border-b border-[var(--border)] lg:hidden">
 							<div
-								className={`
-              flex items-center space-x-3 overflow-hidden
-              transition-all duration-300 ease-in-out
-              ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}
-            `}
+								className="flex items-center justify-between px-6"
+								style={{ height: '4rem' }}
 							>
-								<Image
-									src="/images/logo_full.png"
-									alt="Persuit Logo"
-									width={100}
-									height={100}
-									className="object-contain"
-								/>
+								<div className="flex items-center space-x-3">
+									<Image
+										src="/images/logo_full.png"
+										alt="Persuit Logo"
+										width={100}
+										height={100}
+										className="object-contain"
+									/>
+								</div>
+								<button
+									onClick={() => setIsMobileOpen(false)}
+									className="p-1.5 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
+								>
+									<Icon icon={faTimes} />
+								</button>
 							</div>
-
-							{/* Mobile close button */}
-							<button
-								onClick={() => setIsMobileOpen(false)}
-								className="lg:hidden p-1.5 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
-							>
-								<Icon icon={faTimes} />
-							</button>
-
-							{/* Desktop collapse button */}
-							<button
-								onClick={() => setIsCollapsed(!isCollapsed)}
-								className={`
-                hidden lg:flex p-1.5 text-[var(--foreground-muted)] hover:text-[var(--foreground)] 
-                transition-colors
-                ${isCollapsed ? 'mx-auto' : ''}
-              `}
-							>
-								<Icon icon={faBars} />
-							</button>
 						</div>
-					</div>
+					)}
 
 					{/* Navigation */}
 					<nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+						{/* Desktop collapse toggle button */}
+						<div className="hidden lg:block mb-4">
+							<button
+								onClick={onToggleCollapse}
+								className={`
+									flex items-center p-2.5 
+									text-[var(--foreground-muted)]/60 hover:text-[var(--foreground-muted)] 
+									rounded-lg transition-all duration-200
+									${isCollapsed ? 'justify-center w-full' : 'justify-end w-full'}
+								`}
+								title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+							>
+								<Icon
+									icon={isCollapsed ? faChevronRight : faChevronLeft}
+									className="text-lg"
+								/>
+							</button>
+						</div>
+
 						{navigationItems.map((item) => {
 							const active = isActive(item.href);
 
@@ -199,6 +198,21 @@ export default function Sidebar({
 								}
 							};
 
+							// For collapsed state, we need to wrap the icon in a container for circular background
+							const renderIcon = () => {
+								if (isCollapsed) {
+									return (
+										<div className={getIconClasses()}>
+											<Icon icon={item.icon} />
+										</div>
+									);
+								} else if (typeof item.icon === 'string') {
+									return <span className={getIconClasses()}>{item.icon}</span>;
+								} else {
+									return <Icon icon={item.icon} className={getIconClasses()} />;
+								}
+							};
+
 							return (
 								<Link
 									key={item.name}
@@ -207,11 +221,7 @@ export default function Sidebar({
 									className={getLinkClasses()}
 									title={isCollapsed ? item.name : undefined}
 								>
-									{typeof item.icon === 'string' ? (
-										<span className={getIconClasses()}>{item.icon}</span>
-									) : (
-										<Icon icon={item.icon} className={getIconClasses()} />
-									)}
+									{renderIcon()}
 
 									<div
 										className={`
@@ -282,21 +292,5 @@ export default function Sidebar({
 				</div>
 			</aside>
 		</>
-	);
-}
-
-// Mobile menu button component
-export function MobileMenuButton({
-	onClick,
-}: Readonly<{
-	onClick: () => void;
-}>) {
-	return (
-		<button
-			onClick={onClick}
-			className="lg:hidden p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
-		>
-			<Icon icon={faBars} />
-		</button>
 	);
 }

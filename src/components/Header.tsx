@@ -4,28 +4,67 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
-import { MobileMenuButton } from './Sidebar';
+import { Icon } from '@/components/ui';
+import { faBars } from '@/lib/fontawesome';
 
 interface HeaderProps {
 	readonly onMobileMenuClick: () => void;
+	readonly isAuthenticated: boolean;
 }
 
-export default function Header({ onMobileMenuClick }: HeaderProps) {
+export default function Header({
+	onMobileMenuClick,
+	isAuthenticated,
+}: HeaderProps) {
 	const { data: session } = useSession();
 
 	return (
 		<header className="sticky top-0 z-50 w-full bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border)] shadow-sm">
-			<div className="px-4 lg:px-8 relative">
+			<div className="px-4 lg:px-8">
 				<div
-					className="flex items-center justify-end"
+					className="flex items-center justify-between"
 					style={{ height: '4rem' }}
 				>
-					{/* Mobile menu button - positioned absolutely to left */}
-					<div className="absolute left-4 lg:left-8">
-						<MobileMenuButton onClick={onMobileMenuClick} />
+					{/* Left section - Logo and hamburger */}
+					<div className="flex items-center space-x-4">
+						{/* Hamburger menu for mobile */}
+						{isAuthenticated && (
+							<button
+								onClick={onMobileMenuClick}
+								className="lg:hidden p-2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface-variant)] rounded-lg transition-colors"
+							>
+								<Icon icon={faBars} />
+							</button>
+						)}
+
+						{/* Desktop logo */}
+						{isAuthenticated && (
+							<Link href="/" className="hidden lg:flex items-center">
+								<Image
+									src="/images/logo_full.png"
+									alt="Persuit Logo"
+									width={120}
+									height={40}
+									className="object-contain hover:opacity-80 transition-opacity duration-200"
+								/>
+							</Link>
+						)}
+
+						{/* Logo for non-authenticated users */}
+						{!isAuthenticated && (
+							<Link href="/" className="flex items-center">
+								<Image
+									src="/images/logo_full.png"
+									alt="Persuit Logo"
+									width={120}
+									height={40}
+									className="object-contain hover:opacity-80 transition-opacity duration-200"
+								/>
+							</Link>
+						)}
 					</div>
 
-					{/* User section - always positioned at right */}
+					{/* Right section - User info and sign in/out */}
 					<div className="flex items-center space-x-4">
 						{session?.user ? (
 							<>

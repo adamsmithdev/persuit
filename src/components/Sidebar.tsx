@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const navigationItems = [
@@ -119,17 +120,13 @@ export default function Sidebar({
               ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}
             `}
 							>
-								<div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-[var(--primary)] to-[var(--info)] rounded-lg flex-shrink-0">
-									💼
-								</div>
-								<div className="min-w-0">
-									<h2 className="font-semibold text-[var(--foreground)] whitespace-nowrap">
-										Persuit
-									</h2>
-									<p className="text-xs text-[var(--foreground-muted)] whitespace-nowrap">
-										Stay organized
-									</p>
-								</div>
+								<Image
+									src="/images/logo_full.png"
+									alt="Persuit Logo"
+									width={100}
+									height={100}
+									className="object-contain"
+								/>
 							</div>
 
 							{/* Mobile close button */}

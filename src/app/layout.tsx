@@ -1,9 +1,7 @@
-'use client';
-
 import './globals.css';
 import '@/lib/fontawesome';
-import { SessionProvider } from 'next-auth/react';
 import AppLayout from '@/components/AppLayout';
+import Providers from '@/components/Providers';
 
 export default function RootLayout({
 	children,
@@ -13,9 +11,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="bg-[var(--background)] text-[var(--foreground)] font-[var(--font-sans)] antialiased">
-				<SessionProvider>
+				<Providers>
 					<AppLayout>{children}</AppLayout>
-				</SessionProvider>
+				</Providers>
 			</body>
 		</html>
 	);

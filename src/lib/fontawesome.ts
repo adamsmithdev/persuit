@@ -1,4 +1,8 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library, config } from '@fortawesome/fontawesome-svg-core';
+
+// Prevent FontAwesome from adding its CSS since we'll import it manually
+config.autoAddCss = false;
+
 import {
 	faPlus,
 	faEdit,

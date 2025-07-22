@@ -118,7 +118,7 @@ export default function Sidebar({
           ${
 						isMobileOpen
 							? 'fixed left-0 z-50 top-16 h-[calc(100vh-4rem)]'
-							: 'hidden lg:block lg:z-auto lg:h-[calc(100vh-4rem)]'
+							: 'hidden lg:block lg:sticky lg:left-0 lg:top-16 lg:z-30 lg:h-[calc(100vh-4rem)]'
 					}
         `}
 			>

@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Link from 'next/link';
 import Button from '@/components/Button';
-import { Icon } from '@/components/ui';
+import { Icon, Avatar } from '@/components/ui';
 import {
 	faPlus,
 	faClipboard,
@@ -12,7 +12,6 @@ import {
 	faSave,
 	faSignOutAlt,
 } from '@/lib/fontawesome';
-import Image from 'next/image';
 
 export default async function ProfilePage() {
 	const session = await getServerSession(authOptions);
@@ -40,23 +39,13 @@ export default async function ProfilePage() {
 
 							<div className="space-y-6">
 								<div className="flex items-center space-x-6">
-									{session?.user?.image ? (
-										<Image
-											src={session.user.image}
-											alt="Profile"
-											width={80}
-											height={80}
-											className="w-20 h-20 rounded-full ring-4 ring-[var(--border)]"
-										/>
-									) : (
-										<div className="w-20 h-20 rounded-full ring-4 ring-[var(--border)] bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-											<span className="text-white text-2xl font-semibold">
-												{(session?.user?.name || session?.user?.email || 'U')
-													.charAt(0)
-													.toUpperCase()}
-											</span>
-										</div>
-									)}
+									<Avatar
+										src={session?.user?.image}
+										alt="Profile"
+										name={session?.user?.name}
+										fallbackText={session?.user?.email}
+										size="xl"
+									/>
 									<div>
 										<h3 className="text-lg font-medium text-[var(--foreground)]">
 											{session?.user?.name || 'User'}

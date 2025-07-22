@@ -14,6 +14,7 @@ import {
 	faTimes,
 	faChevronLeft,
 	faChevronRight,
+	faUsers,
 } from '@/lib/fontawesome';
 
 const navigationItems = [
@@ -34,6 +35,12 @@ const navigationItems = [
 		href: '/interviews',
 		icon: faCalendar,
 		description: 'Interviews & schedule',
+	},
+	{
+		name: 'Contacts',
+		href: '/contacts',
+		icon: faUsers,
+		description: 'Manage contacts',
 	},
 	{
 		name: 'Documents',

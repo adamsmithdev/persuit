@@ -4,7 +4,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './Button';
-import { Icon } from '@/components/ui';
+import { Icon, Avatar } from '@/components/ui';
 import { faBars } from '@/lib/fontawesome';
 
 interface HeaderProps {
@@ -70,23 +70,14 @@ export default function Header({
 							<>
 								{/* User info - hidden on mobile */}
 								<div className="hidden md:flex items-center space-x-3">
-									{session.user.image ? (
-										<Image
-											src={session.user.image}
-											alt="Profile"
-											width={36}
-											height={36}
-											className="w-9 h-9 rounded-full ring-2 ring-[var(--border)] hover:ring-[var(--primary)] transition-all duration-200"
-										/>
-									) : (
-										<div className="w-9 h-9 rounded-full ring-2 ring-[var(--border)] hover:ring-[var(--primary)] transition-all duration-200 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-											<span className="text-white text-sm font-semibold">
-												{(session.user.name || session.user.email || 'U')
-													.charAt(0)
-													.toUpperCase()}
-											</span>
-										</div>
-									)}
+									<Avatar
+										src={session.user.image}
+										alt="Profile"
+										name={session.user.name}
+										fallbackText={session.user.email}
+										size="sm"
+										hover
+									/>
 									<div className="flex flex-col">
 										<span className="text-sm font-medium text-[var(--foreground)]">
 											{session.user.name || 'User'}

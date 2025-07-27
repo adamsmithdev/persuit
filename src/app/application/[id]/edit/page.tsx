@@ -57,9 +57,7 @@ export default async function EditApplicationPage({
 						salaryMin: application.salaryMin ?? undefined,
 						salaryMax: application.salaryMax ?? undefined,
 						applicationUrl: application.applicationUrl ?? undefined,
-						contactName: application.contactName ?? undefined,
-						contactEmail: application.contactEmail ?? undefined,
-						contactPhone: application.contactPhone ?? undefined,
+						contactId: application.contactId ?? undefined,
 						companySize: application.companySize ?? undefined,
 						industry: application.industry ?? undefined,
 						applicationDeadline: application.applicationDeadline

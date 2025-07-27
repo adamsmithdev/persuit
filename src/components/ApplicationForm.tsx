@@ -18,6 +18,7 @@ import {
 	COMPANY_SIZE_OPTIONS,
 	APPLICATION_STATUS_OPTIONS,
 } from '@/lib/constants';
+import ContactSelectorSimplified from './ContactSelectorSimplified';
 
 type ApplicationFormProps = {
 	mode?: 'create' | 'edit';
@@ -31,9 +32,7 @@ type ApplicationFormProps = {
 		salaryMin?: number;
 		salaryMax?: number;
 		applicationUrl?: string;
-		contactName?: string;
-		contactEmail?: string;
-		contactPhone?: string;
+		contactId?: string;
 		companySize?: string;
 		industry?: string;
 		applicationDeadline?: string;
@@ -54,13 +53,14 @@ export default function ApplicationForm({
 		salaryMin: initialData?.salaryMin?.toString() || '',
 		salaryMax: initialData?.salaryMax?.toString() || '',
 		applicationUrl: initialData?.applicationUrl || '',
-		contactName: initialData?.contactName || '',
-		contactEmail: initialData?.contactEmail || '',
-		contactPhone: initialData?.contactPhone || '',
 		companySize: initialData?.companySize || '',
 		industry: initialData?.industry || '',
 		applicationDeadline: initialData?.applicationDeadline?.split('T')[0] || '',
 	});
+
+	const [selectedContactId, setSelectedContactId] = useState(
+		initialData?.contactId || '',
+	);
 
 	const [loading, setLoading] = useState(false);
 
@@ -73,30 +73,10 @@ export default function ApplicationForm({
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value;
-		const formattedPhone = formatPhoneNumber(value);
-		setFormData((prev) => ({ ...prev, contactPhone: formattedPhone }));
-	};
-
-	const formatPhoneNumber = (value: string) => {
-		// Remove all non-digits
-		const phoneNumber = value.replace(/\D/g, '');
-
-		// Limit to 10 digits
-		const limitedPhone = phoneNumber.substring(0, 10);
-
-		// Format based on length
-		if (limitedPhone.length <= 3) {
-			return limitedPhone;
-		} else if (limitedPhone.length <= 6) {
-			return `(${limitedPhone.slice(0, 3)}) ${limitedPhone.slice(3)}`;
-		} else {
-			return `(${limitedPhone.slice(0, 3)}) ${limitedPhone.slice(
-				3,
-				6,
-			)}-${limitedPhone.slice(6)}`;
-		}
+	const handleContactSelect = (contactId: string) => {
+		setSelectedContactId(contactId);
+		// Contact data will be retrieved from the contactId relationship
+		// No need to store manual contact data anymore
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -119,9 +99,11 @@ export default function ApplicationForm({
 				: null,
 			companySize: formData.companySize || null,
 			applicationUrl: formData.applicationUrl || null,
-			contactName: formData.contactName || null,
-			contactEmail: formData.contactEmail || null,
-			contactPhone: formData.contactPhone || null,
+			contactId: selectedContactId || null,
+			// Remove manual contact fields - only use contactId relationship
+			contactName: null,
+			contactEmail: null,
+			contactPhone: null,
 			industry: formData.industry || null,
 		};
 
@@ -261,39 +243,13 @@ export default function ApplicationForm({
 				{/* Contact Information */}
 				<FormSection
 					title="Contact Information"
-					description="Optional contact details"
+					description="Select an existing contact or create a new one"
 				>
-					<Grid cols={3}>
-						<FormField label="Contact Name" id="contactName">
-							<Input
-								id="contactName"
-								name="contactName"
-								placeholder="e.g. Jane Smith"
-								value={formData.contactName}
-								onChange={handleChange}
-							/>
-						</FormField>
-						<FormField label="Contact Email" id="contactEmail">
-							<Input
-								id="contactEmail"
-								type="email"
-								name="contactEmail"
-								placeholder="jane@company.com"
-								value={formData.contactEmail}
-								onChange={handleChange}
-							/>
-						</FormField>
-						<FormField label="Contact Phone" id="contactPhone">
-							<Input
-								id="contactPhone"
-								type="tel"
-								name="contactPhone"
-								placeholder="(555) 123-4567"
-								value={formData.contactPhone}
-								onChange={handlePhoneChange}
-							/>
-						</FormField>
-					</Grid>
+					<ContactSelectorSimplified
+						selectedContactId={selectedContactId}
+						onContactSelect={handleContactSelect}
+						companyName={formData.company}
+					/>
 				</FormSection>
 
 				<FormField label="Status" id="status">

@@ -1,8 +1,12 @@
 export { default as FormField } from './FormField';
 export { default as Input } from './Input';
+export { default as PhoneInput } from './PhoneInput';
+export { default as CurrencyInput } from './CurrencyInput';
+export { default as UrlInput } from './UrlInput';
 export { default as TextArea } from './TextArea';
 export { default as Select } from './Select';
 export { default as DateInput } from './DateInput';
+export { default as Checkbox } from './Checkbox';
 export { default as FormSection } from './FormSection';
 export { default as FormContainer } from './FormContainer';
 export { default as StatusBadge } from './StatusBadge';

@@ -7,12 +7,15 @@ import {
 	FormContainer,
 	FormField,
 	Input,
+	CurrencyInput,
+	UrlInput,
 	TextArea,
 	Select,
 	DateInput,
 	FormSection,
 	FormActions,
 	Grid,
+	ErrorMessage,
 } from './ui';
 import {
 	COMPANY_SIZE_OPTIONS,
@@ -63,6 +66,7 @@ export default function ApplicationForm({
 	);
 
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
 	const handleChange = (
 		e: React.ChangeEvent<
@@ -82,6 +86,7 @@ export default function ApplicationForm({
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
+		setError('');
 
 		const endpoint =
 			mode === 'edit'
@@ -92,8 +97,12 @@ export default function ApplicationForm({
 		// Prepare the data with proper types
 		const submitData = {
 			...formData,
-			salaryMin: formData.salaryMin ? parseInt(formData.salaryMin) : null,
-			salaryMax: formData.salaryMax ? parseInt(formData.salaryMax) : null,
+			salaryMin: formData.salaryMin
+				? parseInt(formData.salaryMin.replace(/,/g, ''))
+				: null,
+			salaryMax: formData.salaryMax
+				? parseInt(formData.salaryMax.replace(/,/g, ''))
+				: null,
 			applicationDeadline: formData.applicationDeadline
 				? new Date(formData.applicationDeadline).toISOString()
 				: null,
@@ -107,18 +116,22 @@ export default function ApplicationForm({
 			industry: formData.industry || null,
 		};
 
-		const res = await fetch(endpoint, {
-			method,
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(submitData),
-		});
+		try {
+			const res = await fetch(endpoint, {
+				method,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(submitData),
+			});
 
-		setLoading(false);
-
-		if (res.ok) {
-			router.push('/');
-		} else {
-			alert('Something went wrong');
+			if (res.ok) {
+				router.push('/');
+			} else {
+				setError('Failed to save application. Please try again.');
+			}
+		} catch {
+			setError('An unexpected error occurred. Please try again.');
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -131,6 +144,7 @@ export default function ApplicationForm({
 					: 'Track a new application opportunity'
 			}
 		>
+			{error && <ErrorMessage message={error} />}
 			<form onSubmit={handleSubmit} className="space-y-6">
 				<FormField label="Company" id="company" required>
 					<Input
@@ -167,21 +181,17 @@ export default function ApplicationForm({
 				{/* Salary Range */}
 				<Grid cols={2}>
 					<FormField label="Min Salary" id="salaryMin">
-						<Input
+						<CurrencyInput
 							id="salaryMin"
-							type="number"
 							name="salaryMin"
-							placeholder="e.g. 80000"
 							value={formData.salaryMin}
 							onChange={handleChange}
 						/>
 					</FormField>
 					<FormField label="Max Salary" id="salaryMax">
-						<Input
+						<CurrencyInput
 							id="salaryMax"
-							type="number"
 							name="salaryMax"
-							placeholder="e.g. 120000"
 							value={formData.salaryMax}
 							onChange={handleChange}
 						/>
@@ -218,9 +228,8 @@ export default function ApplicationForm({
 				{/* Application URL and Deadline */}
 				<Grid cols={2}>
 					<FormField label="Application Posting URL" id="applicationUrl">
-						<Input
+						<UrlInput
 							id="applicationUrl"
-							type="url"
 							name="applicationUrl"
 							placeholder="https://company.com/jobs/..."
 							value={formData.applicationUrl}

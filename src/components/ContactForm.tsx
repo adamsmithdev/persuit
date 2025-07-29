@@ -7,10 +7,13 @@ import {
 	FormContainer,
 	FormField,
 	Input,
+	PhoneInput,
+	UrlInput,
 	TextArea,
 	FormSection,
 	FormActions,
 	Grid,
+	ErrorMessage,
 } from './ui';
 
 type ContactFormProps = {
@@ -51,21 +54,6 @@ export default function ContactForm({
 	) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const formatPhoneNumber = (phone: string) => {
-		const cleaned = phone.replace(/\D/g, '');
-		const phoneRegex = /^(\d{3})(\d{3})(\d{4})$/;
-		const match = phoneRegex.exec(cleaned);
-		if (match) {
-			return `(${match[1]}) ${match[2]}-${match[3]}`;
-		}
-		return phone;
-	};
-
-	const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const formattedPhone = formatPhoneNumber(e.target.value);
-		setFormData((prev) => ({ ...prev, phone: formattedPhone }));
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -123,12 +111,7 @@ export default function ContactForm({
 			title={mode === 'edit' ? 'Edit Contact' : 'Create New Contact'}
 		>
 			<form onSubmit={handleSubmit}>
-				{error && (
-					<div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
-						{error}
-					</div>
-				)}
-
+				{error && <ErrorMessage message={error} />}{' '}
 				<FormSection title="Basic Information">
 					<Grid>
 						<FormField label="First Name" id="firstName" required>
@@ -155,7 +138,6 @@ export default function ContactForm({
 						</FormField>
 					</Grid>
 				</FormSection>
-
 				<FormSection title="Contact Information">
 					<Grid>
 						<FormField label="Email" id="email">
@@ -170,18 +152,15 @@ export default function ContactForm({
 						</FormField>
 
 						<FormField label="Phone" id="phone">
-							<Input
+							<PhoneInput
 								id="phone"
 								name="phone"
-								type="tel"
 								value={formData.phone}
-								onChange={handlePhoneChange}
-								placeholder="(555) 123-4567"
+								onChange={handleInputChange}
 							/>
 						</FormField>
 					</Grid>
 				</FormSection>
-
 				<FormSection title="Professional Information">
 					<Grid>
 						<FormField label="Job Title" id="jobTitle">
@@ -208,17 +187,15 @@ export default function ContactForm({
 					</Grid>
 
 					<FormField label="LinkedIn Profile" id="linkedIn">
-						<Input
+						<UrlInput
 							id="linkedIn"
 							name="linkedIn"
-							type="url"
 							value={formData.linkedIn}
 							onChange={handleInputChange}
 							placeholder="https://linkedin.com/in/username"
 						/>
 					</FormField>
 				</FormSection>
-
 				<FormSection title="Additional Notes">
 					<FormField label="Notes" id="notes">
 						<TextArea
@@ -231,7 +208,6 @@ export default function ContactForm({
 						/>
 					</FormField>
 				</FormSection>
-
 				<FormActions>
 					<Button
 						type="button"

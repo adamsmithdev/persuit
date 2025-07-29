@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Contact } from '@prisma/client';
-import { FormField, Input, TextArea } from './ui';
+import { FormField, Input, PhoneInput, UrlInput, TextArea } from './ui';
 import Button from './Button';
 
 interface QuickContactModalProps {
@@ -152,13 +152,11 @@ export default function QuickContactModal({
 					</FormField>
 
 					<FormField label="Phone" id="phone">
-						<Input
+						<PhoneInput
 							id="phone"
 							name="phone"
-							type="tel"
 							value={formData.phone}
 							onChange={handleChange}
-							placeholder="(555) 123-4567"
 						/>
 					</FormField>
 
@@ -184,10 +182,9 @@ export default function QuickContactModal({
 					</div>
 
 					<FormField label="LinkedIn" id="linkedIn">
-						<Input
+						<UrlInput
 							id="linkedIn"
 							name="linkedIn"
-							type="url"
 							value={formData.linkedIn}
 							onChange={handleChange}
 							placeholder="https://linkedin.com/in/janesmith"

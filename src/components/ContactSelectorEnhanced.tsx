@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { Contact } from '@prisma/client';
-import { FormField, Grid, Input } from './ui';
+import { FormField, Grid, Input, PhoneInput } from './ui';
 import Button from './Button';
 
 interface ContactSelectorEnhancedProps {
@@ -190,11 +190,9 @@ export default function ContactSelectorEnhanced({
 						/>
 					</FormField>
 					<FormField label="Contact Phone" id="contactPhone">
-						<Input
+						<PhoneInput
 							id="contactPhone"
-							type="tel"
 							name="contactPhone"
-							placeholder="(555) 123-4567"
 							value={manualContactData.contactPhone}
 							onChange={onPhoneChange}
 						/>

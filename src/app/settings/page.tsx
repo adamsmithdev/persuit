@@ -1,7 +1,7 @@
 import AuthWrapper from '@/components/AuthWrapper';
 import Button from '@/components/Button';
 import Link from 'next/link';
-import { Icon } from '@/components/ui';
+import { Icon, FormField, Select, Checkbox } from '@/components/ui';
 import {
 	faDownload,
 	faSyncAlt,
@@ -43,11 +43,7 @@ export default function SettingsPage() {
 											Receive email updates about your applications
 										</p>
 									</div>
-									<input
-										type="checkbox"
-										disabled
-										className="w-5 h-5 text-[var(--primary)] bg-[var(--surface-variant)] border-[var(--border)] rounded focus:ring-[var(--primary)] disabled:opacity-60"
-									/>
+									<Checkbox id="emailNotifications" disabled />
 								</div>
 
 								<div className="flex items-center justify-between">
@@ -59,11 +55,7 @@ export default function SettingsPage() {
 											Get reminded about upcoming interviews
 										</p>
 									</div>
-									<input
-										type="checkbox"
-										disabled
-										className="w-5 h-5 text-[var(--primary)] bg-[var(--surface-variant)] border-[var(--border)] rounded focus:ring-[var(--primary)] disabled:opacity-60"
-									/>
+									<Checkbox id="interviewReminders" disabled />
 								</div>
 
 								<div className="flex items-center justify-between">
@@ -75,11 +67,7 @@ export default function SettingsPage() {
 											Receive weekly progress reports
 										</p>
 									</div>
-									<input
-										type="checkbox"
-										disabled
-										className="w-5 h-5 text-[var(--primary)] bg-[var(--surface-variant)] border-[var(--border)] rounded focus:ring-[var(--primary)] disabled:opacity-60"
-									/>
+									<Checkbox id="weeklySummaries" disabled />
 								</div>
 							</div>
 						</div>
@@ -92,58 +80,32 @@ export default function SettingsPage() {
 
 							<div className="space-y-6">
 								<div>
-									<label
-										htmlFor="theme"
-										className="block text-sm font-medium text-[var(--foreground)] mb-2"
-									>
-										Theme
-									</label>
-									<select
-										id="theme"
-										disabled
-										className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl text-[var(--foreground)] disabled:opacity-60"
-									>
-										<option value="system">System Default</option>
-										<option value="light">Light</option>
-										<option value="dark">Dark</option>
-									</select>
-								</div>
-
+									<FormField label="Theme" id="theme">
+										<Select id="theme" disabled>
+											<option value="system">System Default</option>
+											<option value="light">Light</option>
+											<option value="dark">Dark</option>
+										</Select>
+									</FormField>
+								</div>{' '}
 								<div>
-									<label
-										htmlFor="itemsPerPage"
-										className="block text-sm font-medium text-[var(--foreground)] mb-2"
-									>
-										Items per Page
-									</label>
-									<select
-										id="itemsPerPage"
-										disabled
-										className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl text-[var(--foreground)] disabled:opacity-60"
-									>
-										<option value="10">10</option>
-										<option value="25">25</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-									</select>
+									<FormField label="Items per Page" id="itemsPerPage">
+										<Select id="itemsPerPage" disabled>
+											<option value="10">10</option>
+											<option value="25">25</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+										</Select>
+									</FormField>
 								</div>
-
 								<div>
-									<label
-										htmlFor="defaultView"
-										className="block text-sm font-medium text-[var(--foreground)] mb-2"
-									>
-										Default View
-									</label>
-									<select
-										id="defaultView"
-										disabled
-										className="w-full px-4 py-3 bg-[var(--surface-variant)] border border-[var(--border)] rounded-xl text-[var(--foreground)] disabled:opacity-60"
-									>
-										<option value="dashboard">Dashboard</option>
-										<option value="applications">Applications List</option>
-										<option value="interviews">Interviews</option>
-									</select>
+									<FormField label="Default View" id="defaultView">
+										<Select id="defaultView" disabled>
+											<option value="dashboard">Dashboard</option>
+											<option value="applications">Applications List</option>
+											<option value="interviews">Interviews</option>
+										</Select>
+									</FormField>
 								</div>
 							</div>
 						</div>
